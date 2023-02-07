@@ -1,0 +1,44 @@
+const IntNotSet = 0
+const IntXray = 1
+const IntEBeam = 2
+const IntToXray = 3
+const IntToEBeam = 4
+range IntModeState = IntNotSet .. IntToEBeam
+
+INTERFACE = INTERFACE[IntNotSet],
+INTERFACE[mode:IntModeState] = (
+    when (mode == IntNotSet || mode == IntXray || mode == IntToEBeam) x -> CONFIRM[IntXray]
+    |
+    when (mode == IntEBeam || mode == IntToXray) x -> CONFIRM[IntToXray]
+    |
+    when (mode == IntNotSet || mode == IntEBeam || mode == IntToXray) e -> CONFIRM[IntEBeam]
+    |
+    when (mode == IntXray || mode == IntToEBeam) e -> CONFIRM[IntToEBeam]
+),
+CONFIRM[mode:IntModeState] = (
+    up -> INTERFACE[mode]
+    |
+    when (mode == IntXray || mode == IntEBeam) enter -> FIRE[mode]
+    |
+    when (mode == IntToXray) setMode -> CONFIRM[IntXray]
+    |
+    when (mode == IntToEBeam) setMode -> CONFIRM[IntEBeam]
+),
+FIRE[mode:IntModeState] = (
+    when (mode == IntXray) b -> fire_xray -> enter -> INTERFACE[mode]
+    |
+    when (mode == IntEBeam) b -> fire_ebeam -> enter -> INTERFACE[mode]
+    |
+    up -> CONFIRM[mode]
+).
+
+BEAM = (x -> XRAY | e -> EBeam),
+XRAY = (x -> XRAY | e -> ToEBeam),
+ToEBeam = (setMode -> EBeam | x -> XRAY | e -> ToEBeam),
+EBeam = (e -> EBeam | x -> ToXray),
+ToXray = (setMode -> XRAY | e -> EBeam | x -> ToXray).
+
+SPREADER = (e -> OUTPLACE | x -> SPREADER),
+OUTPLACE = (e -> OUTPLACE | x -> SPREADER).
+
+||SYS = (INTERFACE || BEAM || SPREADER).

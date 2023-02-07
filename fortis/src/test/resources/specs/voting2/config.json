@@ -1,0 +1,23 @@
+
+{
+  "sys": ["sys.lts"],
+  "env": [""],
+  "dev": ["env.lts"],
+  "safety": ["p.lts"],
+  "method": "supervisory",
+  "options": {
+    "progress": ["v.1.done", "v.2.done", "v.3.done"],
+    "preferredMap": {
+      "3": [ ["select", "back"] ]
+    },
+    "controllableMap": {
+      "0": ["back", "confirm", "password", "select", "vote"],
+      "3": ["v.1.enter", "v.2.enter", "v.3.enter", "v.1.exit", "v.2.exit", "v.3.exit", "eo.1.enter", "eo.1.exit"]
+    },
+    "observableMap": {
+      "0": ["back", "confirm", "password", "select", "vote", "v.1.done", "v.2.done", "v.3.done"],
+      "2": ["v.1.enter", "v.2.enter", "v.3.enter", "v.1.exit", "v.2.exit", "v.3.exit", "eo.1.enter", "eo.1.exit"]
+    },
+    "algorithm": "Fast"
+  }
+}

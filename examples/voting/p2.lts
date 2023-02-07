@@ -1,0 +1,14 @@
+const NoBody = 0
+const Voter = 1
+const EO = 2
+range WHO = NoBody..EO
+
+P = VOTE[NoBody][0],
+VOTE[in:WHO][voted:0..1] = (
+      v.enter -> VOTE[Voter][voted] | eo.enter -> VOTE[EO][voted]
+    | when (in == Voter) vote -> VOTE[in][1]
+    | when (in == EO) vote -> VOTE[in][voted]
+    | when (in == Voter) select -> VOTE[in][0]
+    | when (in == EO && voted == 0) select -> VOTE[in][voted]
+    | confirm -> VOTE[in][0]
+).

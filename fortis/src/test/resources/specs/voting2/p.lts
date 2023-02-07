@@ -1,0 +1,17 @@
+
+const NoBody = 0
+const VOTERS = 3
+
+range N_VOTER = 1..3
+range N_EO = 1..1
+
+range WHO = NoBody..4
+
+P = VOTE[NoBody][NoBody][NoBody],
+VOTE[in:WHO][sel:WHO][v:WHO] = (
+      v[i:N_VOTER].enter -> VOTE[i][sel][v] | eo[j:N_EO].enter -> VOTE[VOTERS+j][sel][v]
+    | password -> VOTE[in][sel][in]
+    | select -> VOTE[in][in][v]
+    | when (in > 0 && in <= VOTERS && in == sel && sel == v) confirm -> VOTE[in][NoBody][NoBody]
+    | when (in > VOTERS && sel == v) confirm -> VOTE[in][NoBody][NoBody]
+).

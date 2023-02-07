@@ -1,0 +1,31 @@
+{
+  "sys": ["perfect.lts"],
+  "env": [],
+  "dev": ["abp_env_lossy_simple.lts"],
+  "safety": ["p.lts"],
+  "method": "supervisory",
+  "options": {
+    "progress": ["input", "output"],
+    "preferredMap": {
+      "3": [
+        ["input", "send.0", "rec.0", "output", "ack.0", "getack.0"],
+        ["input", "send.1", "rec.1", "output", "ack.1", "getack.1"]
+      ]
+    },
+    "controllableMap": {
+      "3": [
+        "send.0", "rec.0", "ack.0", "getack.0",
+        "send.1", "rec.1", "ack.1", "getack.1"
+      ]
+    },
+    "observableMap": {
+      "0": [
+        "input", "output",
+        "send.0", "rec.0", "ack.0", "getack.0",
+        "send.1", "rec.1", "ack.1", "getack.1",
+        "trans.lose", "ack.lose"
+      ]
+    },
+    "algorithm": "Pareto"
+  }
+}

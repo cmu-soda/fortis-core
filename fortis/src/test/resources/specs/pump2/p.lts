@@ -1,0 +1,7 @@
+P = (line[1].set_rate -> RATE_SET | power_failure -> P),
+RATE_SET = (line[1].set_rate -> RATE_SET | power_failure -> P | line[1].dispense_main_med_flow -> DISPENSE),
+DISPENSE = (line[1].dispense_main_med_flow -> DISPENSE | line[1].flow_complete -> P | power_failure -> P).
+
+P2 = (line[2].set_rate -> RATE_SET | power_failure -> P2),
+RATE_SET = (line[2].set_rate -> RATE_SET | power_failure -> P2 | line[2].dispense_main_med_flow -> DISPENSE),
+DISPENSE = (line[2].dispense_main_med_flow -> DISPENSE | line[2].flow_complete -> P2 | power_failure -> P2).

@@ -1,0 +1,24 @@
+{
+  "sys": ["sys.lts"],
+  "env": [],
+  "dev": ["env2.lts"],
+  "safety": ["p.lts"],
+  "method": "supervisory",
+  "options": {
+    "progress": ["confirm"],
+    "preferredMap": {
+      "3": [
+        ["select", "back"]
+      ]
+    },
+    "controllableMap": {
+      "0": ["back", "confirm", "password", "select", "vote"],
+      "3": ["eo.enter", "eo.exit", "v.enter", "v.exit"]
+    },
+    "observableMap": {
+      "0": ["back", "confirm", "password", "select", "vote"],
+      "2": ["eo.enter", "eo.exit", "v.enter", "v.exit"]
+    },
+    "algorithm": "Pareto"
+  }
+}

@@ -1,0 +1,21 @@
+4
+
+0	1	2
+snd.oyster.gin	1	c	o
+snd.card.gin	2	c	o
+
+1	1	3
+rcv.oyster.fin	0	c	o
+snd.oyster.gin	1	c	o
+snd.card.gin	3	c	o
+
+2	1	3
+rcv.card.fin	0	c	o
+snd.card.gin	2	c	o
+snd.oyster.gin	3	c	o
+
+3	1	4
+rcv.oyster.fin	1	c	o
+rcv.card.fin	2	c	o
+snd.card.gin	3	c	o
+snd.oyster.gin	3	c	o

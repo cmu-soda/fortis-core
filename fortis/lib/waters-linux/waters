@@ -1,0 +1,54 @@
+#!/bin/sh
+
+THIS=`readlink -f $0`
+SUPDIR=`dirname $THIS`
+PROPFILE=$HOME/.waters
+
+which java > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+    JAVAVERSION=`java -version 2>&1 | sed -n -e 's/^.*version \"\([0-9\.]*\).*$/\1/p'`
+    case "$JAVAVERSION" in
+        1.8.*) JAVACMD=java
+        ;;
+        1.*)
+        ;;
+	1*|2*|3*|4*|5*|6*|7*|8*|9*) JAVACMD=java
+        ;;
+    esac
+fi
+
+if [ "$JAVACMD" = "" -a -x $JAVA_HOME/bin/java ]; then
+    JAVAVERSION=`$JAVA_HOME/bin/java -version 2>&1 | sed -n -e 's/^.*version \"\([0-9\.]*\).*$/\1/p'`
+    case "$JAVAVERSION" in
+        1.8.*) JAVACMD=$JAVA_HOME/bin/java
+        ;;
+        1.*)
+        ;;
+	1*|2*|3*|4*|5*|6*|7*|8*|9*) JAVACMD=java
+        ;;
+    esac
+fi
+
+if [ "$JAVACMD" = "" ]; then
+#    export JAVA_HOME=/usr/lib/jvm/java-8-oracle
+#    JAVACMD=$JAVA_HOME/bin/java
+#    if [ ! -x $JAVACMD ]; then
+#        export JAVA_HOME=/home/compx452/lib/jdk1.8.0_60
+#        JAVACMD=$JAVA_HOME/bin/java
+#    fi
+    if [ ! -x $JAVACMD ]; then
+        echo "Cannot find a working installation of Java 8 or higher."
+        echo "Please make sure it is the default or JAVA_HOME points to it."
+        exit 1
+    fi
+fi
+
+if [ ! -r $PROPFILE ]; then
+    cp $SUPDIR/waters.properties $PROPFILE
+    HEAP=
+else
+    HEAP=`awk '/general\.javaHeapSize/ { print "-Xmx"$2 }' $PROPFILE`
+fi
+
+$JAVACMD -classpath "$SUPDIR/Supremica.jar" "-Djava.library.path=$SUPDIR" \
+  $HEAP org.supremica.gui.ide.IDE -p $PROPFILE "$@" 2>&1 >/dev/null

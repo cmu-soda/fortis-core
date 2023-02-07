@@ -1,0 +1,23 @@
+
+{
+  "sys": ["sys.lts"],
+  "env": [""],
+  "dev": ["env.lts"],
+  "safety": ["p.lts"],
+  "method": "supervisory-non-opt",
+  "options": {
+    "progress": ["v.1.done", "v.2.done", "v.3.done", "v.4.done", "v.5.done", "v.6.done", "v.7.done", "v.8.done"],
+    "preferredMap": {
+      "3": [ ["select", "back", "select", "vote", "confirm"] ]
+    },
+    "controllableMap": {
+      "1": ["back", "confirm", "password", "select", "vote", "v.1.done", "v.2.done", "v.3.done", "v.4.done", "v.5.done", "v.6.done", "v.7.done", "v.8.done"],
+      "3": ["v.1.enter", "v.2.enter", "v.3.enter", "v.4.enter", "v.5.enter", "v.6.enter", "v.7.enter", "v.8.enter", "v.1.exit", "v.2.exit", "v.3.exit", "v.4.exit", "v.5.exit", "v.6.exit", "v.7.exit", "v.8.exit", "eo.1.enter", "eo.2.enter", "eo.3.enter", "eo.4.enter", "eo.5.enter", "eo.6.enter", "eo.7.enter", "eo.8.enter", "eo.1.exit", "eo.2.exit", "eo.3.exit", "eo.4.exit", "eo.5.exit", "eo.6.exit", "eo.7.exit", "eo.8.exit"]
+    },
+    "observableMap": {
+      "0": ["back", "confirm", "password", "select", "vote", "v.1.done", "v.2.done", "v.3.done", "v.4.done", "v.5.done", "v.6.done", "v.7.done", "v.8.done"],
+      "2": ["v.1.enter", "v.2.enter", "v.3.enter", "v.4.enter", "v.5.enter", "v.6.enter", "v.7.enter", "v.8.enter", "v.1.exit", "v.2.exit", "v.3.exit", "v.4.exit", "v.5.exit", "v.6.exit", "v.7.exit", "v.8.exit", "eo.1.enter", "eo.2.enter", "eo.3.enter", "eo.4.enter", "eo.5.enter", "eo.6.enter", "eo.7.enter", "eo.8.enter", "eo.1.exit", "eo.2.exit", "eo.3.exit", "eo.4.exit", "eo.5.exit", "eo.6.exit", "eo.7.exit", "eo.8.exit"]
+    },
+    "algorithm": "Pareto"
+  }
+}

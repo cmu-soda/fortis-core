@@ -1,0 +1,12 @@
+
+{
+  "sys": ["sys.lts"],
+  "env": [""],
+  "dev": ["env.lts"],
+  "safety": ["p.lts"],
+  "method": "simple",
+  "options": {
+    "progress": ["v.1.done", "v.2.done", "v.3.done", "v.4.done", "v.5.done", "v.6.done", "v.7.done", "v.8.done"],
+    "preferred": [ ["select", "back", "select", "vote", "confirm"] ]
+  }
+}

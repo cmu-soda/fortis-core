@@ -1,0 +1,7 @@
+range LINES = 1..2
+
+P = (set_rate -> RATE_SET | power_failure -> P),
+RATE_SET = (set_rate -> RATE_SET | power_failure -> P | dispense_main_med_flow -> DISPENSE),
+DISPENSE = (dispense_main_med_flow -> DISPENSE | flow_complete -> P | power_failure -> P).
+
+||PS = (line[LINES]:P)/{power_failure/line[LINES].power_failure}.

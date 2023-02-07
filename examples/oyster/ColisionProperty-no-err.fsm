@@ -1,0 +1,29 @@
+3
+
+0	1	8
+rcv.oyster.gin	1	c	o
+rcv.card.gin	2	c	o
+snd.oyster	0	c	o
+snd.card	0	c	o
+snd.oyster.gin	0	c	o
+snd.card.gin	0	c	o
+fg	0	uc	uo
+rmb	0	uc	uo
+
+1	1	7
+rcv.oyster.fin	0	c	o
+snd.oyster	1	c	o
+snd.card	1	c	o
+snd.oyster.gin	1	c	o
+snd.card.gin	1	c	o
+fg	1	uc	uo
+rmb	1	uc	uo
+
+2	1	7
+rcv.card.fin	0	c	o
+snd.oyster	2	c	o
+snd.card	2	c	o
+snd.oyster.gin	2	c	o
+snd.card.gin	2	c	o
+fg	2	uc	uo
+rmb	2	uc	uo

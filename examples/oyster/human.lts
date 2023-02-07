@@ -1,0 +1,3 @@
+E = (snd.oyster -> rcv.oyster.gin -> E1 | snd.card -> rcv.card.gin -> E2),
+E1 = (snd.oyster.gin -> E1 | rcv.oyster.fin -> E),
+E2 = (snd.card.gin -> E2 | rcv.card.fin -> E).

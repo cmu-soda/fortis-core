@@ -1,0 +1,23 @@
+Welcome to Waters/Supremica IDE
+
+To run the software, you need to have a Java 8 (preferred) or higher
+runtime environment. Please make sure the java executable is in your
+search path, or the JAVA_HOME environment variable points to your Java
+installation, or edit the script waters so it can find a working java
+executable.
+
+This version of Waters/Supremica IDE includes precompiled binaries
+for 64-bit Linux. You will need a 64-bit Java Virtual Machine
+(not necessarily 64-bit Linux) to run this.
+
+For complete functionality of the analyser, you also need to
+install GraphViz, available from
+  http://www.graphviz.org/
+Just make sure the dot executable is in your search path.
+This version of Waters/Supremica supports dot versions up to 2.40.
+
+To run the IDE, please execute the script waters in this directory.
+You may add the directory to your search path or create an alias
+or link to run the script from elsewhere.
+
+Have fun!

@@ -1,0 +1,33 @@
+6
+
+s5	1	1
+rcv.oyster.fin	s4	c	o
+
+s4	1	2
+rcv.oyster.fin	s3	c	o
+rld.oyster.1	s5	c	o
+
+s3	1	3
+rcv.oyster.fin	s2	c	o
+rld.oyster.2	s5	c	o
+rld.oyster.1	s4	c	o
+
+s2	1	4
+rcv.oyster.fin	s1	c	o
+rld.oyster.3	s5	c	o
+rld.oyster.2	s4	c	o
+rld.oyster.1	s3	c	o
+
+s1	1	5
+rcv.oyster.fin	s0	c	o
+rld.oyster.4	s5	c	o
+rld.oyster.3	s4	c	o
+rld.oyster.2	s3	c	o
+rld.oyster.1	s2	c	o
+
+s0	1	5
+rld.oyster.5	s5	c	o
+rld.oyster.4	s4	c	o
+rld.oyster.3	s3	c	o
+rld.oyster.2	s2	c	o
+rld.oyster.1	s1	c	o

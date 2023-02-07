@@ -1,0 +1,11 @@
+{
+  "sys": ["sys.lts"],
+  "env": [],
+  "dev": ["env2.lts"],
+  "safety": ["p.lts"],
+  "method": "oasis",
+  "options": {
+    "progress": ["confirm"],
+    "preferred": [ ["select", "back", "select", "vote", "confirm"] ]
+  }
+}

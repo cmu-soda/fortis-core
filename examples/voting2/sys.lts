@@ -1,0 +1,7 @@
+
+range N_VOTER = 1..8
+
+EM = (password -> P1),
+P1 = (select -> P2),
+P2 = (vote -> P3 | back -> P1),
+P3 = (confirm -> v[N_VOTER].done -> EM | back -> P2).

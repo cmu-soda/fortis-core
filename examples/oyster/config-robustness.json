@@ -1,0 +1,6 @@
+{
+    "sys": ["GateIn.fsm", "GateOut.fsm", "card-bal.fsm", "oyster-bal.fsm"],
+    "env": ["human.lts"],
+    "prop": ["ColisionProperty-no-err.fsm"],
+    "dev": ["human-dev.lts"]
+}

@@ -1,0 +1,65 @@
+{
+  "sys": ["power.lts", "lines.lts", "alarm.lts"],
+  "env": [],
+  "dev": ["deviation.lts"],
+  "safety": ["p.lts"],
+  "method": "supervisory",
+  "options": {
+    "progress": ["line.1.flow_complete"],
+    "preferredMap": {
+      "3": [
+        ["plug_in", "battery_charge", "battery_charge", "turn_on", "line.1.dispense_main_med_flow", "line.1.flow_complete"],
+        ["plug_in", "line.1.start_dispense", "line.1.dispense_main_med_flow", "line.1.dispense_main_med_flow",
+          "power_failure", "plug_in", "line.1.start_dispense", "line.1.dispense_main_med_flow"]
+      ]
+    },
+    "controllableMap": {
+      "0": [
+        "line.1.start_dispense",
+        "line.1.dispense_main_med_flow",
+        "line.1.flow_complete"
+      ],
+      "1": [
+        "line.1.change_settings",
+        "line.1.clear_rate",
+        "line.1.confirm_settings",
+        "line.1.set_rate"
+      ],
+      "3": [
+        "line.1.erase_and_unlock_line",
+        "line.1.lock_line",
+        "line.1.lock_unit",
+        "line.1.unlock_unit"
+      ]
+    },
+    "observableMap": {
+      "0": [
+        "line.1.start_dispense",
+        "line.1.dispense_main_med_flow",
+        "line.1.flow_complete",
+        "line.1.change_settings",
+        "line.1.clear_rate",
+        "line.1.confirm_settings",
+        "line.1.set_rate"
+      ],
+      "2": [
+        "line.1.erase_and_unlock_line",
+        "line.1.lock_line",
+        "line.1.lock_unit",
+        "line.1.unlock_unit",
+
+        "alarm_silence",
+        "enable_alarm"
+      ],
+      "3": [
+        "battery_charge",
+        "battery_spent",
+        "plug_in",
+        "unplug",
+        "turn_off",
+        "turn_on"
+      ]
+    },
+    "algorithm": "Fast"
+  }
+}

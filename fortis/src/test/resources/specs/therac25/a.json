@@ -1,0 +1,11 @@
+{
+  "sys": [
+    "sys.lts"
+  ],
+  "env": [
+    "env_perfect.lts"
+  ],
+  "prop": [
+    "p.lts"
+  ]
+}
