@@ -80,12 +80,12 @@ class RobustnessCalculatorTests {
     assertEquals(expected = expected, actual = actual)
 
     val expectedExplain = setOf(
-      Word.fromSymbols("input", "send.0", "rec.0", "output", "ack.1", "ack.corrupt", "getack.0"),
-      Word.fromSymbols("input", "send.0", "rec.0", "output", "ack.0", "ack.corrupt", "getack.1"),
-      Word.fromSymbols("input", "send.1", "rec.1", "output", "ack.0", "ack.corrupt", "getack.1"),
-      Word.fromSymbols("input", "send.1", "rec.1", "output", "ack.1", "ack.corrupt", "getack.0"),
-      Word.fromSymbols("input", "send.0", "trans.corrupt", "rec.1"),
-      Word.fromSymbols("input", "send.1", "trans.corrupt", "rec.0")
+      Word.fromSymbols("send.0", "rec.0", "ack.1", "ack.corrupt", "getack.0"),
+      Word.fromSymbols("send.0", "rec.0", "ack.0", "ack.corrupt", "getack.1"),
+      Word.fromSymbols("send.1", "rec.1", "ack.0", "ack.corrupt", "getack.1"),
+      Word.fromSymbols("send.1", "rec.1", "ack.1", "ack.corrupt", "getack.0"),
+      Word.fromSymbols("send.0", "trans.corrupt", "rec.1"),
+      Word.fromSymbols("send.1", "trans.corrupt", "rec.0")
     )
     assertEquals(expectedExplain, actual.map { explain.generate(it, cal.weakestAssumption.alphabet()) }.toSet())
   }
@@ -111,20 +111,20 @@ class RobustnessCalculatorTests {
     assertEquals(expected = expected, actual = actual)
 
     val expectedExplain = setOf(
-      Word.fromSymbols("input", "send.0", "rec.0", "output", "ack.1", "ack.corrupt", "getack.0"),
-      Word.fromSymbols("input", "send.0", "rec.0", "output", "ack.0", "ack.corrupt", "getack.1"),
-      Word.fromSymbols("input", "send.1", "rec.1", "output", "ack.0", "ack.corrupt", "getack.1"),
-      Word.fromSymbols("input", "send.1", "rec.1", "output", "ack.1", "ack.corrupt", "getack.0"),
+      Word.fromSymbols("send.0", "rec.0", "ack.1", "ack.corrupt", "getack.0"),
+      Word.fromSymbols("send.0", "rec.0", "ack.0", "ack.corrupt", "getack.1"),
+      Word.fromSymbols("send.1", "rec.1", "ack.0", "ack.corrupt", "getack.1"),
+      Word.fromSymbols("send.1", "rec.1", "ack.1", "ack.corrupt", "getack.0"),
 
-      Word.fromSymbols("input", "send.0", "trans.corrupt", "rec.1", "output", "ack.1", "ack.corrupt", "getack.0"),
-      Word.fromSymbols("input", "send.0", "trans.corrupt", "rec.1", "output", "ack.0", "getack.0"),
-      Word.fromSymbols("input", "send.0", "trans.corrupt", "rec.1", "output", "ack.0", "ack.corrupt", "getack.1"),
-      Word.fromSymbols("input", "send.0", "trans.corrupt", "rec.1", "output", "ack.1", "getack.1"),
+      Word.fromSymbols("send.0", "trans.corrupt", "rec.1", "ack.1", "ack.corrupt", "getack.0"),
+      Word.fromSymbols("send.0", "trans.corrupt", "rec.1", "ack.0", "getack.0"),
+      Word.fromSymbols("send.0", "trans.corrupt", "rec.1", "ack.0", "ack.corrupt", "getack.1"),
+      Word.fromSymbols("send.0", "trans.corrupt", "rec.1", "ack.1", "getack.1"),
 
-      Word.fromSymbols("input", "send.1", "trans.corrupt", "rec.0", "output", "ack.1", "ack.corrupt", "getack.0"),
-      Word.fromSymbols("input", "send.1", "trans.corrupt", "rec.0", "output", "ack.0", "getack.0"),
-      Word.fromSymbols("input", "send.1", "trans.corrupt", "rec.0", "output", "ack.0", "ack.corrupt", "getack.1"),
-      Word.fromSymbols("input", "send.1", "trans.corrupt", "rec.0", "output", "ack.1", "getack.1"),
+      Word.fromSymbols("send.1", "trans.corrupt", "rec.0", "ack.1", "ack.corrupt", "getack.0"),
+      Word.fromSymbols("send.1", "trans.corrupt", "rec.0", "ack.0", "getack.0"),
+      Word.fromSymbols("send.1", "trans.corrupt", "rec.0", "ack.0", "ack.corrupt", "getack.1"),
+      Word.fromSymbols("send.1", "trans.corrupt", "rec.0", "ack.1", "getack.1"),
     )
     for (t in actual) {
       println(explain.generate(t, cal.weakestAssumption.alphabet()))
@@ -173,6 +173,27 @@ class RobustnessCalculatorTests {
       .asLTS()
     val safety = LTSACall
       .compile(ClassLoader.getSystemResource("specs/therac25/p.lts").readText())
+      .compose()
+      .asDetLTS()
+    val dev = LTSACall
+      .compile(ClassLoader.getSystemResource("specs/therac25/env.lts").readText())
+      .compose()
+      .asLTS()
+
+    return Pair(BaseCalculator(sys, env, safety), BaseExplanationGenerator(sys, dev))
+  }
+
+  private fun buildTheracP2(): Pair<RobustnessCalculator<Int, String>, ExplanationGenerator<String>> {
+    val sys = LTSACall
+      .compile(ClassLoader.getSystemResource("specs/therac25/sys.lts").readText())
+      .compose()
+      .asLTS()
+    val env = LTSACall
+      .compile(ClassLoader.getSystemResource("specs/therac25/env_perfect.lts").readText())
+      .compose()
+      .asLTS()
+    val safety = LTSACall
+      .compile(ClassLoader.getSystemResource("specs/therac25/p2.lts").readText())
       .compose()
       .asDetLTS()
     val dev = LTSACall
@@ -239,6 +260,17 @@ class RobustnessCalculatorTests {
 
     val actual = cal2.compare(cal1, expand = true).values.flatten().map { it.word }.toSet()
     assertTrue(hasPrefix(Word.fromSymbols("x", "up", "e", "enter", "b"), actual))
+  }
+
+  @Test
+  fun testCompareTheracP() {
+    val (cal1, _) = buildTherac()
+    val (cal2, _) = buildTheracP2()
+    assert(cal2.compare(cal1).isEmpty())
+    assertEquals(
+      setOf(Word.fromSymbols("e", "up", "x", "enter", "b")),
+      cal1.compare(cal2).values.flatten().map { it.word }.toSet()
+    )
   }
 
   private fun buildVoting(): Pair<RobustnessCalculator<Int, String>, ExplanationGenerator<String>> {

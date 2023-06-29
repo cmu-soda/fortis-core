@@ -42,7 +42,7 @@ class SubsetGenTests {
       .create()
       .asLTS()
 
-    val w = SubsetConstructionGenerator(a, b, p).generate()
+    val w = SubsetConstructionGenerator(a, b, p).generate(false)
 
     val c = AutomatonBuilders.newDFA(Alphabets.fromArray("a", "b"))
       .withInitial(0)
@@ -66,7 +66,7 @@ class SubsetGenTests {
     val safety = LTSACall.compile(ClassLoader.getSystemResource("specs/abp/p.lts").readText())
       .compose().asDetLTS()
 
-    val w = SubsetConstructionGenerator(sys, env, safety).generate()
+    val w = SubsetConstructionGenerator(sys, env, safety).generate(false)
 
     val c = LTSACall.compile(ClassLoader.getSystemResource("specs/abp/perfect_wa.lts").readText())
       .compose().asDetLTS()
@@ -86,7 +86,7 @@ class SubsetGenTests {
     val safety = LTSACall.compile(ClassLoader.getSystemResource("specs/therac25/p.lts").readText())
       .compose().asDetLTS()
 
-    val w = SubsetConstructionGenerator(sys, env, safety).generate()
+    val w = SubsetConstructionGenerator(sys, env, safety).generate(false)
     val out = ByteArrayOutputStream()
     out.use { write(out, w, w.alphabet()) }
     assertEquals("S1 = (x -> S2 | e -> S3),\n" +
@@ -117,7 +117,7 @@ class SubsetGenTests {
     val safety = LTSACall.compile(ClassLoader.getSystemResource("specs/therac25/p.lts").readText())
       .compose().asDetLTS()
 
-    val w = SubsetConstructionGenerator(sys, env, safety).generate()
+    val w = SubsetConstructionGenerator(sys, env, safety).generate(false)
     val out = ByteArrayOutputStream()
     out.use { write(out, w, w.alphabet()) }
     assertEquals("S1 = (x -> S2 | e -> S3),\n" +

@@ -15,7 +15,8 @@ import org.slf4j.LoggerFactory
 class BaseCalculator<I>(
   private val sys: LTS<*, I>,
   private val env: LTS<*, I>,
-  private val safety: DetLTS<*, I>
+  private val safety: DetLTS<*, I>,
+  private val disables: Boolean = false
 ) : RobustnessCalculator<Int, I> {
 
   private val waGenerator: WeakestAssumptionGenerator<I> = SubsetConstructionGenerator(sys, env, safety)
@@ -27,7 +28,7 @@ class BaseCalculator<I>(
     get() {
       if (wa == null) {
         logger.info("Generating the weakest assumption...")
-        wa = waGenerator.generate()
+        wa = waGenerator.generate(disables)
       }
       return wa!!
     }

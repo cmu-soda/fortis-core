@@ -132,7 +132,10 @@ object LTSACall {
 
   fun CompositeState.asLTS(escape: Boolean = false): LTS<Int, String> {
     val alphabet = alphabet(escape)
-    val builder = AutomatonBuilders.newNFA(Alphabets.fromCollection(alphabet)).withInitial(0)
+    val builder = if (this.composition.hasTau())
+      AutomatonBuilders.newNFA(Alphabets.fromCollection(alphabet)).withInitial(0)
+    else
+      AutomatonBuilders.newNFA(Alphabets.fromCollection(alphabet - "tau")).withInitial(0)
     for (s in this.composition.states.indices) {
       val state = this.composition.states[s]
       for (a in this.composition.alphabet.indices) {

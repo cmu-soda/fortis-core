@@ -19,11 +19,7 @@ class SubsetConstructionGenerator<I>(
     assumptionInputs = common union (safety.alphabet() - internal.toSet())
   }
 
-  override fun generate(): DetLTS<Int, I> {
-    return generate(false)
-  }
-
-  fun generate(sink: Boolean = false): DetLTS<Int, I> {
+  override fun generate(disables: Boolean): DetLTS<Int, I> {
     // 1. compose sys || safety_err
     val comp = composeSysAndProp()
     // 2. prune the error state by backtracking from the initial error state
@@ -34,7 +30,7 @@ class SubsetConstructionGenerator<I>(
     logger.info("Pruning and determinising the model...")
     val wa = hide(comp, hidden) as MutableDetLTS
     // 4. make sink
-    if (sink) {
+    if (disables) {
       val theta = wa.addState(true)
       for (state in wa) {
         if (wa.isErrorState(state))
