@@ -21,6 +21,9 @@ Python 3.8.12
 - examples: includes the case study models and scripts to run the benchmark.
 - fortis: includes the source code of Fortis.
 
+## Install
+We recommend using the released package for Fortis to use our tool. The latest release can be found here: [Release](https://github.com/cmu-soda/Fortis/releases).
+
 ## Robustness Computation Example
 We will use Therac-25 to show an example of our tool.
 ```
