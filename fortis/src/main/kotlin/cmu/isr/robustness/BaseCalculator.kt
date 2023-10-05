@@ -12,19 +12,19 @@ import net.automatalib.util.ts.traversal.TSTraversalVisitor
 import net.automatalib.words.Word
 import org.slf4j.LoggerFactory
 
-class BaseCalculator<I>(
-  private val sys: LTS<*, I>,
-  private val env: LTS<*, I>,
-  private val safety: DetLTS<*, I>,
+class BaseCalculator(
+  private val sys: LTS<*, String>,
+  private val env: LTS<*, String>,
+  private val safety: DetLTS<*, String>,
   override val options: RobustnessOptions,
-) : RobustnessCalculator<Int, I> {
+) : RobustnessCalculator<Int, String> {
 
-  private val waGenerator: WeakestAssumptionGenerator<I> = SubsetConstructionGenerator(sys, env, safety)
-  private var wa: DetLTS<Int, I>? = null
+  private val waGenerator: WeakestAssumptionGenerator<String> = SubsetConstructionGenerator(sys, env, safety)
+  private var wa: DetLTS<Int, String>? = null
 
   private val logger = LoggerFactory.getLogger(javaClass)
 
-  override val weakestAssumption: DetLTS<Int, I>
+  override val weakestAssumption: DetLTS<Int, String>
     get() {
       if (wa == null) {
         logger.info("Generating the weakest assumption...")
@@ -33,7 +33,7 @@ class BaseCalculator<I>(
       return wa!!
     }
 
-  override fun computeUnsafeBeh(): Map<EquivClass<I>, Collection<RepTrace<I>>> {
+  override fun computeUnsafeBeh(): Map<EquivClass<String>, Collection<RepTrace<String>>> {
     logger.info("Generating unsafe behavior representation traces by equivalence classes...")
     val m = waGenerator.generateUnsafe()
     val traces = shortestDeltaTraces(m)
@@ -42,7 +42,7 @@ class BaseCalculator<I>(
     return traces
   }
 
-  override fun computeRobustness(): Map<EquivClass<I>, Collection<RepTrace<I>>> {
+  override fun computeRobustness(): Map<EquivClass<String>, Collection<RepTrace<String>>> {
     logger.info("Generating robust behavior representation traces by equivalence classes...")
     val projectedEnv = hide(env, env.alphabet() - weakestAssumption.alphabet().toSet())
     val delta = parallel(weakestAssumption, makeErrorState(projectedEnv))
@@ -52,7 +52,7 @@ class BaseCalculator<I>(
     return traces
   }
 
-  override fun compare(cal: RobustnessCalculator<*, I>): Map<EquivClass<I>, Collection<RepTrace<I>>> {
+  override fun compare(cal: RobustnessCalculator<*, String>): Map<EquivClass<String>, Collection<RepTrace<String>>> {
     if (weakestAssumption.alphabet().toSet() != cal.weakestAssumption.alphabet().toSet())
       error("The two weakest assumption should have the same alphabets")
     logger.info("Generating robust behavior representation traces by equivalence classes...")
@@ -63,13 +63,13 @@ class BaseCalculator<I>(
     return traces
   }
 
-  private fun shortestDeltaTraces(delta: DetLTS<Int, I>, lts: LTS<Int, I>? = null): Map<EquivClass<I>, Collection<RepTrace<I>>> {
+  private fun shortestDeltaTraces(delta: DetLTS<Int, String>, lts: LTS<Int, String>? = null): Map<EquivClass<String>, Collection<RepTrace<String>>> {
     val predecessors = Predecessors(delta)
     val transToError = delta.alphabet().flatMap { predecessors.getPredecessors(delta.errorState, it) }
     val statesToError = transToError.map { it.source }.toSet()
     if (statesToError.isEmpty())
       return emptyMap()
-    val traces = mutableMapOf<Int, Word<I>>()
+    val traces = mutableMapOf<Int, Word<String>>()
     TSTraversal.breadthFirst(delta, delta.alphabet(), PathFromInitVisitor(statesToError, traces))
     return transToError.associate { (_, source, a) ->
       EquivClass(source, a) to Word.fromWords(traces[source], Word.fromLetter(a)).let {
@@ -78,8 +78,8 @@ class BaseCalculator<I>(
     }
   }
 
-  private fun acyclicRepTraces(lts: LTS<Int, I>, prefix: Word<I>): Collection<RepTrace<I>> {
-    val traces = mutableListOf<RepTrace<I>>()
+  private fun acyclicRepTraces(lts: LTS<Int, String>, prefix: Word<String>): Collection<RepTrace<String>> {
+    val traces = mutableListOf<RepTrace<String>>()
     TSTraversal.breadthFirst(lts, lts.alphabet(), AcyclicTracesWithPrefixVisitor(lts, prefix, traces))
     return traces
   }

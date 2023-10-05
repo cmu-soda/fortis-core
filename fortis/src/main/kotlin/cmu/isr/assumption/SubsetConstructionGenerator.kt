@@ -3,15 +3,21 @@ package cmu.isr.assumption
 import cmu.isr.robustness.RobustnessOptions
 import cmu.isr.ts.*
 import cmu.isr.ts.lts.hide
+import cmu.isr.ts.lts.ltsa.LTSACall
+import cmu.isr.ts.lts.ltsa.LTSACall.asDetLTS
+import cmu.isr.ts.lts.ltsa.LTSACall.compose
+import cmu.isr.ts.lts.ltsa.LTSACall.minimize
+import cmu.isr.ts.lts.ltsa.write
 import cmu.isr.ts.lts.makeErrorState
 import org.slf4j.LoggerFactory
+import java.io.ByteArrayOutputStream
 
-class SubsetConstructionGenerator<I>(
-  private val sys: LTS<*, I>,
-  private val env: LTS<*, I>,
-  private val safety: DetLTS<*, I>
-) : WeakestAssumptionGenerator<I> {
-  private val assumptionInputs: Collection<I>
+class SubsetConstructionGenerator(
+  private val sys: LTS<*, String>,
+  private val env: LTS<*, String>,
+  private val safety: DetLTS<*, String>
+) : WeakestAssumptionGenerator<String> {
+  private val assumptionInputs: Collection<String>
   private val logger = LoggerFactory.getLogger(javaClass)
 
   init {
@@ -20,7 +26,7 @@ class SubsetConstructionGenerator<I>(
     assumptionInputs = common union (safety.alphabet() - internal.toSet())
   }
 
-  override fun generate(options: RobustnessOptions): DetLTS<Int, I> {
+  override fun generate(options: RobustnessOptions): DetLTS<Int, String> {
     // 1. compose sys || safety_err
     val comp = composeSysAndProp()
     // 2. prune the error state by backtracking from the initial error state
@@ -29,7 +35,17 @@ class SubsetConstructionGenerator<I>(
     // 3. hide and determinise
     logger.info("S||P: #states = ${comp.size()}, #transitions: ${comp.numOfTransitions()}")
     logger.info("Pruning and determinising the model...")
-    val wa = hide(comp, hidden) as MutableDetLTS
+    var wa = hide(comp, hidden) as MutableDetLTS
+
+    // minimize
+    if (options.minimized) {
+      logger.info("Minimizing the model...")
+      val out = ByteArrayOutputStream()
+      write(out, wa, wa.alphabet())
+      out.close()
+      wa = LTSACall.compile(out.toString()).compose().minimize().asDetLTS() as MutableDetLTS
+    }
+
     // 4. make sink
     if (options.disables) {
       val theta = wa.addState(true)
@@ -53,7 +69,7 @@ class SubsetConstructionGenerator<I>(
     return wa
   }
 
-  private fun pruneError(comp: MutableLTS<Int, I>): LTS<Int, I> {
+  private fun pruneError(comp: MutableLTS<Int, String>): LTS<Int, String> {
     logger.info("Prune reachable error of S||P through hidden events by backtracking")
     logger.info("S||P: #states = ${comp.size()}, #transitions: ${comp.numOfTransitions()}")
     val predecessors = Predecessors(comp)
@@ -85,7 +101,7 @@ class SubsetConstructionGenerator<I>(
     return comp
   }
 
-  override fun generateUnsafe(): DetLTS<Int, I> {
+  override fun generateUnsafe(): DetLTS<Int, String> {
     // 1. compose sys || safety_err
     val comp = composeSysAndProp()
     val hidden = comp.alphabet().toSet() - assumptionInputs.toSet()
@@ -93,7 +109,7 @@ class SubsetConstructionGenerator<I>(
     return hide(comp, hidden)
   }
 
-  private fun composeSysAndProp(): MutableLTS<Int, I> {
+  private fun composeSysAndProp(): MutableLTS<Int, String> {
     logger.info("Compose System and Property...")
     logger.info("System: #states = ${sys.size()}, #transitions: ${sys.numOfTransitions()}")
     return parallel(sys, makeErrorState(safety)) as MutableLTS
