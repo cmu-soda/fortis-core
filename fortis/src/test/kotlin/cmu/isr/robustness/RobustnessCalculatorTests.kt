@@ -41,10 +41,10 @@ class RobustnessCalculatorTests {
       .compose()
       .asLTS()
 
-    return Pair(BaseCalculator(sys, env, safety), BaseExplanationGenerator(sys, dev))
+    return Pair(BaseCalculator(sys, env, safety, RobustnessOptions()), BaseExplanationGenerator(sys, dev))
   }
 
-  private fun buildSimpleProtocol(): Pair<RobustnessCalculator<Int, String>, ExplanationGenerator<String>> {
+  private fun buildSimpleProtocol(expand: Boolean = false): Pair<RobustnessCalculator<Int, String>, ExplanationGenerator<String>> {
     val sys = LTSACall
       .compile(ClassLoader.getSystemResource("specs/abp/perfect.lts").readText())
       .compose()
@@ -62,7 +62,7 @@ class RobustnessCalculatorTests {
       .compose()
       .asLTS()
 
-    return Pair(BaseCalculator(sys, env, safety), BaseExplanationGenerator(sys, dev))
+    return Pair(BaseCalculator(sys, env, safety, RobustnessOptions(expand = expand)), BaseExplanationGenerator(sys, dev))
   }
 
   @Test
@@ -92,7 +92,7 @@ class RobustnessCalculatorTests {
 
   @Test
   fun testSimpleProtocolExpand() {
-    val (cal, explain) = buildSimpleProtocol()
+    val (cal, explain) = buildSimpleProtocol(expand = true)
     val expected = setOf(
       Word.fromSymbols("send.0", "rec.0", "ack.1", "getack.0"),
       Word.fromSymbols("send.0", "rec.0", "ack.0", "getack.1"),
@@ -107,7 +107,7 @@ class RobustnessCalculatorTests {
       Word.fromSymbols("send.1", "rec.0", "ack.1", "getack.1"),
       Word.fromSymbols("send.1", "rec.0", "ack.1", "getack.0")
     )
-    val actual = cal.computeRobustness(expand = true).values.flatten().map { it.word }.toSet()
+    val actual = cal.computeRobustness().values.flatten().map { it.word }.toSet()
     assertEquals(expected = expected, actual = actual)
 
     val expectedExplain = setOf(
@@ -141,7 +141,7 @@ class RobustnessCalculatorTests {
     }
   }
 
-  private fun buildTherac(): Pair<RobustnessCalculator<Int, String>, ExplanationGenerator<String>> {
+  private fun buildTherac(expand: Boolean = false): Pair<RobustnessCalculator<Int, String>, ExplanationGenerator<String>> {
     val sys = LTSACall
       .compile(ClassLoader.getSystemResource("specs/therac25/sys.lts").readText())
       .compose()
@@ -159,10 +159,10 @@ class RobustnessCalculatorTests {
       .compose()
       .asLTS()
 
-    return Pair(BaseCalculator(sys, env, safety), BaseExplanationGenerator(sys, dev))
+    return Pair(BaseCalculator(sys, env, safety, RobustnessOptions(expand = expand)), BaseExplanationGenerator(sys, dev))
   }
 
-  private fun buildTheracR(): Pair<RobustnessCalculator<Int, String>, ExplanationGenerator<String>> {
+  private fun buildTheracR(expand: Boolean = false): Pair<RobustnessCalculator<Int, String>, ExplanationGenerator<String>> {
     val sys = LTSACall
       .compile(ClassLoader.getSystemResource("specs/therac25/sys_r.lts").readText())
       .compose()
@@ -180,7 +180,7 @@ class RobustnessCalculatorTests {
       .compose()
       .asLTS()
 
-    return Pair(BaseCalculator(sys, env, safety), BaseExplanationGenerator(sys, dev))
+    return Pair(BaseCalculator(sys, env, safety, RobustnessOptions(expand = expand)), BaseExplanationGenerator(sys, dev))
   }
 
   private fun buildTheracP2(): Pair<RobustnessCalculator<Int, String>, ExplanationGenerator<String>> {
@@ -201,13 +201,13 @@ class RobustnessCalculatorTests {
       .compose()
       .asLTS()
 
-    return Pair(BaseCalculator(sys, env, safety), BaseExplanationGenerator(sys, dev))
+    return Pair(BaseCalculator(sys, env, safety, RobustnessOptions()), BaseExplanationGenerator(sys, dev))
   }
 
   @Test
   fun testTherac() {
     val (cal, _) = buildTherac()
-    var actual = cal.computeRobustness().values.flatten().map { it.word }.toSet()
+    val actual = cal.computeRobustness().values.flatten().map { it.word }.toSet()
     val expected = setOf(
       Word.fromSymbols("x", "up"),
       Word.fromSymbols("e", "up"),
@@ -219,8 +219,12 @@ class RobustnessCalculatorTests {
       Word.fromSymbols("e", "enter", "b", "enter", "x", "enter", "up"),
     )
     assertEquals(expected = expected, actual = actual)
+  }
 
-    actual = cal.computeRobustness(expand = true).values.flatten().map { it.word }.toSet()
+  @Test
+  fun testTheracExpand() {
+    val (cal, _) = buildTherac(expand = true)
+    val actual = cal.computeRobustness().values.flatten().map { it.word }.toSet()
     assertTrue(hasPrefix(Word.fromSymbols("x", "up", "x"), actual))
     assertFalse(hasPrefix(Word.fromSymbols("x", "up", "e", "enter", "b"), actual))
     assertTrue(hasPrefix(Word.fromSymbols("e", "up", "e"), actual))
@@ -230,7 +234,7 @@ class RobustnessCalculatorTests {
   @Test
   fun testTheracR() {
     val (cal, _) = buildTheracR()
-    var actual = cal.computeRobustness().values.flatten().map { it.word }.toSet()
+    val actual = cal.computeRobustness().values.flatten().map { it.word }.toSet()
     val expected = setOf(
       Word.fromSymbols("x", "up"),
       Word.fromSymbols("e", "up"),
@@ -240,8 +244,12 @@ class RobustnessCalculatorTests {
       Word.fromSymbols("e", "enter", "b", "enter", "x", "up"),
     )
     assertEquals(expected = expected, actual = actual)
+  }
 
-    actual = cal.computeRobustness(expand = true).values.flatten().map { it.word }.toSet()
+  @Test
+  fun testTheracRExpand() {
+    val (cal, _) = buildTheracR(expand = true)
+    val actual = cal.computeRobustness().values.flatten().map { it.word }.toSet()
     assertTrue(hasPrefix(Word.fromSymbols("x", "up", "x"), actual))
     assertTrue(hasPrefix(Word.fromSymbols("x", "up", "e", "enter", "b"), actual))
     assertTrue(hasPrefix(Word.fromSymbols("e", "up", "e"), actual))
@@ -257,8 +265,14 @@ class RobustnessCalculatorTests {
       setOf(Word.fromSymbols("x", "up", "e", "enter", "b")),
       cal2.compare(cal1).values.flatten().map { it.word }.toSet()
     )
+  }
 
-    val actual = cal2.compare(cal1, expand = true).values.flatten().map { it.word }.toSet()
+  @Test
+  fun testCompareTheracExpand() {
+    val (cal1, _) = buildTherac(expand = true)
+    val (cal2, _) = buildTheracR(expand = true)
+
+    val actual = cal2.compare(cal1).values.flatten().map { it.word }.toSet()
     assertTrue(hasPrefix(Word.fromSymbols("x", "up", "e", "enter", "b"), actual))
   }
 
@@ -291,7 +305,7 @@ class RobustnessCalculatorTests {
       .compose()
       .asLTS()
 
-    return Pair(BaseCalculator(sys, env, safety), BaseExplanationGenerator(sys, dev))
+    return Pair(BaseCalculator(sys, env, safety, RobustnessOptions()), BaseExplanationGenerator(sys, dev))
   }
 
   @Test

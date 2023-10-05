@@ -1,5 +1,6 @@
 package cmu.isr.assumption
 
+import cmu.isr.robustness.RobustnessOptions
 import cmu.isr.ts.*
 import cmu.isr.ts.lts.hide
 import cmu.isr.ts.lts.makeErrorState
@@ -19,7 +20,7 @@ class SubsetConstructionGenerator<I>(
     assumptionInputs = common union (safety.alphabet() - internal.toSet())
   }
 
-  override fun generate(disables: Boolean): DetLTS<Int, I> {
+  override fun generate(options: RobustnessOptions): DetLTS<Int, I> {
     // 1. compose sys || safety_err
     val comp = composeSysAndProp()
     // 2. prune the error state by backtracking from the initial error state
@@ -30,7 +31,7 @@ class SubsetConstructionGenerator<I>(
     logger.info("Pruning and determinising the model...")
     val wa = hide(comp, hidden) as MutableDetLTS
     // 4. make sink
-    if (disables) {
+    if (options.disables) {
       val theta = wa.addState(true)
       for (state in wa) {
         if (wa.isErrorState(state))

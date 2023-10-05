@@ -16,7 +16,7 @@ class BaseCalculator<I>(
   private val sys: LTS<*, I>,
   private val env: LTS<*, I>,
   private val safety: DetLTS<*, I>,
-  private val disables: Boolean = false
+  override val options: RobustnessOptions,
 ) : RobustnessCalculator<Int, I> {
 
   private val waGenerator: WeakestAssumptionGenerator<I> = SubsetConstructionGenerator(sys, env, safety)
@@ -28,7 +28,7 @@ class BaseCalculator<I>(
     get() {
       if (wa == null) {
         logger.info("Generating the weakest assumption...")
-        wa = waGenerator.generate(disables)
+        wa = waGenerator.generate(options)
       }
       return wa!!
     }
@@ -42,22 +42,22 @@ class BaseCalculator<I>(
     return traces
   }
 
-  override fun computeRobustness(expand: Boolean): Map<EquivClass<I>, Collection<RepTrace<I>>> {
+  override fun computeRobustness(): Map<EquivClass<I>, Collection<RepTrace<I>>> {
     logger.info("Generating robust behavior representation traces by equivalence classes...")
     val projectedEnv = hide(env, env.alphabet() - weakestAssumption.alphabet().toSet())
     val delta = parallel(weakestAssumption, makeErrorState(projectedEnv))
-    val traces = shortestDeltaTraces(delta, if (expand) weakestAssumption else null)
+    val traces = shortestDeltaTraces(delta, if (options.expand) weakestAssumption else null)
     if (traces.isEmpty())
       logger.info("No representation traces found. The weakest assumption has equal or less behavior than the environment")
     return traces
   }
 
-  override fun compare(cal: RobustnessCalculator<*, I>, expand: Boolean): Map<EquivClass<I>, Collection<RepTrace<I>>> {
+  override fun compare(cal: RobustnessCalculator<*, I>): Map<EquivClass<I>, Collection<RepTrace<I>>> {
     if (weakestAssumption.alphabet().toSet() != cal.weakestAssumption.alphabet().toSet())
       error("The two weakest assumption should have the same alphabets")
     logger.info("Generating robust behavior representation traces by equivalence classes...")
     val delta = parallel(weakestAssumption, makeErrorState(cal.weakestAssumption))
-    val traces = shortestDeltaTraces(delta, if (expand) weakestAssumption else null)
+    val traces = shortestDeltaTraces(delta, if (options.expand) weakestAssumption else null)
     if (traces.isEmpty())
       logger.info("No representation traces found. The weakest assumption of this model has equal or less behavior than the other model.")
     return traces

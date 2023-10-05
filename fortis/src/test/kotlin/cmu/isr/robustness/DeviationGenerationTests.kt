@@ -32,7 +32,7 @@ class DeviationGenerationTests {
       .compose()
       .asLTS()
 
-    val cal = BaseCalculator(sys, env, safety)
+    val cal = BaseCalculator(sys, env, safety, RobustnessOptions())
     val exp = BaseExplanationGenerator(sys, dev)
     val unsafe = cal.computeUnsafeBeh().values.flatten().map { it.word }
     val unsafeExplanations = unsafe.mapNotNull { exp.generate(it, cal.weakestAssumption.alphabet()) }

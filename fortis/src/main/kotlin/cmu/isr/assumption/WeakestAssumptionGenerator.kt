@@ -1,5 +1,6 @@
 package cmu.isr.assumption
 
+import cmu.isr.robustness.RobustnessOptions
 import cmu.isr.ts.DetLTS
 
 interface WeakestAssumptionGenerator<I> {
@@ -8,7 +9,7 @@ interface WeakestAssumptionGenerator<I> {
    * (given an environment). Note that the environment is only needed for
    * deciding the interface alphabets.
    */
-  fun generate(disables: Boolean): DetLTS<Int, I>
+  fun generate(options: RobustnessOptions): DetLTS<Int, I>
 
   fun generateUnsafe(): DetLTS<Int, I>
 }

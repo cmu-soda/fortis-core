@@ -1,5 +1,6 @@
 package cmu.isr.assumption
 
+import cmu.isr.robustness.RobustnessOptions
 import cmu.isr.ts.alphabet
 import cmu.isr.ts.lts.asLTS
 import cmu.isr.ts.lts.ltsa.LTSACall
@@ -42,7 +43,7 @@ class SubsetGenTests {
       .create()
       .asLTS()
 
-    val w = SubsetConstructionGenerator(a, b, p).generate(false)
+    val w = SubsetConstructionGenerator(a, b, p).generate(RobustnessOptions())
 
     val c = AutomatonBuilders.newDFA(Alphabets.fromArray("a", "b"))
       .withInitial(0)
@@ -66,7 +67,7 @@ class SubsetGenTests {
     val safety = LTSACall.compile(ClassLoader.getSystemResource("specs/abp/p.lts").readText())
       .compose().asDetLTS()
 
-    val w = SubsetConstructionGenerator(sys, env, safety).generate(false)
+    val w = SubsetConstructionGenerator(sys, env, safety).generate(RobustnessOptions())
 
     val c = LTSACall.compile(ClassLoader.getSystemResource("specs/abp/perfect_wa.lts").readText())
       .compose().asDetLTS()
@@ -86,7 +87,7 @@ class SubsetGenTests {
     val safety = LTSACall.compile(ClassLoader.getSystemResource("specs/therac25/p.lts").readText())
       .compose().asDetLTS()
 
-    val w = SubsetConstructionGenerator(sys, env, safety).generate(false)
+    val w = SubsetConstructionGenerator(sys, env, safety).generate(RobustnessOptions())
     val out = ByteArrayOutputStream()
     out.use { write(out, w, w.alphabet()) }
     assertEquals("S1 = (x -> S2 | e -> S3),\n" +
@@ -117,7 +118,7 @@ class SubsetGenTests {
     val safety = LTSACall.compile(ClassLoader.getSystemResource("specs/therac25/p.lts").readText())
       .compose().asDetLTS()
 
-    val w = SubsetConstructionGenerator(sys, env, safety).generate(false)
+    val w = SubsetConstructionGenerator(sys, env, safety).generate(RobustnessOptions())
     val out = ByteArrayOutputStream()
     out.use { write(out, w, w.alphabet()) }
     assertEquals("S1 = (x -> S2 | e -> S3),\n" +

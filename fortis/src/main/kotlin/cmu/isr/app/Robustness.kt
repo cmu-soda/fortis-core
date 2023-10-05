@@ -1,9 +1,6 @@
 package cmu.isr.app
 
-import cmu.isr.robustness.BaseCalculator
-import cmu.isr.robustness.EquivClass
-import cmu.isr.robustness.RepTrace
-import cmu.isr.robustness.RobustnessCalculator
+import cmu.isr.robustness.*
 import cmu.isr.robustness.explanation.BaseExplanationGenerator
 import cmu.isr.robustness.explanation.ExplanationGenerator
 import cmu.isr.supervisory.SupervisoryNFA
@@ -36,13 +33,15 @@ import kotlin.system.exitProcess
 class Robustness : CliktCommand(help = "Compute the robustness of a system design.") {
 
   private val sys by option("--sys", "-s", help = "The model of the system.")
-  private val env by option("--env", "-e", help = "The model of the environment")
+  private val env by option("--env", "-e", help = "The model of the environment.")
   private val prop by option("--prop", "-p", help = "The model of the safety property.")
-  private val dev by option("--dev", "-d", help = "The model of the deviation model for explanation")
-  private val unsafe by option("--unsafe", "-u", help = "Generate unsafe behaviors").flag()
-  private val jsons by option("--jsons", help = "One or more model config files, separated by ','").split(",")
-  private val compare by option("--compare", help = "Compare the robustness of two models").flag()
-  private val expand by option("--expand", help = "Expand the equivalence classes to all acyclic traces").flag()
+  private val dev by option("--dev", "-d", help = "The model of the deviation model for explanation.")
+  private val unsafe by option("--unsafe", help = "Generate unsafe behaviors.").flag()
+  private val jsons by option("--jsons", help = "One or more model config files, separated by ','.").split(",")
+  private val compare by option("--compare", help = "Compare the robustness of two models.").flag()
+  private val expand by option("--expand", help = "Expand the equivalence classes to all acyclic traces.").flag()
+  private val disables by option("--disables", help = "Add a sink state to include disabled actions.").flag()
+  private val minimized by option("--minimized", help = "Minimize the weakest assumption model.").flag()
 
   private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -56,6 +55,7 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
       exitProcess(0)
     }
     val start = System.currentTimeMillis()
+
     if (compare) {
       if (cals.size < 2)
         error("Must provide two configs for robustness comparison.")
@@ -64,9 +64,9 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
       val (cal2, explain2) = cals[1]
 
       logger.info("Comparing the robustness of a to b...")
-      val re1 = cal1.compare(cal2, expand)
+      val re1 = cal1.compare(cal2)
       logger.info("Comparing the robustness of b to a...")
-      val re2 = cal2.compare(cal1, expand)
+      val re2 = cal2.compare(cal1)
       logger.info("Total time: ${Duration.ofMillis(System.currentTimeMillis() - start).pretty()}")
 
       logger.info("Results: a is robust than b in that:")
@@ -75,7 +75,7 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
       printResult(cal2, explain2, re2)
     } else {
       val (cal, explain) = cals[0]
-      val re = if (unsafe) cal.computeUnsafeBeh() else cal.computeRobustness(expand)
+      val re = if (unsafe) cal.computeUnsafeBeh() else cal.computeRobustness()
       logger.info("Total time: ${Duration.ofMillis(System.currentTimeMillis() - start).pretty()}")
       printResult(cal, explain, re)
     }
@@ -130,7 +130,8 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
     val obj = jacksonObjectMapper().readValue(File(json), RobustnessConfigJSON::class.java)
     val sys = parseFiles(obj.sys)
     return Pair(
-      BaseCalculator(sys, parseFiles(obj.env), parseFiles(obj.prop, true) as DetLTS<*, String>),
+      BaseCalculator(sys, parseFiles(obj.env), parseFiles(obj.prop, true) as DetLTS<*, String>,
+        RobustnessOptions(expand, minimized, disables)),
       obj.dev?.let { BaseExplanationGenerator(sys, parseFiles(it)) }
     )
   }
@@ -138,7 +139,8 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
   private fun buildCalculator(): Pair<RobustnessCalculator<*, String>, ExplanationGenerator<String>?> {
     val sys = parseFile(sys!!)
     return Pair(
-      BaseCalculator(sys, parseFile(env!!), parseFile(prop!!, true) as DetLTS<*, String>),
+      BaseCalculator(sys, parseFile(env!!), parseFile(prop!!, true) as DetLTS<*, String>,
+        RobustnessOptions(expand, minimized, disables)),
       dev?.let { BaseExplanationGenerator(sys, parseFile(dev!!)) }
     )
   }
