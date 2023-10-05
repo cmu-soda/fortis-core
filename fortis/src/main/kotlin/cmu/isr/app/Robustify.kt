@@ -12,6 +12,7 @@ import cmu.isr.ts.alphabet
 import cmu.isr.ts.lts.ltsa.LTSACall
 import cmu.isr.ts.lts.ltsa.LTSACall.asDetLTS
 import cmu.isr.ts.lts.ltsa.LTSACall.compose
+import cmu.isr.ts.lts.ltsa.LTSACall.minimize
 import cmu.isr.ts.lts.ltsa.write
 import cmu.isr.ts.parallel
 import cmu.isr.utils.pretty
@@ -28,6 +29,7 @@ import org.apache.logging.log4j.Level
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.core.config.Configurator
 import org.slf4j.LoggerFactory
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.time.Duration
 
@@ -35,6 +37,7 @@ class Robustify : CliktCommand(help = "Robustify a system design using superviso
   private val configFile by argument(name = "<config.json>")
   private val verbose by option("--verbose", "-v", help = "Enable verbose mode.").flag()
   private val output by option("--output", "-o", help = "Output file format.").default("aut")
+  private val minimized by option("--minimized", help = "Minimize the output automaton.").flag()
 
   private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -114,9 +117,21 @@ class Robustify : CliktCommand(help = "Robustify a system design using superviso
     if (dir.exists())
       dir.deleteRecursively()
     dir.mkdir()
+
+    val solutions = if (minimized) {
+      dfas.map {
+        val out = ByteArrayOutputStream()
+        write(out, it, it.alphabet())
+        out.close()
+        LTSACall.compile(out.toString()).compose().minimize().asDetLTS()
+      }
+    } else {
+      dfas
+    }
+
     when (output) {
-      "aut" -> saveSolutionsAUT(dfas)
-      "fsp" -> saveSolutionsFSP(dfas)
+      "aut" -> saveSolutionsAUT(solutions)
+      "fsp" -> saveSolutionsFSP(solutions)
     }
   }
 
