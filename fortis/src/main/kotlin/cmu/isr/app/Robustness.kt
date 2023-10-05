@@ -12,6 +12,7 @@ import cmu.isr.ts.lts.ltsa.LTSACall
 import cmu.isr.ts.lts.ltsa.LTSACall.asDetLTS
 import cmu.isr.ts.lts.ltsa.LTSACall.asLTS
 import cmu.isr.ts.lts.ltsa.LTSACall.compose
+import cmu.isr.ts.lts.ltsa.write
 import cmu.isr.ts.parallel
 import cmu.isr.utils.pretty
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -26,6 +27,7 @@ import net.automatalib.util.ts.copy.TSCopy
 import net.automatalib.util.ts.traversal.TSTraversal
 import net.automatalib.util.ts.traversal.TSTraversalMethod
 import org.slf4j.LoggerFactory
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.time.Duration
 import kotlin.system.exitProcess
@@ -42,6 +44,7 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
   private val expand by option("--expand", help = "Expand the equivalence classes to all acyclic traces.").flag()
   private val disables by option("--disables", help = "Add a sink state to include disabled actions.").flag()
   private val minimized by option("--minimized", help = "Minimize the weakest assumption model.").flag()
+  private val generateWA by option("--wa", help = "Output the weakest assumption model.").flag()
 
   private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -78,6 +81,13 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
       val re = if (unsafe) cal.computeUnsafeBeh() else cal.computeRobustness()
       logger.info("Total time: ${Duration.ofMillis(System.currentTimeMillis() - start).pretty()}")
       printResult(cal, explain, re)
+
+      if (generateWA) {
+        val out = ByteArrayOutputStream()
+        write(out, cal.weakestAssumption, cal.weakestAssumption.alphabet())
+        out.close()
+        logger.info("Weakest assumption model:\n\n$out")
+      }
     }
   }
 
