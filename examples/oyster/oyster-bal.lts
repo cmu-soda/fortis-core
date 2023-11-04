@@ -1,0 +1,8 @@
+const MAX_BAL = 5
+
+OYSTER_BAL = OYSTER_BAL[MAX_BAL],
+OYSTER_BAL[b:0..MAX_BAL] = (
+    when (b < MAX_BAL) rld.oyster[c:1..(MAX_BAL-b)] -> OYSTER_BAL[b+c]
+    |
+    when (b > 0) rcv.oyster.fin -> OYSTER_BAL[b-1]
+).

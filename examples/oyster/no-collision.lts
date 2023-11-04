@@ -1,0 +1,1 @@
+P = (rcv.oyster.gin -> rcv.oyster.fin -> P | rcv.card.gin -> rcv.card.fin -> P).

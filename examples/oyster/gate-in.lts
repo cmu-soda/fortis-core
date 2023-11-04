@@ -1,0 +1,4 @@
+GATE_IN = (snd.oyster -> OYSTER | snd.card -> CARD),
+OYSTER = (rcv.oyster.gin -> GATE_IN | snd.oyster -> OYSTER | snd.card -> ANY),
+CARD = (rcv.card.gin -> GATE_IN | snd.card -> CARD | snd.oyster -> ANY),
+ANY = (rcv.oyster.gin -> OYSTER | rcv.card.gin -> CARD | snd.card -> ANY | snd.oyster -> ANY).

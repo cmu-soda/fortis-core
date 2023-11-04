@@ -1,0 +1,16 @@
+const MAX_BAL = 5
+
+HAS_BAL = HAS_BAL[MAX_BAL][MAX_BAL],
+HAS_BAL[oyster:0..MAX_BAL][card:0..MAX_BAL] = (
+    when (oyster < MAX_BAL) rld.oyster[c:1..(MAX_BAL-oyster)] -> HAS_BAL[oyster+c][card]
+    |
+    when (card < MAX_BAL) rld.card[c:1..(MAX_BAL-card)] -> HAS_BAL[oyster][card+c]
+    |
+    when (oyster > 0) rcv.oyster.gin -> HAS_BAL[oyster][card]
+    |
+    when (card > 0) rcv.card.gin -> HAS_BAL[oyster][card]
+    |
+    when (oyster > 0) rcv.oyster.fin -> HAS_BAL[oyster-1][card]
+    |
+    when (card > 0) rcv.card.fin -> HAS_BAL[oyster][card-1]
+).
