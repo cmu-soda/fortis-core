@@ -5,11 +5,11 @@ import cmu.isr.supervisory.SupervisoryNFA
 import cmu.isr.ts.alphabet
 import java.io.OutputStream
 
-fun <S, I> write(output: OutputStream, dfa: SupervisoryDFA<S, I>) {
-  write(output, dfa as SupervisoryNFA<S, I>)
+fun <S, I> writeFSM(output: OutputStream, dfa: SupervisoryDFA<S, I>) {
+  writeFSM(output, dfa as SupervisoryNFA<S, I>)
 }
 
-fun <S, I> write(output: OutputStream, nfa: SupervisoryNFA<S, I>) {
+fun <S, I> writeFSM(output: OutputStream, nfa: SupervisoryNFA<S, I>) {
   val writer = output.bufferedWriter()
   val states = nfa.states.toMutableList()
   // assume that the NFA should have only one initial state

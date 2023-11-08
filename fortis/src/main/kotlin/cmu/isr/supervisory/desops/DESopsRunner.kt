@@ -53,14 +53,14 @@ class DESopsRunner : SupervisorySynthesizer<Int, String> {
 
     socket.use {
       val outStream = it.getOutputStream()
-      write(outStream, plant)
-      write(outStream, prop)
+      writeFSM(outStream, plant)
+      writeFSM(outStream, prop)
 
       val inStream = it.getInputStream()
       val reader = inStream.bufferedReader()
       sup = when (reader.readLine()) {
         "0" -> {
-          val dfa = parse(reader, inputs1, plant.controllable, plant.observable)
+          val dfa = parseFSM(reader, inputs1, plant.controllable, plant.observable)
           if (dfa is SupervisoryDFA<*, *>) {
             logger.debug("Synthesis spent ${Duration.ofMillis(System.currentTimeMillis() - startTime).pretty()}")
             observer(dfa as SupervisoryDFA<Int, String>, dfa.alphabet())

@@ -7,7 +7,7 @@ import org.supremica.automata.Automaton
 import org.supremica.automata.LabeledEvent
 import org.supremica.automata.State
 
-fun <S, I> write(dfa: SupervisoryDFA<S, I>, name: String): Automaton {
+fun <S, I> writeSupremica(dfa: SupervisoryDFA<S, I>, name: String): Automaton {
   val automaton = Automaton(name)
   val alphabetMap = mutableMapOf<I, LabeledEvent>()
   val stateMap = mutableMapOf<S, State>()

@@ -9,9 +9,9 @@ import net.automatalib.words.Alphabet
 import net.automatalib.words.impl.Alphabets
 import java.io.BufferedReader
 
-fun parse(reader: BufferedReader, alphabets: Alphabet<String>, controllable: Collection<String>,
-          observable: Collection<String>): SupervisoryNFA<Int, String> {
-  val nfa = parse(reader)
+fun parseFSM(reader: BufferedReader, alphabets: Alphabet<String>, controllable: Collection<String>,
+             observable: Collection<String>): SupervisoryNFA<Int, String> {
+  val nfa = parseFSM(reader)
   if (nfa.alphabet().toSet() != alphabets.toSet())
     error("The specified alphabet does not match the FSM file.")
   if (nfa.controllable.toSet() != controllable.toSet() || nfa.observable.toSet() != observable.toSet())
@@ -19,7 +19,7 @@ fun parse(reader: BufferedReader, alphabets: Alphabet<String>, controllable: Col
   return nfa
 }
 
-fun parse(reader: BufferedReader): SupervisoryNFA<Int, String> {
+fun parseFSM(reader: BufferedReader): SupervisoryNFA<Int, String> {
   val states = mutableListOf<Pair<String, Boolean>>()
   val stateTransitions = mutableMapOf<String, List<Pair<String, String>>>()
   val alphabetsRead = mutableMapOf<String, Pair<Boolean, Boolean>>() // event -> <controllable, observable>

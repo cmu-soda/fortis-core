@@ -7,7 +7,7 @@ import cmu.isr.ts.lts.ltsa.LTSACall
 import cmu.isr.ts.lts.ltsa.LTSACall.asDetLTS
 import cmu.isr.ts.lts.ltsa.LTSACall.compose
 import cmu.isr.ts.lts.ltsa.LTSACall.minimize
-import cmu.isr.ts.lts.ltsa.write
+import cmu.isr.ts.lts.ltsa.writeFSP
 import cmu.isr.ts.lts.makeErrorState
 import org.slf4j.LoggerFactory
 import java.io.ByteArrayOutputStream
@@ -41,7 +41,7 @@ class SubsetConstructionGenerator(
     if (options.minimized) {
       logger.info("Minimizing the model...")
       val out = ByteArrayOutputStream()
-      write(out, wa, wa.alphabet())
+      writeFSP(out, wa, wa.alphabet())
       out.close()
       wa = LTSACall.compile(out.toString()).compose().minimize().asDetLTS() as MutableDetLTS
     }

@@ -31,8 +31,8 @@ class SupremicaRunner : SupervisorySynthesizer<Int, String> {
     checkAlphabets(plant, prop)
 
     val theAutomata = Automata()
-    val plantAutomaton = write(plant, "plant")
-    val specAutomaton = write(prop, "spec")
+    val plantAutomaton = writeSupremica(plant, "plant")
+    val specAutomaton = writeSupremica(prop, "spec")
     plantAutomaton.type = AutomatonType.PLANT
     specAutomaton.type = AutomatonType.SPECIFICATION
     theAutomata.addAutomaton(plantAutomaton)
@@ -41,7 +41,7 @@ class SupremicaRunner : SupervisorySynthesizer<Int, String> {
     val synthesizer = AutomataSynthesizer(theAutomata, syncOptions, synthOptions)
     val sup = synthesizer.execute().firstAutomaton
 
-    return if (sup.nbrOfStates() == 0) null else parse(sup)
+    return if (sup.nbrOfStates() == 0) null else parseSupremica(sup)
   }
 
   override fun close() {}

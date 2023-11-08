@@ -9,7 +9,7 @@ import net.automatalib.util.ts.traversal.TSTraversalVisitor
 import net.automatalib.words.Alphabet
 import java.io.OutputStream
 
-fun <S, I> write(output: OutputStream, nfa: NFA<S, I>, inputs: Alphabet<I>) {
+fun <S, I> writeFSP(output: OutputStream, nfa: NFA<S, I>, inputs: Alphabet<I>) {
   val builder = StringBuilder()
   val writer = output.writer()
   TSTraversal.breadthFirst(nfa, inputs, FSPWriterVisitor(builder, nfa, inputs))

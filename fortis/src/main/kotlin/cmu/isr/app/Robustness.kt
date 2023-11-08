@@ -12,7 +12,7 @@ import cmu.isr.ts.lts.ltsa.LTSACall
 import cmu.isr.ts.lts.ltsa.LTSACall.asDetLTS
 import cmu.isr.ts.lts.ltsa.LTSACall.asLTS
 import cmu.isr.ts.lts.ltsa.LTSACall.compose
-import cmu.isr.ts.lts.ltsa.write
+import cmu.isr.ts.lts.ltsa.writeFSP
 import cmu.isr.ts.parallel
 import cmu.isr.utils.pretty
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -84,7 +84,7 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
 
       if (generateWA) {
         val out = ByteArrayOutputStream()
-        write(out, cal.weakestAssumption, cal.weakestAssumption.alphabet())
+        writeFSP(out, cal.weakestAssumption, cal.weakestAssumption.alphabet())
         out.close()
         logger.info("Weakest assumption model:\n\n$out")
       }
@@ -111,7 +111,7 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
     val f = File(path)
     return when (f.extension) {
       "lts" -> LTSACall.compile(f.readText()).compose().let { if (deterministic) it.asDetLTS() else it.asLTS() }
-      "fsm" -> cmu.isr.supervisory.desops.parse(f.bufferedReader()).let { if (deterministic) it.asDetLTS() else it.asLTS() }
+      "fsm" -> cmu.isr.supervisory.desops.parseFSM(f.bufferedReader()).let { if (deterministic) it.asDetLTS() else it.asLTS() }
       else -> error("Unsupported file type '.${f.extension}'")
     }
   }

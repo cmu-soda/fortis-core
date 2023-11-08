@@ -6,7 +6,7 @@ import cmu.isr.ts.lts.asLTS
 import cmu.isr.ts.lts.ltsa.LTSACall
 import cmu.isr.ts.lts.ltsa.LTSACall.asDetLTS
 import cmu.isr.ts.lts.ltsa.LTSACall.compose
-import cmu.isr.ts.lts.ltsa.write
+import cmu.isr.ts.lts.ltsa.writeFSP
 import net.automatalib.util.automata.Automata
 import net.automatalib.util.automata.builders.AutomatonBuilders
 import net.automatalib.words.impl.Alphabets
@@ -54,7 +54,7 @@ class SubsetGenTests {
 
     assertContentEquals(c.alphabet(), w.alphabet())
     assert(Automata.testEquivalence(c, w, c.alphabet())) {
-      write(System.err, w, w.alphabet())
+      writeFSP(System.err, w, w.alphabet())
     }
   }
 
@@ -74,7 +74,7 @@ class SubsetGenTests {
 
     assertEquals(c.alphabet().toSet(), w.alphabet().toSet())
     assert(Automata.testEquivalence(c, w, c.alphabet())) {
-      write(System.err, w, w.alphabet())
+      writeFSP(System.err, w, w.alphabet())
     }
   }
 
@@ -89,7 +89,7 @@ class SubsetGenTests {
 
     val w = SubsetConstructionGenerator(sys, env, safety).generate(RobustnessOptions())
     val out = ByteArrayOutputStream()
-    out.use { write(out, w, w.alphabet()) }
+    out.use { writeFSP(out, w, w.alphabet()) }
     assertEquals("S1 = (x -> S2 | e -> S3),\n" +
         "S2 = (up -> S14 | enter -> S15),\n" +
         "S3 = (up -> S4 | enter -> S5),\n" +
@@ -120,7 +120,7 @@ class SubsetGenTests {
 
     val w = SubsetConstructionGenerator(sys, env, safety).generate(RobustnessOptions())
     val out = ByteArrayOutputStream()
-    out.use { write(out, w, w.alphabet()) }
+    out.use { writeFSP(out, w, w.alphabet()) }
     assertEquals("S1 = (x -> S2 | e -> S3),\n" +
         "S2 = (up -> S11 | enter -> S9),\n" +
         "S3 = (up -> S4 | enter -> S5),\n" +

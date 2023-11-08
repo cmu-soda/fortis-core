@@ -7,7 +7,7 @@ import net.automatalib.words.impl.Alphabets
 import org.supremica.automata.Automaton
 
 
-fun parse(automaton: Automaton): SupervisoryDFA<Int, String> {
+fun parseSupremica(automaton: Automaton): SupervisoryDFA<Int, String> {
   val inputs = Alphabets.fromCollection(automaton.alphabet.map { it.label })
   val controllable = automaton.alphabet.controllableAlphabet.map { it.label }
   val observable = automaton.observableAlphabet.map { it.label }

@@ -10,7 +10,7 @@ import cmu.isr.ts.lts.ltsa.LTSACall.compose
 import net.automatalib.automata.fsa.MutableDFA
 import net.automatalib.automata.fsa.MutableNFA
 import java.io.File
-import cmu.isr.supervisory.desops.parse as parseFSM
+import cmu.isr.supervisory.desops.parseFSM
 
 /**
  * Read FSM file

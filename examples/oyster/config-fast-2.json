@@ -2,7 +2,7 @@
   "sys": ["gate-in.lts", "gate-out.lts", "card-bal.lts", "oyster-bal.lts"],
   "env": [],
   "dev": ["human-dev.lts"],
-  "safety": ["no-collision.lts"],
+  "safety": ["no-collision.lts", "has-balance.lts"],
   "method": "supervisory",
   "options": {
     "progress": ["rcv.oyster.fin", "rcv.card.fin"],

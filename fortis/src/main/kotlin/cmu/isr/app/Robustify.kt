@@ -13,7 +13,7 @@ import cmu.isr.ts.lts.ltsa.LTSACall
 import cmu.isr.ts.lts.ltsa.LTSACall.asDetLTS
 import cmu.isr.ts.lts.ltsa.LTSACall.compose
 import cmu.isr.ts.lts.ltsa.LTSACall.minimize
-import cmu.isr.ts.lts.ltsa.write
+import cmu.isr.ts.lts.ltsa.writeFSP
 import cmu.isr.ts.parallel
 import cmu.isr.utils.pretty
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -99,7 +99,7 @@ class Robustify : CliktCommand(help = "Robustify a system design using superviso
     val f = File(path)
     return when (f.extension) {
       "lts" -> LTSACall.compile(f.readText()).compose().asDetLTS()
-      "fsm" -> cmu.isr.supervisory.desops.parse(f.bufferedReader()) as SupervisoryDFA
+      "fsm" -> cmu.isr.supervisory.desops.parseFSM(f.bufferedReader()) as SupervisoryDFA
       else -> error("Unsupported file type '.${f.extension}'")
     }
   }
@@ -121,7 +121,7 @@ class Robustify : CliktCommand(help = "Robustify a system design using superviso
     val solutions = if (minimized) {
       dfas.map {
         val out = ByteArrayOutputStream()
-        write(out, it, it.alphabet())
+        writeFSP(out, it, it.alphabet())
         out.close()
         LTSACall.compile(out.toString()).compose().minimize().asDetLTS()
       }
@@ -150,7 +150,7 @@ class Robustify : CliktCommand(help = "Robustify a system design using superviso
       val f = File("./solutions/sol${i+1}.lts")
       f.createNewFile()
       val out = f.outputStream()
-      write(out, dfas[i], dfas[i].alphabet())
+      writeFSP(out, dfas[i], dfas[i].alphabet())
       out.close()
     }
   }
