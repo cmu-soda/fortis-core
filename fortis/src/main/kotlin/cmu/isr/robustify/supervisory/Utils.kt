@@ -5,12 +5,10 @@ import cmu.isr.supervisory.asSupDFA
 import cmu.isr.ts.nfa.hide
 import net.automatalib.automata.fsa.impl.compact.CompactDFA
 import net.automatalib.ts.UniversalDTS
-import net.automatalib.util.automata.builders.AutomatonBuilders
 import net.automatalib.util.ts.copy.TSCopy
 import net.automatalib.util.ts.traversal.TSTraversal
 import net.automatalib.util.ts.traversal.TSTraversalMethod
 import net.automatalib.words.Alphabet
-import net.automatalib.words.impl.Alphabets
 
 
 fun <S, I, T> extendAlphabet(lts: UniversalDTS<S, I, T, Boolean, Void?>, old: Alphabet<I>, extended: Alphabet<I>): CompactDFA<I> {
@@ -23,17 +21,6 @@ fun <S, I, T> extendAlphabet(lts: UniversalDTS<S, I, T, Boolean, Void?>, old: Al
     }
   }
   return out
-}
-
-
-fun <I> makeProgress(input: I): CompactDFA<I> {
-  val inputs = Alphabets.fromArray(input)
-  return AutomatonBuilders.newDFA(inputs)
-    .withInitial(0)
-    .from(0).on(input).to(1)
-    .from(1).on(input).to(1)
-    .withAccepting(1)
-    .create()
 }
 
 

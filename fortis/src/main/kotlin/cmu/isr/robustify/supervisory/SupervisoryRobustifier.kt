@@ -1,6 +1,7 @@
 package cmu.isr.robustify.supervisory
 
 import cmu.isr.robustify.BaseRobustifier
+import cmu.isr.robustify.makeProgress
 import cmu.isr.supervisory.SupervisoryDFA
 import cmu.isr.supervisory.SupervisorySynthesizer
 import cmu.isr.supervisory.asSupDFA

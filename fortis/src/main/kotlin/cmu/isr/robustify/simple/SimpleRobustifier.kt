@@ -3,7 +3,7 @@ package cmu.isr.robustify.simple
 import cmu.isr.robustify.BaseRobustifier
 import cmu.isr.robustify.oasis.controlledEvents
 import cmu.isr.robustify.supervisory.acceptsSubWord
-import cmu.isr.robustify.supervisory.makeProgress
+import cmu.isr.robustify.makeProgress
 import cmu.isr.supervisory.SupervisorySynthesizer
 import cmu.isr.supervisory.asSupDFA
 import cmu.isr.ts.alphabet
