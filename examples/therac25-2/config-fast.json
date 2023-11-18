@@ -1,0 +1,24 @@
+{
+  "sys": ["sys.lts"],
+  "env": [],
+  "dev": ["env1.lts"],
+  "safety": ["p_w.lts"],
+  "method": "supervisory",
+  "options": {
+    "progress": ["fire_xray", "fire_ebeam"],
+    "preferredMap": {
+      "1": [
+        ["x", "up", "e", "enter", "b"],
+        ["e", "up", "x", "enter", "b"]
+      ]
+    },
+    "controllableMap": {
+      "1": ["fire_xray", "fire_ebeam", "set_xray", "set_ebeam", "x", "e", "enter", "up", "b"]
+    },
+    "observableMap": {
+      "1": ["fire_xray", "fire_ebeam", "set_xray", "set_ebeam", "x", "e", "enter", "up", "b"]
+    },
+    "algorithm": "Fast",
+    "maxIter": 2
+  }
+}

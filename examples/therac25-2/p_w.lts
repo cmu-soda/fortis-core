@@ -1,0 +1,25 @@
+const InPlace = 0
+const OutPlace = 1
+range SpreaderState = InPlace .. OutPlace
+
+const NotSet = 2
+const Xray = 3
+const EBeam = 4
+range PBeamState = NotSet .. EBeam
+
+P = P[InPlace][NotSet],
+P[spreader:SpreaderState][power:PBeamState] = (
+    reset -> P[spreader][NotSet]
+    |
+    x -> P[InPlace][power]
+    |
+    e -> P[OutPlace][power]
+    |
+    set_xray -> P[spreader][Xray]
+    |
+    set_ebeam -> P[spreader][EBeam]
+    |
+    when (power != NotSet &&
+          (power != Xray || spreader == InPlace))
+        b -> P[spreader][power]
+).
