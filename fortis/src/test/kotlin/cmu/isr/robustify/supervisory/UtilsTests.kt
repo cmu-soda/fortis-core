@@ -1,5 +1,6 @@
 package cmu.isr.robustify.supervisory
 
+import cmu.isr.robustify.acceptsSubWord
 import cmu.isr.supervisory.asSupDFA
 import cmu.isr.ts.alphabet
 import cmu.isr.ts.lts.asLTS

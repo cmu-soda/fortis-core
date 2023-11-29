@@ -1,6 +1,7 @@
 package cmu.isr.robustify.supervisory
 
 import cmu.isr.robustify.RobustifierTests
+import cmu.isr.robustify.acceptsSubWord
 import cmu.isr.supervisory.SupervisoryDFA
 import cmu.isr.supervisory.supremica.SupremicaRunner
 import cmu.isr.ts.lts.ltsa.LTSACall
@@ -74,6 +75,38 @@ class SupervisoryRobustifierTests : RobustifierTests() {
       ),
       observableMap = mapOf(
         Priority.P0 to listOf("x", "e", "enter", "up", "b", "fire_xray", "fire_ebeam", "setMode"),
+      ),
+      synthesizer = SupremicaRunner(),
+      maxIter = 1
+    )
+  }
+
+  private fun loadTherac2(): SupervisoryRobustifier<String> {
+    val sysSpec =
+      ClassLoader.getSystemResource("specs/therac25-2/sys.lts")?.readText() ?: error("Cannot find therac25-2/sys.lts")
+    val envSpec =
+      ClassLoader.getSystemResource("specs/therac25-2/env.lts")?.readText() ?: error("Cannot find therac25-2/env.lts")
+    val pSpec = ClassLoader.getSystemResource("specs/therac25-2/p1.lts")?.readText() ?: error("Cannot find therac25-2/p1.lts")
+    val back1 = Word.fromSymbols("x", "up", "e", "enter", "b")
+    val back2 = Word.fromSymbols("e", "up", "x", "enter", "b")
+//    val back3 = Word.fromSymbols("x", "enter", "up", "up", "e", "enter", "b")
+//    val back4 = Word.fromSymbols("e", "enter", "up", "up", "x", "enter", "b")
+
+    val sys = LTSACall.compile(sysSpec).compose().asDetLTS()
+    val env = LTSACall.compile(envSpec).compose().asDetLTS()
+    val safety = LTSACall.compileSafetyLTL(pSpec, "OVER_DOSE").asDetLTS()
+
+    return SupervisoryRobustifier(
+      sys,
+      env,
+      safety,
+      progress = listOf("fire_xray", "fire_ebeam"),
+      preferredMap = mapOf(Priority.P3 to listOf(back1, back2)),
+      controllableMap = mapOf(
+        Priority.P1 to listOf("x", "e", "enter", "up", "b", "fire_xray", "fire_ebeam", "set_xray", "set_ebeam", "reset")
+      ),
+      observableMap = mapOf(
+        Priority.P0 to listOf("x", "e", "enter", "up", "b", "fire_xray", "fire_ebeam", "set_xray", "set_ebeam", "reset")
       ),
       synthesizer = SupremicaRunner(),
       maxIter = 1
@@ -327,6 +360,28 @@ class SupervisoryRobustifierTests : RobustifierTests() {
       assertSynthesisResults(
         fastExpected,
         it.synthesize(Algorithms.Fast).map { r -> Pair((r as SupervisoryDFA).controllable, r.observable) }
+      )
+    }
+  }
+
+  @Test
+  fun testTherac2() {
+    val robustifier = loadTherac2()
+
+    robustifier.use {
+      val solutions = it.synthesize(Algorithms.Fast).toList()
+      solutions.forEach {r ->
+        assert(!acceptsSubWord(r, Word.fromSymbols("x", "up", "e", "enter", "b")).first)
+      }
+      val fastExpected = listOf(
+        Pair(
+          listOf("up"),
+          "b, e, enter, fire_ebeam, fire_xray, reset, set_ebeam, set_xray, up, x".split(", ")
+        )
+      )
+      assertSynthesisResults(
+        fastExpected,
+        solutions.map { r -> Pair((r as SupervisoryDFA).controllable, r.observable) }
       )
     }
   }

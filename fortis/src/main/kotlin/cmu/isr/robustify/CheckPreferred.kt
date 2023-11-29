@@ -1,4 +1,4 @@
-package cmu.isr.robustify.supervisory
+package cmu.isr.robustify
 
 import cmu.isr.ts.alphabet
 import cmu.isr.ts.nfa.NFAParallelComposition
