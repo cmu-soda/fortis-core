@@ -91,6 +91,13 @@
             <systemPath>${project.basedir}/lib/ltsa.jar</systemPath>
         </dependency>
         <dependency>
+            <groupId>gov.nasa</groupId>
+            <artifactId>ltl</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/ltl2buchi.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-test-junit5</artifactId>
             <version>1.7.0</version>

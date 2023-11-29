@@ -4,6 +4,7 @@ import cmu.isr.ts.DetLTS
 import cmu.isr.ts.LTS
 import cmu.isr.ts.lts.asLTS
 import lts.*
+import lts.ltl.AssertDefinition
 import net.automatalib.util.automata.builders.AutomatonBuilders
 import net.automatalib.words.impl.Alphabets
 import org.slf4j.LoggerFactory
@@ -34,6 +35,17 @@ object LTSACall {
       logger.debug(e.stackTraceToString())
       throw Exception("Failed to compile the fsp source string of machine '${compositeName}'.")
     }
+  }
+
+  /**
+   * Compile a given FSP spec with fluents and LTL assertions. Return the safety LTS of the LTL with the given name.
+   * The LTL should be a safety property, i.e., the compiled LTS should have an error state.
+   */
+  fun compileSafetyLTL(fsp: String, name: String): CompactState {
+    val out = StringLTSOutput()
+    compile(fsp)
+    val ltl = AssertDefinition.compile(out, name)
+    return if (ltl.composition.hasERROR()) ltl.composition else error("The given LTL is not a safety property")
   }
 
   /**
@@ -109,23 +121,23 @@ object LTSACall {
     }
   }
 
-  fun CompositeState.asDetLTS(escape: Boolean = false): DetLTS<Int, String> {
-    return this.composition.asDetLTS(escape)
+  fun CompositeState.asDetLTS(escape: Boolean = false, removeError: Boolean = false): DetLTS<Int, String> {
+    return this.composition.asDetLTS(escape, removeError)
   }
 
-  fun CompactState.asDetLTS(escape: Boolean = false): DetLTS<Int, String> {
+  fun CompactState.asDetLTS(escape: Boolean = false, removeError: Boolean = false): DetLTS<Int, String> {
     // check there's no tau transition
     if (this.hasTau() || this.isNonDeterministic)
       error("The given LTS is non-deterministic")
 
     val inputs = alphabet(escape)
     val builder = AutomatonBuilders.newDFA(Alphabets.fromCollection(inputs - "tau")).withInitial(0)
-    for (s in this.states.indices) {
+    for (s in this.states.indices) { // if s is an error state, then it will not be in this iteration
       val state = this.states[s]
       for (a in this.alphabet.indices) {
         val input = inputs[a]
         val succ = EventState.nextState(state, a)
-        if (succ != null) {
+        if (succ != null && (!removeError || succ[0] != -1)) {
           builder.from(s).on(input).to(succ[0])
         }
       }
@@ -134,24 +146,26 @@ object LTSACall {
     return builder.create().asLTS()
   }
 
-  fun CompositeState.asLTS(escape: Boolean = false): LTS<Int, String> {
-    return this.composition.asLTS(escape)
+  fun CompositeState.asLTS(escape: Boolean = false, removeError: Boolean = false): LTS<Int, String> {
+    return this.composition.asLTS(escape, removeError)
   }
 
-  fun CompactState.asLTS(escape: Boolean = false): LTS<Int, String> {
+  fun CompactState.asLTS(escape: Boolean = false, removeError: Boolean = false): LTS<Int, String> {
     val inputs = alphabet(escape)
     val builder = if (this.hasTau())
       AutomatonBuilders.newNFA(Alphabets.fromCollection(inputs)).withInitial(0)
     else
       AutomatonBuilders.newNFA(Alphabets.fromCollection(inputs - "tau")).withInitial(0)
-    for (s in this.states.indices) {
+    for (s in this.states.indices) { // if s is an error state, then it will not be in this iteration
       val state = this.states[s]
       for (a in this.alphabet.indices) {
         val input = inputs[a]
         val succs = EventState.nextState(state, a)
         if (succs != null) {
-          for (succ in succs)
-            builder.from(s).on(input).to(succ)
+          for (succ in succs) {
+            if (!removeError || succ != -1)
+              builder.from(s).on(input).to(succ)
+          }
         }
       }
       builder.withAccepting(s)
