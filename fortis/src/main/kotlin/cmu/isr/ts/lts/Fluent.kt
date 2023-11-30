@@ -10,15 +10,30 @@ data class Fluent(
 )
 
 fun String.toFluent(): Fluent? {
-    val fluentTriggerReg = "\\{\\w+(?:\\s*,\\s*\\w+)*\\}|\\w+".toRegex()
+    val identReg = "\\w+(?:\\.\\w+)*".toRegex()
+    val eventReg = "(?:$identReg|\\{\\s*\\w+(?:\\s*,\\s*\\w+)*\\s*\\}\\.$identReg)".toRegex()
+    val fluentTriggerReg = "$eventReg|\\{\\s*$eventReg(?:\\s*,\\s*$identReg)*\\s*\\}".toRegex()
     val fluentReg = Regex("fluent\\s+(\\w+)\\s*=\\s*<\\s*($fluentTriggerReg)\\s*,\\s*($fluentTriggerReg)\\s*>(?:\\s+initially\\s+([0|1]))?")
+
+    fun getEvents(eventsStr: String): List<String> {
+        return eventReg.findAll(eventsStr).flatMap {
+            if (it.value[0] == '{') {
+                val i = it.value.indexOf('}')
+                val prefixes = it.value.substring(1, i).split(",").map(String::trim)
+                val suffix = it.value.substring(i + 1)
+                prefixes.map { prefix -> prefix + suffix }
+            } else {
+                listOf(it.value)
+            }
+        }.toList()
+    }
 
     return fluentReg.matchEntire(this)?.let { match ->
         val (name, trigger, reset, init) = match.destructured
         Fluent(
             name,
-            trigger.trim { it == '{' || it == '}' }.split(",").map(String::trim),
-            reset.trim { it == '{' || it == '}' }.split(",").map(String::trim),
+            getEvents(trigger),
+            getEvents(reset),
             init == "1"
         )
     }

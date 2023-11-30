@@ -55,6 +55,42 @@ class FluentTests {
     }
 
     @Test
+    fun testFluent5() {
+        assertEquals(
+            Fluent(
+                "Confirmed",
+                listOf("v.confirm", "eo.confirm"),
+                listOf("v.password", "eo.password"),
+                false
+            ),
+            "fluent Confirmed = <{v, eo}.confirm, {{v, eo}.password}>".toFluent())
+    }
+
+    @Test
+    fun testFluent6() {
+        assertEquals(
+            Fluent(
+                "SelectByVoter",
+                listOf("v.select"),
+                listOf("v.password", "eo.password", "eo.select"),
+                true
+            ),
+            "fluent SelectByVoter = <v.select, {{v, eo}.password, eo.select}> initially 1".toFluent())
+    }
+
+    @Test
+    fun testFluent7() {
+        assertEquals(
+            Fluent(
+                "A",
+                listOf("a.b.c"),
+                listOf("a.c.d", "b.c.d", "f"),
+                false
+            ),
+            "fluent A = <{a.b.c}, {{a, b}.c.d, f}>".toFluent())
+    }
+
+    @Test
     fun testEvaluateFluent1() {
         val fluents = listOf(
             "fluent Xray = <set_xray, {set_ebeam, reset}>".toFluent()!!,
