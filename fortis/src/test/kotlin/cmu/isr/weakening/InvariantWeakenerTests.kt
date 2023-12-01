@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 class InvariantWeakenerTests {
-    @Test
-    fun testTherac() {
-        val invWeakener = InvariantWeakener(
+
+    private fun loadTherac(): InvariantWeakener {
+        return InvariantWeakener(
             invariant = Invariant(
                 antecedent = "Xray".parseConjunction(),
                 consequent = "InPlace".parseConjunction()
@@ -26,6 +26,11 @@ class InvariantWeakenerTests {
                 Word.fromList("x,set_xray,up,e,enter,b,fire_xray,reset".split(",")),
             )
         )
+    }
+
+    @Test
+    fun testGenerateAlloyTherac() {
+        val invWeakener = loadTherac()
         assertEquals("""
             abstract sig Bool {}
             one sig True, False extends Bool {}
@@ -36,8 +41,10 @@ class InvariantWeakenerTests {
                 consequent: Literal -> lone Bool
             } {
                 consequent not in antecedent
+                all l: Literal | (l -> True in antecedent implies l -> False not in consequent) and
+		            (l -> False in antecedent implies l -> True not in consequent)
                 Xray->True in antecedent
-                consequent.Bool in (InPlace)
+                consequent in (InPlace->True)
             }
 
             abstract sig State {
@@ -78,6 +85,31 @@ class InvariantWeakenerTests {
             }
             """.trimIndent(),
             invWeakener.generateAlloyModel()
+        )
+    }
+
+    @Test
+    fun testLearnTherac() {
+        val invWeakener = loadTherac()
+        val solutions = mutableListOf<Invariant>()
+        var solution = invWeakener.learn()
+        while (solution != null) {
+            solutions.add(solution.getInvariant())
+            solution = solution.next()
+        }
+        assertEquals(2, solutions.size)
+        assertEquals(
+            listOf(
+                Invariant(
+                    antecedent = "Xray && Fired".parseConjunction(),
+                    consequent = "InPlace".parseConjunction()
+                ),
+                Invariant(
+                    antecedent = "Xray && !EBeam && Fired".parseConjunction(),
+                    consequent = "InPlace".parseConjunction()
+                )
+            ),
+            solutions
         )
     }
 }
