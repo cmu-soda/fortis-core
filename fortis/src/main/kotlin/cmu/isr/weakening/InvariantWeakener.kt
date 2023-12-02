@@ -2,6 +2,7 @@ package cmu.isr.weakening
 
 import cmu.isr.ts.lts.Fluent
 import cmu.isr.ts.lts.evaluateFluent
+import cmu.isr.ts.lts.getFluentValuationString
 import edu.mit.csail.sdg.alloy4.A4Reporter
 import edu.mit.csail.sdg.parser.CompUtil
 import edu.mit.csail.sdg.translator.A4Options
@@ -83,7 +84,7 @@ class InvariantWeakener(
     private fun generateTrace(example: Word<String>, statesMap: MutableMap<String, String>,
                               statesAlloyScript: MutableMap<String, String>): String {
         return evaluateFluent(example, fluents).map { state ->
-            val stateValues = fluents.joinToString { if (state[it] == true) "1" else "0" }
+            val stateValues = getFluentValuationString(fluents, state)
             statesMap.getOrPut(stateValues) {
                 statesAlloyScript[stateValues] = state.entries.filter { it.value }.let {
                     if (it.isEmpty()) "none" else it.joinToString(" + ") { entry -> entry.key.name }

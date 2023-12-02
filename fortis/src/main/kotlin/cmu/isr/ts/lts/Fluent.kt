@@ -64,3 +64,7 @@ fun evaluateFluent(word: Word<String>, fluents: List<Fluent>): List<Map<Fluent, 
 
     return evaluation
 }
+
+fun getFluentValuationString(fluents: List<Fluent>, valuation: Map<Fluent, Boolean>): String {
+    return fluents.joinToString { if (valuation[it] == true) "1" else "0" }
+}
