@@ -1,0 +1,6 @@
+ENV = (v.enter -> VOTER | eo.enter -> EO),
+VOTER = (password -> v.password -> VOTER1),
+VOTER1 = (v.select -> VOTER2),
+VOTER2 = (v.vote -> VOTER3 | v.back -> VOTER1),
+VOTER3 = (v.confirm -> v.exit -> ENV | v.back -> VOTER2),
+EO = (eo.select -> EO | eo.vote -> EO | eo.confirm -> EO | eo.back -> EO | eo.exit -> ENV).

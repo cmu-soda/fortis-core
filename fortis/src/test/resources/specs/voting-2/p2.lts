@@ -1,0 +1,6 @@
+fluent ConfirmByVoter = <v.confirm, {password, eo.confirm}>
+fluent SelectByVoter = <v.select, {password, eo.select}>
+fluent VoteByVoter = <v.vote, {password, eo.vote}>
+fluent VoterLeft = <v.exit, v.enter>
+
+assert SELECT_VOTE_BY_VOTER = [](VoterLeft -> SelectByVoter && VoteByVoter && ConfirmByVoter)

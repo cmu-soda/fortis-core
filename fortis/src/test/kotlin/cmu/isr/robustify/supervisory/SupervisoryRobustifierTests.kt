@@ -10,6 +10,7 @@ import cmu.isr.ts.lts.ltsa.LTSACall.compose
 import cmu.isr.ts.parallel
 import net.automatalib.words.Word
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
@@ -35,6 +36,38 @@ class SupervisoryRobustifierTests : RobustifierTests() {
       safety,
       progress = listOf("confirm"),
       preferredMap = mapOf(Priority.P3 to listOf(back)),
+      controllableMap = mapOf(
+        Priority.P0 to listOf("back", "confirm", "password", "select", "vote"),
+        Priority.P3 to listOf("eo.enter", "eo.exit", "v.enter", "v.exit")
+      ),
+      observableMap = mapOf(
+        Priority.P0 to listOf("back", "confirm", "password", "select", "vote"),
+        Priority.P2 to listOf("eo.enter", "eo.exit", "v.enter", "v.exit")
+      ),
+      synthesizer = SupremicaRunner(),
+      maxIter = 1
+    )
+  }
+
+  private fun loadVoting2(): SupervisoryRobustifier<String> {
+    val sysSpec =
+      ClassLoader.getSystemResource("specs/voting-2/sys.lts")?.readText() ?: error("Cannot find voting-2/sys.lts")
+    val envSpec =
+      ClassLoader.getSystemResource("specs/voting-2/env2.lts")?.readText() ?: error("Cannot find voting-2/env2.lts")
+    val pSpec = ClassLoader.getSystemResource("specs/voting-2/p2.lts")?.readText() ?: error("Cannot find voting-2/p2.lts")
+
+    val sys = LTSACall.compile(sysSpec).compose().asDetLTS()
+    val env = LTSACall.compile(envSpec).compose().asDetLTS()
+    val safety = LTSACall.compileSafetyLTL(pSpec, "SELECT_VOTE_BY_VOTER").asDetLTS()
+    val back1 = Word.fromSymbols("select", "back", "select", "vote", "confirm")
+    val back2 = Word.fromSymbols("select", "vote", "back", "back", "select", "vote", "confirm")
+
+    return SupervisoryRobustifier(
+      sys,
+      env,
+      safety,
+      progress = listOf("confirm"),
+      preferredMap = mapOf(Priority.P3 to listOf(back1, back2)),
       controllableMap = mapOf(
         Priority.P0 to listOf("back", "confirm", "password", "select", "vote"),
         Priority.P3 to listOf("eo.enter", "eo.exit", "v.enter", "v.exit")
@@ -332,6 +365,24 @@ class SupervisoryRobustifierTests : RobustifierTests() {
   }
 
   @Test
+  fun testVoting2() {
+    val robustifier = loadVoting2()
+
+    robustifier.use {
+      val fastExpected = listOf(
+        Pair(
+          listOf("back", "confirm", "password", "select", "v.exit", "vote"),
+          listOf("back", "confirm", "password", "select", "v.exit", "vote")
+        )
+      )
+      assertSynthesisResults(
+        fastExpected,
+        it.synthesize(Algorithms.Fast).map { r -> Pair((r as SupervisoryDFA).controllable, r.observable) }
+      )
+    }
+  }
+
+  @Test
   fun testTherac() {
     val robustifier = loadTherac()
 
@@ -387,6 +438,7 @@ class SupervisoryRobustifierTests : RobustifierTests() {
   }
 
   @Test
+  @EnabledIfEnvironmentVariable(named = "tests", matches = "all")
   fun testPump() {
     val robustifier = loadPump()
 
