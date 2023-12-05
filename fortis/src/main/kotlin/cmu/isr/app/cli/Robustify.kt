@@ -1,4 +1,4 @@
-package cmu.isr.app
+package cmu.isr.app.cli
 
 import cmu.isr.robustify.oasis.OASISRobustifier
 import cmu.isr.robustify.simple.SimpleRobustifier

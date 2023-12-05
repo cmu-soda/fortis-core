@@ -1,4 +1,4 @@
-package cmu.isr.app
+package cmu.isr.app.cli
 
 import cmu.isr.robustness.*
 import cmu.isr.robustness.explanation.BaseExplanationGenerator

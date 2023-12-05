@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: cmu.isr.app.ApplicationKt
-Class-Path: Supremica.jar SupremicaLib.jar
+Main-Class: cmu.isr.app.cli.ApplicationKt
+Class-Path: AlloyMax-1.0.2.jar ltsa.jar ltl2buchi.jar Supremica.jar SupremicaLib.jar

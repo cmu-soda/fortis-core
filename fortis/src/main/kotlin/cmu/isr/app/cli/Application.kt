@@ -1,4 +1,4 @@
-package cmu.isr.app
+package cmu.isr.app.cli
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands

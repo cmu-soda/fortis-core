@@ -1,5 +1,7 @@
 package cmu.isr.app
 
+import cmu.isr.app.cli.Robustify
+import cmu.isr.app.cli.RobustifyConfigJSON
 import cmu.isr.robustify.RobustifierTests
 import cmu.isr.robustify.supervisory.Algorithms
 import cmu.isr.supervisory.SupervisoryDFA

@@ -1,4 +1,4 @@
-package cmu.isr.app
+package cmu.isr.app.cli
 
 import cmu.isr.robustify.supervisory.Algorithms
 import com.fasterxml.jackson.annotation.JsonProperty
