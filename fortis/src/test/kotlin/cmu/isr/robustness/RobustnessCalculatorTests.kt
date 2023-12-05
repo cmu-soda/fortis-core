@@ -126,9 +126,9 @@ class RobustnessCalculatorTests {
       Word.fromSymbols("send.1", "trans.corrupt", "rec.0", "ack.0", "ack.corrupt", "getack.1"),
       Word.fromSymbols("send.1", "trans.corrupt", "rec.0", "ack.1", "getack.1"),
     )
-    for (t in actual) {
-      println(explain.generate(t, cal.weakestAssumption.alphabet()))
-    }
+//    for (t in actual) {
+//      println(explain.generate(t, cal.weakestAssumption.alphabet()))
+//    }
     assertEquals(expectedExplain, actual.map { explain.generate(it, cal.weakestAssumption.alphabet()) }.toSet())
   }
 
@@ -137,7 +137,8 @@ class RobustnessCalculatorTests {
     val (cal, explain) = buildABP()
     val actual = cal.computeRobustness().values.flatten().map { it.word }.toSet()
     for (t in actual) {
-      println(explain.generate(t, cal.weakestAssumption.alphabet()))
+      val explanations = explain.generate(t, cal.weakestAssumption.alphabet())
+//      println(explanations)
     }
   }
 
@@ -315,5 +316,21 @@ class RobustnessCalculatorTests {
     for (t in actual) {
       println("$t => ${explain.generate(t, cal.weakestAssumption.alphabet())}")
     }
+    val expectedExplain = setOf(
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      Word.fromList("v.enter,password,select,vote,omit_confirm,v.exit,v.enter".split(',')),
+      null,
+      null,
+      null,
+      null,
+      Word.fromList("v.enter,password,select,vote,omit_confirm,v.exit,eo.enter".split(',')),
+      null,
+    )
+    assertEquals(expectedExplain, actual.map { explain.generate(it, cal.weakestAssumption.alphabet()) }.toSet())
   }
 }
