@@ -1,6 +1,5 @@
-package cmu.s3d.fortis.robustify
+package cmu.s3d.fortis.ts
 
-import cmu.s3d.fortis.ts.alphabet
 import cmu.s3d.fortis.ts.nfa.NFAParallelComposition
 import net.automatalib.alphabet.Alphabets
 import net.automatalib.automaton.fsa.DFA
@@ -15,7 +14,7 @@ import net.automatalib.word.Word
 /**
  *
  */
-fun <I> acceptsSubWord(sup: DFA<*, I>, word: Word<I>): Pair<Boolean, List<I>> {
+fun <I> acceptsSubWord(dfa: DFA<*, I>, word: Word<I>): Pair<Boolean, List<I>> {
     // build automata from the word
     val builder = AutomatonBuilders.newDFA(Alphabets.fromCollection(word.distinct()))
         .withInitial(0)
@@ -26,11 +25,11 @@ fun <I> acceptsSubWord(sup: DFA<*, I>, word: Word<I>): Pair<Boolean, List<I>> {
     }
     val wordDFA = builder.create()
 
-    val composition = NFAParallelComposition(sup, wordDFA)
+    val composition = NFAParallelComposition(dfa, wordDFA)
     val result = booleanArrayOf(false)
     val trace = mutableListOf<I>()
     TSTraversal.depthFirst(
-        composition, sup.alphabet() union wordDFA.inputAlphabet,
+        composition, dfa.alphabet() union wordDFA.inputAlphabet,
         AcceptsSubWordVisitor(wordDFA, result, trace)
     )
 

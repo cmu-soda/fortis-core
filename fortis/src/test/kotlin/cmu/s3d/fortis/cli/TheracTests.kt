@@ -1,7 +1,7 @@
 package cmu.s3d.fortis.cli
 
+import cmu.s3d.fortis.common.Algorithms
 import cmu.s3d.fortis.robustify.RobustifierTests
-import cmu.s3d.fortis.robustify.supervisory.Algorithms
 import cmu.s3d.fortis.supervisory.SupervisoryDFA
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.junit.jupiter.api.Disabled

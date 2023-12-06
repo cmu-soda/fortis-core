@@ -1,12 +1,12 @@
 package cmu.s3d.fortis.robustify.simple
 
 import cmu.s3d.fortis.robustify.BaseRobustifier
-import cmu.s3d.fortis.robustify.acceptsSubWord
-import cmu.s3d.fortis.robustify.makeProgress
-import cmu.s3d.fortis.robustify.oasis.controlledEvents
 import cmu.s3d.fortis.supervisory.SupervisorySynthesizer
 import cmu.s3d.fortis.supervisory.asSupDFA
+import cmu.s3d.fortis.supervisory.controlledEvents
+import cmu.s3d.fortis.ts.acceptsSubWord
 import cmu.s3d.fortis.ts.alphabet
+import cmu.s3d.fortis.ts.makeProgress
 import cmu.s3d.fortis.ts.parallel
 import cmu.s3d.fortis.utils.pretty
 import net.automatalib.automaton.fsa.DFA
@@ -14,17 +14,17 @@ import net.automatalib.word.Word
 import org.slf4j.LoggerFactory
 import java.time.Duration
 
-class SimpleRobustifier<S, I>(
-    sys: DFA<*, I>,
-    devEnv: DFA<*, I>,
-    safety: DFA<*, I>,
-    progress: Collection<I>,
-    val preferred: Collection<Word<I>>,
-    val synthesizer: SupervisorySynthesizer<S, I>
-) : BaseRobustifier<S, I>(sys, devEnv, safety) {
+class SimpleRobustifier(
+    sys: DFA<*, String>,
+    devEnv: DFA<*, String>,
+    safety: DFA<*, String>,
+    progress: Collection<String>,
+    val preferred: Collection<Word<String>>,
+    val synthesizer: SupervisorySynthesizer<Int, String>
+) : BaseRobustifier(sys, devEnv, safety) {
     private val logger = LoggerFactory.getLogger(javaClass)
     private val plant = parallel(sys, devEnv)
-    private val prop: DFA<*, I>
+    private val prop: DFA<*, String>
 
 
     override var numberOfSynthesis: Int = 0
@@ -34,11 +34,11 @@ class SimpleRobustifier<S, I>(
         prop = parallel(safety, *progressProp.toTypedArray())
     }
 
-    override fun synthesize(): DFA<S, I>? {
+    override fun synthesize(): DFA<Int, String>? {
         return synthesize(sys.alphabet(), sys.alphabet())
     }
 
-    fun synthesize(controllable: Collection<I>, observable: Collection<I>): DFA<S, I>? {
+    fun synthesize(controllable: Collection<String>, observable: Collection<String>): DFA<Int, String>? {
         if (!observable.containsAll(controllable))
             error("The controllable events should be a subset of the observable events.")
 

@@ -1,6 +1,10 @@
 package cmu.s3d.fortis.cli
 
-import cmu.s3d.fortis.robustness.*
+import cmu.s3d.fortis.common.EquivClass
+import cmu.s3d.fortis.common.RepTrace
+import cmu.s3d.fortis.common.RobustnessOptions
+import cmu.s3d.fortis.robustness.BaseCalculator
+import cmu.s3d.fortis.robustness.RobustnessCalculator
 import cmu.s3d.fortis.robustness.explanation.BaseExplanationGenerator
 import cmu.s3d.fortis.robustness.explanation.ExplanationGenerator
 import cmu.s3d.fortis.supervisory.SupervisoryNFA
@@ -93,9 +97,9 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
     }
 
     private fun printResult(
-        cal: RobustnessCalculator<*, String>,
-        explain: ExplanationGenerator<String>?,
-        traces: Map<EquivClass<String>, Collection<RepTrace<String>>>
+        cal: RobustnessCalculator,
+        explain: ExplanationGenerator?,
+        traces: Map<EquivClass, Collection<RepTrace>>
     ) {
         for ((k, v) in traces) {
             logger.info("Equivalence class '$k':")
@@ -137,7 +141,7 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
         return parallel(*paths.map { parseFile(it, deterministic) }.toTypedArray())
     }
 
-    private fun buildCalculator(json: String): Pair<RobustnessCalculator<*, String>, ExplanationGenerator<String>?> {
+    private fun buildCalculator(json: String): Pair<RobustnessCalculator, ExplanationGenerator?> {
         val obj = jacksonObjectMapper().readValue(File(json), RobustnessConfigJSON::class.java)
         val sys = parseFiles(obj.sys)
         return Pair(
@@ -149,7 +153,7 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
         )
     }
 
-    private fun buildCalculator(): Pair<RobustnessCalculator<*, String>, ExplanationGenerator<String>?> {
+    private fun buildCalculator(): Pair<RobustnessCalculator, ExplanationGenerator?> {
         val sys = parseFile(sys!!)
         return Pair(
             BaseCalculator(

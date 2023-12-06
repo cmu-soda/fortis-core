@@ -1,7 +1,10 @@
 package cmu.s3d.fortis.robustify.supervisory
 
+import cmu.s3d.fortis.common.Algorithms
+import cmu.s3d.fortis.common.Priority
 import cmu.s3d.fortis.supervisory.SupervisoryDFA
 import cmu.s3d.fortis.supervisory.asSupDFA
+import cmu.s3d.fortis.supervisory.observer
 import cmu.s3d.fortis.ts.alphabet
 import cmu.s3d.fortis.ts.numOfTransitions
 import cmu.s3d.fortis.utils.combinations
@@ -15,34 +18,34 @@ import java.time.Duration
 import java.util.*
 import kotlin.math.abs
 
-private class SolutionCandidate<S, I>(
-    val sup: SupervisoryDFA<S, I>,
-    val preferred: Collection<Word<I>>,
+private class SolutionCandidate(
+    val sup: SupervisoryDFA<Int, String>,
+    val preferred: Collection<Word<String>>,
     val utilityPreferred: Int,
     val utilityCost: Int
 )
 
 
-class SolutionIterator<I : Comparable<I>>(
-    private val problem: SupervisoryRobustifier<I>,
+class SolutionIterator(
+    private val problem: SupervisoryRobustifier,
     private val alg: Algorithms,
 //  private val deadlockFree: Boolean,
     private val maxIter: Int
-) : Iterable<DFA<Int, I>>, Iterator<DFA<Int, I>> {
+) : Iterable<DFA<Int, String>>, Iterator<DFA<Int, String>> {
 
     private val constructNewDesign = false
 
     private val logger = LoggerFactory.getLogger(javaClass)
-    private lateinit var weights: WeightsMap<I>
-    private lateinit var initSup: SupervisoryDFA<Int, I>
-    private lateinit var preferredIterator: PreferredBehIterator<I>
-    private lateinit var maxPreferred: Collection<Word<I>>
+    private lateinit var weights: WeightsMap
+    private lateinit var initSup: SupervisoryDFA<Int, String>
+    private lateinit var preferredIterator: PreferredBehIterator<String>
+    private lateinit var maxPreferred: Collection<Word<String>>
     private var minCost = Int.MIN_VALUE
     private var synthesisCounter = 0
-    private val solutions: Deque<DFA<Int, I>> = ArrayDeque()
+    private val solutions: Deque<DFA<Int, String>> = ArrayDeque()
     private var curIter = 0
 
-    override fun iterator(): Iterator<DFA<Int, I>> {
+    override fun iterator(): Iterator<DFA<Int, String>> {
         val startTime = System.currentTimeMillis()
         logger.info("==============================>")
         logger.info("Initializing search by using $alg search...")
@@ -73,7 +76,7 @@ class SolutionIterator<I : Comparable<I>>(
         val sup = problem.supervisorySynthesize(controllable, observable)
         if (sup == null) {
             logger.warn("No supervisor found with max controllable and observable events.")
-            return emptyArray<DFA<Int, I>>().iterator()
+            return emptyArray<DFA<Int, String>>().iterator()
         }
 
         // compute the maximum fulfilled preferred behavior under the max controllability and observability
@@ -102,7 +105,7 @@ class SolutionIterator<I : Comparable<I>>(
     /**
      * @param sup the observed(Sup || G) model from the DESops output
      */
-    private fun removeUnnecessary(sup: SupervisoryDFA<Int, I>): SupervisoryDFA<Int, I> {
+    private fun removeUnnecessary(sup: SupervisoryDFA<Int, String>): SupervisoryDFA<Int, String> {
         val control = problem.constructSupervisor(sup)
         val makeUc = control.observable.toMutableSet()
         for (state in control) {
@@ -146,7 +149,7 @@ class SolutionIterator<I : Comparable<I>>(
         return solutions.isNotEmpty()
     }
 
-    override fun next(): DFA<Int, I> {
+    override fun next(): DFA<Int, String> {
         return solutions.poll()
     }
 
@@ -158,7 +161,7 @@ class SolutionIterator<I : Comparable<I>>(
         // the list of preferred behavior sets, each set has the same utility value
         val removeSet = preferredIterator.next()
         var minBracketCost = Int.MIN_VALUE
-        var candidates = mutableListOf<SolutionCandidate<Int, I>>()
+        var candidates = mutableListOf<SolutionCandidate>()
         synthesisCounter = 0
 
         for (toRemove in removeSet) {
@@ -225,7 +228,7 @@ class SolutionIterator<I : Comparable<I>>(
         }
     }
 
-    private fun minimize(preferred: Collection<Word<I>>): Collection<SupervisoryDFA<Int, I>> {
+    private fun minimize(preferred: Collection<Word<String>>): Collection<SupervisoryDFA<Int, String>> {
         return when (alg) {
             Algorithms.Pareto -> if (problem.optimization) minimizePareto(preferred) else minimizeParetoNonOpt(preferred)
             Algorithms.Fast -> minimizeFast(preferred)
@@ -233,10 +236,10 @@ class SolutionIterator<I : Comparable<I>>(
     }
 
     private fun minimizeFast(
-        preferred: Collection<Word<I>>,
+        preferred: Collection<Word<String>>,
         deterministic: Boolean = true
-    ): Collection<SupervisoryDFA<Int, I>> {
-        val minimizeSeq = mutableListOf<Pair<I, Char>>()
+    ): Collection<SupervisoryDFA<Int, String>> {
+        val minimizeSeq = mutableListOf<Pair<String, Char>>()
         for (p in listOf(Priority.P3, Priority.P2, Priority.P1)) {
             minimizeSeq.addAll(
                 initSup.controllable
@@ -277,8 +280,8 @@ class SolutionIterator<I : Comparable<I>>(
         return listOf(minSup)
     }
 
-    private fun minimizePareto(preferred: Collection<Word<I>>): Collection<SupervisoryDFA<Int, I>> {
-        val eventsMap = mutableMapOf<Priority, Pair<Collection<I>, Collection<I>>>()
+    private fun minimizePareto(preferred: Collection<Word<String>>): Collection<SupervisoryDFA<Int, String>> {
+        val eventsMap = mutableMapOf<Priority, Pair<Collection<String>, Collection<String>>>()
         for (p in listOf(Priority.P3, Priority.P2, Priority.P1)) {
             eventsMap[p] = Pair(
                 problem.controllableMap[p]?.intersect(initSup.controllable.toSet()) ?: emptySet(),
@@ -323,7 +326,7 @@ class SolutionIterator<I : Comparable<I>>(
         return minSups
     }
 
-    private fun minimizeParetoNonOpt(preferred: Collection<Word<I>>): Collection<SupervisoryDFA<Int, I>> {
+    private fun minimizeParetoNonOpt(preferred: Collection<Word<String>>): Collection<SupervisoryDFA<Int, String>> {
         val canRemoveCtrl = problem.controllableMap
             .flatMap { if (it.key != Priority.P0) it.value else emptyList() }
             .intersect(initSup.controllable.toSet())
@@ -336,7 +339,7 @@ class SolutionIterator<I : Comparable<I>>(
         var removedCounter = 0
 
         while (removedCounter++ < canRemoveCtrl.size + canRemoveObsrv.size) {
-            val sups = mutableListOf<SupervisoryDFA<Int, I>>()
+            val sups = mutableListOf<SupervisoryDFA<Int, String>>()
             for ((controllable, observable) in removeOneEventFrom(lastSups, canRemoveCtrl, canRemoveObsrv)) {
                 logger.debug("Try removing the following events:")
                 logger.debug("Controllable: ${initSup.controllable - controllable.toSet()}")
@@ -368,11 +371,11 @@ class SolutionIterator<I : Comparable<I>>(
     }
 
     private fun removeOneEventFrom(
-        sups: Collection<SupervisoryDFA<Int, I>>,
-        canRemoveCtrl: Collection<I>,
-        canRemoveObsrv: Collection<I>
-    ): Collection<Pair<Collection<I>, Collection<I>>> {
-        val l = mutableSetOf<Pair<Collection<I>, Collection<I>>>()
+        sups: Collection<SupervisoryDFA<Int, String>>,
+        canRemoveCtrl: Collection<String>,
+        canRemoveObsrv: Collection<String>
+    ): Collection<Pair<Collection<String>, Collection<String>>> {
+        val l = mutableSetOf<Pair<Collection<String>, Collection<String>>>()
 
         for (sup in sups) {
             for (input in canRemoveCtrl) {
@@ -402,8 +405,8 @@ class SolutionIterator<I : Comparable<I>>(
     }
 
     private fun computeUtility(
-        preferred: Collection<Word<I>>, controllable: Collection<I>,
-        observable: Collection<I>
+        preferred: Collection<Word<String>>, controllable: Collection<String>,
+        observable: Collection<String>
     ): Pair<Int, Int> {
         return Pair(
             preferred.sumOf { weights.preferred[it]!! },

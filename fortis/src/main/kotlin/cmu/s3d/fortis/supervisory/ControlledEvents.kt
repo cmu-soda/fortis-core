@@ -1,4 +1,4 @@
-package cmu.s3d.fortis.robustify.oasis
+package cmu.s3d.fortis.supervisory
 
 import net.automatalib.alphabet.Alphabet
 import net.automatalib.automaton.fsa.DFA
@@ -14,7 +14,7 @@ fun <S1, S2, I> controlledEvents(plant: DFA<S1, I>, sup: DFA<S2, I>, inputs: Alp
 }
 
 
-private class ControlledEventsVisitor<S1, S2, I>(
+class ControlledEventsVisitor<S1, S2, I>(
     private val sup: DFA<S2, I>,
     private val events: MutableSet<I>
 ) : TSTraversalVisitor<S1, I, S1, S2> {

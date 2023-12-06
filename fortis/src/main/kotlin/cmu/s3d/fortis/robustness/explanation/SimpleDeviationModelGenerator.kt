@@ -13,11 +13,11 @@ import net.automatalib.util.ts.traversal.TSTraversalMethod
 import net.automatalib.util.ts.traversal.TSTraversalVisitor
 import net.automatalib.word.Word
 
-class SimpleDeviationModelGenerator<I>(
-    val errModel: LTS<Int, I>,
-    val faults: Collection<I>
-) : DeviationModelGenerator<Int, I> {
-    override fun fromDeviations(traces: Collection<Word<I>>, inputs: Alphabet<I>): LTS<Int, I> {
+class SimpleDeviationModelGenerator(
+    private val errModel: LTS<Int, String>,
+    private val faults: Collection<String>
+) : DeviationModelGenerator {
+    override fun fromDeviations(traces: Collection<Word<String>>, inputs: Alphabet<String>): LTS<Int, String> {
         if (!inputs.containsAll(errModel.alphabet()))
             error("The alphabet of the deviations should be a superset of the alphabet of the deviation model.")
 
@@ -47,13 +47,13 @@ class SimpleDeviationModelGenerator<I>(
     }
 }
 
-private class DeviationModelGenVisitor<S, I>(
-    val trace: Word<I>,
-    val inputs: Alphabet<I>,
-    val faults: Collection<I>,
-    val visitedFaultyTransition: MutableSet<S>,
-) : TSTraversalVisitor<S, I, S, Word<I>> {
-    override fun processInitial(state: S, outData: Holder<Word<I>>): TSTraversalAction {
+private class DeviationModelGenVisitor(
+    val trace: Word<String>,
+    val inputs: Alphabet<String>,
+    val faults: Collection<String>,
+    val visitedFaultyTransition: MutableSet<Int>,
+) : TSTraversalVisitor<Int, String, Int, Word<String>> {
+    override fun processInitial(state: Int, outData: Holder<Word<String>>): TSTraversalAction {
         var cur = trace
         while (!cur.isEmpty && cur.getSymbol(0) !in inputs)
             cur = cur.subWord(1)
@@ -61,17 +61,17 @@ private class DeviationModelGenVisitor<S, I>(
         return TSTraversalAction.EXPLORE
     }
 
-    override fun startExploration(state: S, data: Word<I>): Boolean {
+    override fun startExploration(state: Int, data: Word<String>): Boolean {
         return !data.isEmpty
     }
 
     override fun processTransition(
-        source: S,
-        srcData: Word<I>,
-        input: I,
-        transition: S,
-        succ: S,
-        outData: Holder<Word<I>>
+        source: Int,
+        srcData: Word<String>,
+        input: String,
+        transition: Int,
+        succ: Int,
+        outData: Holder<Word<String>>
     ): TSTraversalAction {
         if (srcData.getSymbol(0) !in inputs)
             error("Unexpected State: the input symbol is not in the alphabet of the deviation model.")

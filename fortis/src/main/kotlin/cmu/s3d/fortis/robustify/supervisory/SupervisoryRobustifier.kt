@@ -1,50 +1,45 @@
 package cmu.s3d.fortis.robustify.supervisory
 
+import cmu.s3d.fortis.common.Algorithms
+import cmu.s3d.fortis.common.Priority
 import cmu.s3d.fortis.robustify.BaseRobustifier
-import cmu.s3d.fortis.robustify.acceptsSubWord
-import cmu.s3d.fortis.robustify.makeProgress
 import cmu.s3d.fortis.supervisory.SupervisoryDFA
 import cmu.s3d.fortis.supervisory.SupervisorySynthesizer
 import cmu.s3d.fortis.supervisory.asSupDFA
-import cmu.s3d.fortis.ts.alphabet
-import cmu.s3d.fortis.ts.numOfTransitions
-import cmu.s3d.fortis.ts.parallel
+import cmu.s3d.fortis.supervisory.observer
+import cmu.s3d.fortis.ts.*
 import net.automatalib.automaton.fsa.CompactDFA
 import net.automatalib.automaton.fsa.DFA
 import net.automatalib.word.Word
 import org.slf4j.LoggerFactory
 import java.io.Closeable
 
-enum class Priority { P0, P1, P2, P3 }
-
-enum class Algorithms { Pareto, Fast }
-
-class WeightsMap<I>(
-    val preferred: Map<Word<I>, Int>,
-    val controllable: Map<I, Int>,
-    val observable: Map<I, Int>
+class WeightsMap(
+    val preferred: Map<Word<String>, Int>,
+    val controllable: Map<String, Int>,
+    val observable: Map<String, Int>
 )
 
 
-class SupervisoryRobustifier<I : Comparable<I>>(
-    sys: DFA<*, I>,
-    devEnv: DFA<*, I>,
-    safety: DFA<*, I>,
-    progress: Collection<I>,
-    val preferredMap: Map<Priority, Collection<Word<I>>>,
-    val controllableMap: Map<Priority, Collection<I>>,
-    val observableMap: Map<Priority, Collection<I>>,
-    val synthesizer: SupervisorySynthesizer<Int, I>,
+class SupervisoryRobustifier(
+    sys: DFA<*, String>,
+    devEnv: DFA<*, String>,
+    safety: DFA<*, String>,
+    progress: Collection<String>,
+    val preferredMap: Map<Priority, Collection<Word<String>>>,
+    val controllableMap: Map<Priority, Collection<String>>,
+    val observableMap: Map<Priority, Collection<String>>,
+    val synthesizer: SupervisorySynthesizer<Int, String>,
     val maxIter: Int = 1
-) : BaseRobustifier<Int, I>(sys, devEnv, safety),
+) : BaseRobustifier(sys, devEnv, safety),
     Closeable {
     var optimization: Boolean = true
 
     private val logger = LoggerFactory.getLogger(javaClass)
     private val plant = parallel(sys, devEnv)
-    private val prop: DFA<*, I>
-    private val synthesisCache = mutableMapOf<Pair<Collection<I>, Collection<I>>, SupervisoryDFA<Int, I>?>()
-    private val checkPreferredCache = mutableMapOf<Triple<Collection<I>, Collection<I>, Word<I>>, Boolean>()
+    private val prop: DFA<*, String>
+    private val synthesisCache = mutableMapOf<Pair<Collection<String>, Collection<String>>, SupervisoryDFA<Int, String>?>()
+    private val checkPreferredCache = mutableMapOf<Triple<Collection<String>, Collection<String>, Word<String>>, Boolean>()
 
     override var numberOfSynthesis: Int = 0
 
@@ -58,11 +53,11 @@ class SupervisoryRobustifier<I : Comparable<I>>(
         synthesizer.close()
     }
 
-    override fun synthesize(): DFA<Int, I>? {
+    override fun synthesize(): DFA<Int, String>? {
         return synthesize(Algorithms.Pareto).firstOrNull()
     }
 
-    fun synthesize(alg: Algorithms): Iterable<DFA<Int, I>> {
+    fun synthesize(alg: Algorithms): Iterable<DFA<Int, String>> {
         logger.info("Number of states of the system: ${sys.states.size}")
         logger.info("Number of states of the environment: ${devEnv.states.size}")
         logger.info("Number of states of the plant (S || E): ${plant.states.size}")
@@ -74,7 +69,7 @@ class SupervisoryRobustifier<I : Comparable<I>>(
     /**
      * @return the observed(Sup || G) model
      */
-    fun supervisorySynthesize(controllable: Collection<I>, observable: Collection<I>): SupervisoryDFA<Int, I>? {
+    fun supervisorySynthesize(controllable: Collection<String>, observable: Collection<String>): SupervisoryDFA<Int, String>? {
         val key = Pair(controllable, observable)
         if (!optimization || key !in synthesisCache) {
             val g = plant.asSupDFA(controllable, observable)
@@ -95,10 +90,10 @@ class SupervisoryRobustifier<I : Comparable<I>>(
      * and the negative cost for making certain events controllable and/or observable.
      * @return dictionary with this information.
      */
-    fun computeWeights(): WeightsMap<I> {
-        val preferred = mutableMapOf<Word<I>, Int>()
-        val controllable = mutableMapOf<I, Int>()
-        val observable = mutableMapOf<I, Int>()
+    fun computeWeights(): WeightsMap {
+        val preferred = mutableMapOf<Word<String>, Int>()
+        val controllable = mutableMapOf<String, Int>()
+        val observable = mutableMapOf<String, Int>()
 
         var totalWeight = 0
         // compute new weight in order to maintain hierarchy by sorting absolute value sum of previous weights
@@ -142,7 +137,7 @@ class SupervisoryRobustifier<I : Comparable<I>>(
     /**
      * @param sup the observed(Sup || G) model from the DESops output
      */
-    fun checkPreferred(sup: SupervisoryDFA<Int, I>, preferred: Collection<Word<I>>): Collection<Word<I>> {
+    fun checkPreferred(sup: SupervisoryDFA<Int, String>, preferred: Collection<Word<String>>): Collection<Word<String>> {
         val ctrlPlant = parallel(plant, sup).asSupDFA(sup.controllable, sup.observable)
         return preferred.filter { checkPreferred(ctrlPlant, it) }
     }
@@ -150,7 +145,7 @@ class SupervisoryRobustifier<I : Comparable<I>>(
     /**
      * @param sup the observed(Sup || G) model from the DESops output
      */
-    fun satisfyPreferred(sup: SupervisoryDFA<Int, I>, preferred: Collection<Word<I>>): Boolean {
+    fun satisfyPreferred(sup: SupervisoryDFA<Int, String>, preferred: Collection<Word<String>>): Boolean {
         val ctrlPlant = parallel(plant, sup).asSupDFA(sup.controllable, sup.observable)
         for (p in preferred) {
             if (!checkPreferred(ctrlPlant, p)) {
@@ -160,7 +155,7 @@ class SupervisoryRobustifier<I : Comparable<I>>(
         return true
     }
 
-    private fun checkPreferred(sup: SupervisoryDFA<Int, I>, p: Word<I>): Boolean {
+    private fun checkPreferred(sup: SupervisoryDFA<Int, String>, p: Word<String>): Boolean {
         val key = Triple(sup.controllable, sup.observable, p)
         if (key !in checkPreferredCache) {
             logger.debug("Start checking preferred behavior: [$p]")
@@ -177,9 +172,9 @@ class SupervisoryRobustifier<I : Comparable<I>>(
     /**
      * @param sup the observed(Sup || G) model from the DESops output
      */
-    fun constructSupervisor(sup: SupervisoryDFA<Int, I>): SupervisoryDFA<Int, I> {
+    fun constructSupervisor(sup: SupervisoryDFA<Int, String>): SupervisoryDFA<Int, String> {
         val observedPlant = observer(plant.asSupDFA(sup.controllable, sup.observable), plant.alphabet())
-        val out = CompactDFA(sup.asDFA() as CompactDFA<I>)
+        val out = CompactDFA(sup.asDFA() as CompactDFA<String>)
         val supQueue = java.util.ArrayDeque<Int>()
         val visited = mutableSetOf<Int>()
         val plantQueue = java.util.ArrayDeque<Int>()
@@ -217,7 +212,7 @@ class SupervisoryRobustifier<I : Comparable<I>>(
         return out.asSupDFA(sup.controllable, sup.observable)
     }
 
-    fun buildSys(sup: SupervisoryDFA<Int, I>): DFA<Int, I> {
+    fun buildSys(sup: SupervisoryDFA<Int, String>): DFA<Int, String> {
         logger.info("Build new design from controller...")
         logger.info("Size of the controller: ${sup.size()} states and ${sup.numOfTransitions()} transitions")
         return parallel(sys, sup)

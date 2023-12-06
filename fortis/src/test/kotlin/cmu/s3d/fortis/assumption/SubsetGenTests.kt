@@ -1,6 +1,6 @@
 package cmu.s3d.fortis.assumption
 
-import cmu.s3d.fortis.robustness.RobustnessOptions
+import cmu.s3d.fortis.common.RobustnessOptions
 import cmu.s3d.fortis.ts.alphabet
 import cmu.s3d.fortis.ts.lts.asLTS
 import cmu.s3d.fortis.ts.lts.ltsa.LTSACall

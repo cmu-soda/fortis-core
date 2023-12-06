@@ -1,12 +1,12 @@
 package cmu.s3d.fortis.supervisory.desops
 
 
-import cmu.s3d.fortis.robustify.supervisory.extendAlphabet
-import cmu.s3d.fortis.robustify.supervisory.observer
 import cmu.s3d.fortis.supervisory.SupervisoryDFA
 import cmu.s3d.fortis.supervisory.SupervisorySynthesizer
 import cmu.s3d.fortis.supervisory.asSupDFA
+import cmu.s3d.fortis.supervisory.observer
 import cmu.s3d.fortis.ts.alphabet
+import cmu.s3d.fortis.ts.extendAlphabet
 import cmu.s3d.fortis.utils.pretty
 import org.slf4j.LoggerFactory
 import java.io.BufferedReader

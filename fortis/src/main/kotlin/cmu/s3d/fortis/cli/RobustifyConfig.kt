@@ -1,6 +1,6 @@
 package cmu.s3d.fortis.cli
 
-import cmu.s3d.fortis.robustify.supervisory.Algorithms
+import cmu.s3d.fortis.common.Algorithms
 import com.fasterxml.jackson.annotation.JsonProperty
 
 enum class SolverType { DESops, Supremica }

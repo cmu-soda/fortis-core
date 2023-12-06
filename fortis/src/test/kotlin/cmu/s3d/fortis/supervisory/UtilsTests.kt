@@ -1,8 +1,8 @@
-package cmu.s3d.fortis.robustify.supervisory
+package cmu.s3d.fortis.supervisory
 
-import cmu.s3d.fortis.robustify.acceptsSubWord
-import cmu.s3d.fortis.supervisory.asSupDFA
+import cmu.s3d.fortis.ts.acceptsSubWord
 import cmu.s3d.fortis.ts.alphabet
+import cmu.s3d.fortis.ts.extendAlphabet
 import cmu.s3d.fortis.ts.lts.asLTS
 import net.automatalib.alphabet.Alphabets
 import net.automatalib.serialization.aut.AUTWriter

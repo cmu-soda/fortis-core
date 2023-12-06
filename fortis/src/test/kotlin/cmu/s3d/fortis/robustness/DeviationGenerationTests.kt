@@ -1,5 +1,6 @@
 package cmu.s3d.fortis.robustness
 
+import cmu.s3d.fortis.common.RobustnessOptions
 import cmu.s3d.fortis.robustness.explanation.BaseExplanationGenerator
 import cmu.s3d.fortis.robustness.explanation.SimpleDeviationModelGenerator
 import cmu.s3d.fortis.ts.alphabet

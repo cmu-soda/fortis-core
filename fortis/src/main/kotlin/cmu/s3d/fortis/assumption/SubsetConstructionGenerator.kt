@@ -1,6 +1,6 @@
 package cmu.s3d.fortis.assumption
 
-import cmu.s3d.fortis.robustness.RobustnessOptions
+import cmu.s3d.fortis.common.RobustnessOptions
 import cmu.s3d.fortis.ts.*
 import cmu.s3d.fortis.ts.lts.hide
 import cmu.s3d.fortis.ts.lts.ltsa.LTSACall
@@ -16,7 +16,7 @@ class SubsetConstructionGenerator(
     private val sys: LTS<*, String>,
     private val env: LTS<*, String>,
     private val safety: DetLTS<*, String>
-) : WeakestAssumptionGenerator<String> {
+) : WeakestAssumptionGenerator {
     private val assumptionInputs: Collection<String>
     private val logger = LoggerFactory.getLogger(javaClass)
 

@@ -6,11 +6,11 @@ import cmu.s3d.fortis.ts.lts.traceToLTS
 import net.automatalib.alphabet.Alphabet
 import net.automatalib.word.Word
 
-class BaseExplanationGenerator<I>(
-    private val sys: LTS<*, I>,
-    private val errModel: LTS<*, I>
-) : ExplanationGenerator<I> {
-    override fun generate(trace: Word<I>, inputs: Alphabet<I>): Word<I>? {
+class BaseExplanationGenerator(
+    private val sys: LTS<*, String>,
+    private val errModel: LTS<*, String>
+) : ExplanationGenerator {
+    override fun generate(trace: Word<String>, inputs: Alphabet<String>): Word<String>? {
 //    val c = parallel(sys, errModel)
         val r = checkSafety(errModel, traceToLTS(trace, inputs))
         return r.trace

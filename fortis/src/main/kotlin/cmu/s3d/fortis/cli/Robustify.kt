@@ -1,9 +1,9 @@
 package cmu.s3d.fortis.cli
 
+import cmu.s3d.fortis.common.Algorithms
+import cmu.s3d.fortis.common.Priority
 import cmu.s3d.fortis.robustify.oasis.OASISRobustifier
 import cmu.s3d.fortis.robustify.simple.SimpleRobustifier
-import cmu.s3d.fortis.robustify.supervisory.Algorithms
-import cmu.s3d.fortis.robustify.supervisory.Priority
 import cmu.s3d.fortis.robustify.supervisory.SupervisoryRobustifier
 import cmu.s3d.fortis.supervisory.SupervisoryDFA
 import cmu.s3d.fortis.supervisory.desops.DESopsRunner
@@ -164,7 +164,7 @@ class Robustify : CliktCommand(help = "Robustify a system design using superviso
         }
     }
 
-    fun buildSupervisory(config: RobustifyConfigJSON): SupervisoryRobustifier<String> {
+    fun buildSupervisory(config: RobustifyConfigJSON): SupervisoryRobustifier {
         val sys = parseSpecFiles(config.sys)
         val dev = parseSpecFiles(config.dev)
         val safety = parseSpecFiles(config.safety)
@@ -208,7 +208,7 @@ class Robustify : CliktCommand(help = "Robustify a system design using superviso
         )
     }
 
-    fun buildOASIS(config: RobustifyConfigJSON): OASISRobustifier<Int, String> {
+    fun buildOASIS(config: RobustifyConfigJSON): OASISRobustifier {
         val sys = parseSpecFiles(config.sys)
         val dev = parseSpecFiles(config.dev)
         val safety = parseSpecFiles(config.safety)
@@ -222,7 +222,7 @@ class Robustify : CliktCommand(help = "Robustify a system design using superviso
         )
     }
 
-    fun buildSimple(config: RobustifyConfigJSON): SimpleRobustifier<Int, String> {
+    fun buildSimple(config: RobustifyConfigJSON): SimpleRobustifier {
         val sys = parseSpecFiles(config.sys)
         val dev = parseSpecFiles(config.dev)
         val safety = parseSpecFiles(config.safety)

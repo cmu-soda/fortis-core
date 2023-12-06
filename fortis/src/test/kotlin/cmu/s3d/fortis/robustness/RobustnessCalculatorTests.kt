@@ -1,5 +1,6 @@
 package cmu.s3d.fortis.robustness
 
+import cmu.s3d.fortis.common.RobustnessOptions
 import cmu.s3d.fortis.robustness.explanation.BaseExplanationGenerator
 import cmu.s3d.fortis.robustness.explanation.ExplanationGenerator
 import cmu.s3d.fortis.ts.alphabet
@@ -23,7 +24,7 @@ class RobustnessCalculatorTests {
         return false
     }
 
-    private fun buildABP(): Pair<RobustnessCalculator<Int, String>, ExplanationGenerator<String>> {
+    private fun buildABP(): Pair<RobustnessCalculator, ExplanationGenerator> {
         val sys = LTSACall
             .compile(ClassLoader.getSystemResource("specs/abp/abp.lts").readText())
             .compose()
@@ -44,7 +45,7 @@ class RobustnessCalculatorTests {
         return Pair(BaseCalculator(sys, env, safety, RobustnessOptions()), BaseExplanationGenerator(sys, dev))
     }
 
-    private fun buildSimpleProtocol(expand: Boolean = false): Pair<RobustnessCalculator<Int, String>, ExplanationGenerator<String>> {
+    private fun buildSimpleProtocol(expand: Boolean = false): Pair<RobustnessCalculator, ExplanationGenerator> {
         val sys = LTSACall
             .compile(ClassLoader.getSystemResource("specs/abp/perfect.lts").readText())
             .compose()
@@ -145,7 +146,7 @@ class RobustnessCalculatorTests {
         }
     }
 
-    private fun buildTherac(expand: Boolean = false): Pair<RobustnessCalculator<Int, String>, ExplanationGenerator<String>> {
+    private fun buildTherac(expand: Boolean = false): Pair<RobustnessCalculator, ExplanationGenerator> {
         val sys = LTSACall
             .compile(ClassLoader.getSystemResource("specs/therac25/sys.lts").readText())
             .compose()
@@ -169,7 +170,7 @@ class RobustnessCalculatorTests {
         )
     }
 
-    private fun buildTheracR(expand: Boolean = false): Pair<RobustnessCalculator<Int, String>, ExplanationGenerator<String>> {
+    private fun buildTheracR(expand: Boolean = false): Pair<RobustnessCalculator, ExplanationGenerator> {
         val sys = LTSACall
             .compile(ClassLoader.getSystemResource("specs/therac25/sys_r.lts").readText())
             .compose()
@@ -193,7 +194,7 @@ class RobustnessCalculatorTests {
         )
     }
 
-    private fun buildTheracP2(): Pair<RobustnessCalculator<Int, String>, ExplanationGenerator<String>> {
+    private fun buildTheracP2(): Pair<RobustnessCalculator, ExplanationGenerator> {
         val sys = LTSACall
             .compile(ClassLoader.getSystemResource("specs/therac25/sys.lts").readText())
             .compose()
@@ -297,7 +298,7 @@ class RobustnessCalculatorTests {
         )
     }
 
-    private fun buildVoting(): Pair<RobustnessCalculator<Int, String>, ExplanationGenerator<String>> {
+    private fun buildVoting(): Pair<RobustnessCalculator, ExplanationGenerator> {
         val sys = LTSACall
             .compile(ClassLoader.getSystemResource("specs/voting/sys.lts").readText())
             .compose()

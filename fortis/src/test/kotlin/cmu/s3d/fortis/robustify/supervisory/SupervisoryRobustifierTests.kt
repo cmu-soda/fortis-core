@@ -1,9 +1,11 @@
 package cmu.s3d.fortis.robustify.supervisory
 
+import cmu.s3d.fortis.common.Algorithms
+import cmu.s3d.fortis.common.Priority
 import cmu.s3d.fortis.robustify.RobustifierTests
-import cmu.s3d.fortis.robustify.acceptsSubWord
 import cmu.s3d.fortis.supervisory.SupervisoryDFA
 import cmu.s3d.fortis.supervisory.supremica.SupremicaRunner
+import cmu.s3d.fortis.ts.acceptsSubWord
 import cmu.s3d.fortis.ts.lts.ltsa.LTSACall
 import cmu.s3d.fortis.ts.lts.ltsa.LTSACall.asDetLTS
 import cmu.s3d.fortis.ts.lts.ltsa.LTSACall.compose
@@ -16,7 +18,7 @@ import kotlin.test.assertEquals
 
 class SupervisoryRobustifierTests : RobustifierTests() {
 
-    private fun loadVoting(): SupervisoryRobustifier<String> {
+    private fun loadVoting(): SupervisoryRobustifier {
         val sysSpec =
             ClassLoader.getSystemResource("specs/voting/sys.lts")?.readText() ?: error("Cannot find voting/sys.lts")
         val envSpec =
@@ -49,7 +51,7 @@ class SupervisoryRobustifierTests : RobustifierTests() {
         )
     }
 
-    private fun loadVoting2(): SupervisoryRobustifier<String> {
+    private fun loadVoting2(): SupervisoryRobustifier {
         val sysSpec =
             ClassLoader.getSystemResource("specs/voting-2/sys.lts")?.readText() ?: error("Cannot find voting-2/sys.lts")
         val envSpec =
@@ -83,7 +85,7 @@ class SupervisoryRobustifierTests : RobustifierTests() {
         )
     }
 
-    private fun loadTherac(): SupervisoryRobustifier<String> {
+    private fun loadTherac(): SupervisoryRobustifier {
         val sysSpec =
             ClassLoader.getSystemResource("specs/therac25/sys.lts")?.readText() ?: error("Cannot find therac25/sys.lts")
         val envSpec =
@@ -117,7 +119,7 @@ class SupervisoryRobustifierTests : RobustifierTests() {
         )
     }
 
-    private fun loadTherac2(): SupervisoryRobustifier<String> {
+    private fun loadTherac2(): SupervisoryRobustifier {
         val sysSpec =
             ClassLoader.getSystemResource("specs/therac25-2/sys.lts")?.readText()
                 ?: error("Cannot find therac25-2/sys.lts")
@@ -174,7 +176,7 @@ class SupervisoryRobustifierTests : RobustifierTests() {
         )
     }
 
-    private fun loadPump(): SupervisoryRobustifier<String> {
+    private fun loadPump(): SupervisoryRobustifier {
         val powerSpec =
             ClassLoader.getSystemResource("specs/pump/power.lts")?.readText() ?: error("Cannot find pump/power.lts")
         val linesSpec =

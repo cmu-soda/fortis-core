@@ -5,6 +5,7 @@ import cmu.s3d.fortis.ts.lts.ltsa.LTSACall
 import cmu.s3d.fortis.ts.lts.ltsa.LTSACall.asDetLTS
 import cmu.s3d.fortis.ts.lts.ltsa.LTSACall.compose
 import cmu.s3d.fortis.ts.parallel
+import cmu.s3d.fortis.utils.OrderedPowerSetIterator
 import net.automatalib.word.Word
 import org.junit.jupiter.api.Test
 import kotlin.test.assertContentEquals
@@ -12,7 +13,7 @@ import kotlin.test.assertNotNull
 
 class OASISTests {
 
-    private fun loadVoting(): OASISRobustifier<Int, String> {
+    private fun loadVoting(): OASISRobustifier {
         val sysSpec =
             ClassLoader.getSystemResource("specs/voting/sys.lts")?.readText() ?: error("Cannot find voting/sys.lts")
         val envSpec =
@@ -36,7 +37,7 @@ class OASISTests {
         )
     }
 
-    private fun loadTherac(): OASISRobustifier<Int, String> {
+    private fun loadTherac(): OASISRobustifier {
         val sysSpec =
             ClassLoader.getSystemResource("specs/therac25/sys.lts")?.readText() ?: error("Cannot find therac25/sys.lts")
         val envSpec =
@@ -61,7 +62,7 @@ class OASISTests {
         )
     }
 
-    private fun loadPump(): OASISRobustifier<Int, String> {
+    private fun loadPump(): OASISRobustifier {
         val powerSpec =
             ClassLoader.getSystemResource("specs/pump/power.lts")?.readText() ?: error("Cannot find pump/power.lts")
         val linesSpec =
