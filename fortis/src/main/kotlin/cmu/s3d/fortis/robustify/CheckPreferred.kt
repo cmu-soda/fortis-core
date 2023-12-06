@@ -2,14 +2,14 @@ package cmu.s3d.fortis.robustify
 
 import cmu.s3d.fortis.ts.alphabet
 import cmu.s3d.fortis.ts.nfa.NFAParallelComposition
-import net.automatalib.automata.fsa.DFA
-import net.automatalib.commons.util.Holder
-import net.automatalib.util.automata.builders.AutomatonBuilders
+import net.automatalib.alphabet.Alphabets
+import net.automatalib.automaton.fsa.DFA
+import net.automatalib.common.util.Holder
+import net.automatalib.util.automaton.builder.AutomatonBuilders
 import net.automatalib.util.ts.traversal.TSTraversal
 import net.automatalib.util.ts.traversal.TSTraversalAction
 import net.automatalib.util.ts.traversal.TSTraversalVisitor
-import net.automatalib.words.Word
-import net.automatalib.words.impl.Alphabets
+import net.automatalib.word.Word
 
 
 /**

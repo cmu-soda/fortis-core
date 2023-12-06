@@ -5,8 +5,8 @@ import cmu.s3d.fortis.ts.lts.ltsa.LTSACall.asLTS
 import cmu.s3d.fortis.ts.lts.ltsa.LTSACall.compose
 import cmu.s3d.fortis.ts.lts.toFluent
 import cmu.s3d.fortis.ts.parallel
-import net.automatalib.words.Word
-import net.automatalib.words.impl.Alphabets
+import net.automatalib.alphabet.Alphabets
+import net.automatalib.word.Word
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 

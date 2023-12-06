@@ -3,7 +3,7 @@ package cmu.s3d.fortis.weakening
 import cmu.s3d.fortis.ts.lts.Fluent
 import cmu.s3d.fortis.ts.lts.evaluateFluent
 import cmu.s3d.fortis.ts.lts.getFluentValuationString
-import net.automatalib.words.Word
+import net.automatalib.word.Word
 
 class ExampleFilterByFluents(
     private val examples: Iterable<Word<String>>,

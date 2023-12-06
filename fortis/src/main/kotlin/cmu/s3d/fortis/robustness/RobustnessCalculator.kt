@@ -1,7 +1,7 @@
 package cmu.s3d.fortis.robustness
 
 import cmu.s3d.fortis.ts.DetLTS
-import net.automatalib.words.Word
+import net.automatalib.word.Word
 
 interface RobustnessCalculator<S, I> {
 

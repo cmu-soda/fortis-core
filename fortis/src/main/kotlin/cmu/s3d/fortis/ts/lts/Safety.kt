@@ -3,14 +3,14 @@ package cmu.s3d.fortis.ts.lts
 import cmu.s3d.fortis.ts.DetLTS
 import cmu.s3d.fortis.ts.LTS
 import cmu.s3d.fortis.ts.alphabet
-import net.automatalib.automata.fsa.impl.compact.CompactDFA
-import net.automatalib.commons.util.Holder
+import net.automatalib.automaton.fsa.CompactDFA
+import net.automatalib.common.util.Holder
 import net.automatalib.util.ts.copy.TSCopy
 import net.automatalib.util.ts.traversal.TSTraversal
 import net.automatalib.util.ts.traversal.TSTraversalAction
 import net.automatalib.util.ts.traversal.TSTraversalMethod
 import net.automatalib.util.ts.traversal.TSTraversalVisitor
-import net.automatalib.words.Word
+import net.automatalib.word.Word
 
 
 class SafetyResult<I> {

@@ -1,8 +1,8 @@
 package cmu.s3d.fortis.robustify
 
-import net.automatalib.automata.fsa.impl.compact.CompactDFA
-import net.automatalib.util.automata.builders.AutomatonBuilders
-import net.automatalib.words.impl.Alphabets
+import net.automatalib.alphabet.Alphabets
+import net.automatalib.automaton.fsa.CompactDFA
+import net.automatalib.util.automaton.builder.AutomatonBuilders
 
 fun <I> makeProgress(input: I): CompactDFA<I> {
     val inputs = Alphabets.fromArray(input)

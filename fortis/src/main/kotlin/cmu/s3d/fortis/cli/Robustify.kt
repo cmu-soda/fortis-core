@@ -23,9 +23,9 @@ import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
-import net.automatalib.automata.fsa.DFA
+import net.automatalib.automaton.fsa.DFA
 import net.automatalib.serialization.aut.AUTWriter
-import net.automatalib.words.Word
+import net.automatalib.word.Word
 import org.apache.logging.log4j.Level
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.core.config.Configurator

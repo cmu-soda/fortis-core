@@ -2,10 +2,10 @@ package cmu.s3d.fortis.ts.nfa
 
 import cmu.s3d.fortis.ts.alphabet
 import cmu.s3d.fortis.utils.forEachSetBit
-import net.automatalib.automata.fsa.DFA
-import net.automatalib.automata.fsa.MutableDFA
-import net.automatalib.automata.fsa.NFA
-import net.automatalib.automata.fsa.impl.compact.CompactDFA
+import net.automatalib.automaton.fsa.CompactDFA
+import net.automatalib.automaton.fsa.DFA
+import net.automatalib.automaton.fsa.MutableDFA
+import net.automatalib.automaton.fsa.NFA
 import java.util.*
 
 // TODO: unit tests for this function

@@ -6,10 +6,10 @@ import cmu.s3d.fortis.ts.alphabet
 import cmu.s3d.fortis.ts.numOfTransitions
 import cmu.s3d.fortis.utils.combinations
 import cmu.s3d.fortis.utils.pretty
-import net.automatalib.automata.fsa.DFA
-import net.automatalib.automata.fsa.impl.compact.CompactDFA
-import net.automatalib.words.Word
-import net.automatalib.words.impl.Alphabets
+import net.automatalib.alphabet.Alphabets
+import net.automatalib.automaton.fsa.CompactDFA
+import net.automatalib.automaton.fsa.DFA
+import net.automatalib.word.Word
 import org.slf4j.LoggerFactory
 import java.time.Duration
 import java.util.*

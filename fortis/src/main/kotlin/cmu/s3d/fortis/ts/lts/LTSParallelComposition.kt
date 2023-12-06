@@ -4,12 +4,12 @@ import cmu.s3d.fortis.ts.DetLTS
 import cmu.s3d.fortis.ts.LTS
 import cmu.s3d.fortis.ts.alphabet
 import cmu.s3d.fortis.ts.nfa.NFAParallelComposition
-import net.automatalib.automata.fsa.impl.compact.CompactDFA
-import net.automatalib.automata.fsa.impl.compact.CompactNFA
+import net.automatalib.alphabet.Alphabets
+import net.automatalib.automaton.fsa.CompactDFA
+import net.automatalib.automaton.fsa.CompactNFA
 import net.automatalib.util.ts.copy.TSCopy
 import net.automatalib.util.ts.traversal.TSTraversal
 import net.automatalib.util.ts.traversal.TSTraversalMethod
-import net.automatalib.words.impl.Alphabets
 
 class LTSParallelComposition<S1, S2, I>(
     private val lts1: LTS<S1, I>,

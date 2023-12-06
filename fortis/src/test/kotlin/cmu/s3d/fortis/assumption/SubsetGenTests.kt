@@ -7,9 +7,9 @@ import cmu.s3d.fortis.ts.lts.ltsa.LTSACall
 import cmu.s3d.fortis.ts.lts.ltsa.LTSACall.asDetLTS
 import cmu.s3d.fortis.ts.lts.ltsa.LTSACall.compose
 import cmu.s3d.fortis.ts.lts.ltsa.writeFSP
-import net.automatalib.util.automata.Automata
-import net.automatalib.util.automata.builders.AutomatonBuilders
-import net.automatalib.words.impl.Alphabets
+import net.automatalib.alphabet.Alphabets
+import net.automatalib.util.automaton.Automata
+import net.automatalib.util.automaton.builder.AutomatonBuilders
 import org.junit.jupiter.api.Test
 import java.io.ByteArrayOutputStream
 import kotlin.test.assertContentEquals

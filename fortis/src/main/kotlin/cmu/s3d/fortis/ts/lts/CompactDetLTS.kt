@@ -1,9 +1,9 @@
 package cmu.s3d.fortis.ts.lts
 
 import cmu.s3d.fortis.ts.MutableDetLTS
-import net.automatalib.automata.concepts.InputAlphabetHolder
-import net.automatalib.automata.fsa.impl.compact.CompactDFA
-import net.automatalib.words.Alphabet
+import net.automatalib.alphabet.Alphabet
+import net.automatalib.automaton.concept.InputAlphabetHolder
+import net.automatalib.automaton.fsa.CompactDFA
 
 class CompactDetLTS<I>(private val dfa: CompactDFA<I>) : MutableDetLTS<Int, I>, InputAlphabetHolder<I> {
 

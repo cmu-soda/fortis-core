@@ -3,12 +3,12 @@ package cmu.s3d.fortis.robustify.supervisory
 import cmu.s3d.fortis.supervisory.SupervisoryDFA
 import cmu.s3d.fortis.supervisory.asSupDFA
 import cmu.s3d.fortis.ts.nfa.hide
-import net.automatalib.automata.fsa.impl.compact.CompactDFA
+import net.automatalib.alphabet.Alphabet
+import net.automatalib.automaton.fsa.CompactDFA
 import net.automatalib.ts.UniversalDTS
 import net.automatalib.util.ts.copy.TSCopy
 import net.automatalib.util.ts.traversal.TSTraversal
 import net.automatalib.util.ts.traversal.TSTraversalMethod
-import net.automatalib.words.Alphabet
 
 
 fun <S, I, T> extendAlphabet(

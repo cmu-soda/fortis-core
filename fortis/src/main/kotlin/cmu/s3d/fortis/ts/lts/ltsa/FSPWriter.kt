@@ -1,12 +1,12 @@
 package cmu.s3d.fortis.ts.lts.ltsa
 
 import cmu.s3d.fortis.ts.LTS
-import net.automatalib.automata.fsa.NFA
-import net.automatalib.commons.util.Holder
+import net.automatalib.alphabet.Alphabet
+import net.automatalib.automaton.fsa.NFA
+import net.automatalib.common.util.Holder
 import net.automatalib.util.ts.traversal.TSTraversal
 import net.automatalib.util.ts.traversal.TSTraversalAction
 import net.automatalib.util.ts.traversal.TSTraversalVisitor
-import net.automatalib.words.Alphabet
 import java.io.OutputStream
 
 fun <S, I> writeFSP(output: OutputStream, nfa: NFA<S, I>, inputs: Alphabet<I>) {

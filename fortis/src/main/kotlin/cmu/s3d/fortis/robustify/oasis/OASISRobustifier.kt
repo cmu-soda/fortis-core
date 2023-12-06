@@ -10,8 +10,8 @@ import cmu.s3d.fortis.ts.nfa.hide
 import cmu.s3d.fortis.ts.parallel
 import cmu.s3d.fortis.utils.combinations
 import cmu.s3d.fortis.utils.pretty
-import net.automatalib.automata.fsa.DFA
-import net.automatalib.words.Word
+import net.automatalib.automaton.fsa.DFA
+import net.automatalib.word.Word
 import org.slf4j.LoggerFactory
 import java.time.Duration
 

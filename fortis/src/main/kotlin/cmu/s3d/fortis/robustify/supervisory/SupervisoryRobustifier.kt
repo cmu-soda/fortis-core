@@ -9,9 +9,9 @@ import cmu.s3d.fortis.supervisory.asSupDFA
 import cmu.s3d.fortis.ts.alphabet
 import cmu.s3d.fortis.ts.numOfTransitions
 import cmu.s3d.fortis.ts.parallel
-import net.automatalib.automata.fsa.DFA
-import net.automatalib.automata.fsa.impl.compact.CompactDFA
-import net.automatalib.words.Word
+import net.automatalib.automaton.fsa.CompactDFA
+import net.automatalib.automaton.fsa.DFA
+import net.automatalib.word.Word
 import org.slf4j.LoggerFactory
 import java.io.Closeable
 

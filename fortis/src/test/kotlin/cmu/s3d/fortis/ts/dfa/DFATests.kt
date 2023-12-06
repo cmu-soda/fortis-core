@@ -3,9 +3,9 @@ package cmu.s3d.fortis.ts.dfa
 import cmu.s3d.fortis.supervisory.asSupDFA
 import cmu.s3d.fortis.ts.alphabet
 import cmu.s3d.fortis.ts.nfa.reachableSet
-import net.automatalib.util.automata.Automata
-import net.automatalib.util.automata.builders.AutomatonBuilders
-import net.automatalib.words.impl.Alphabets
+import net.automatalib.alphabet.Alphabets
+import net.automatalib.util.automaton.Automata
+import net.automatalib.util.automaton.builder.AutomatonBuilders
 import org.junit.jupiter.api.Test
 import java.util.*
 import kotlin.test.assertEquals

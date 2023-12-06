@@ -7,7 +7,7 @@ import edu.mit.csail.sdg.alloy4.A4Reporter
 import edu.mit.csail.sdg.parser.CompUtil
 import edu.mit.csail.sdg.translator.A4Options
 import edu.mit.csail.sdg.translator.TranslateAlloyToKodkod
-import net.automatalib.words.Word
+import net.automatalib.word.Word
 
 class InvariantWeakener(
     private val invariant: Invariant,

@@ -1,7 +1,7 @@
 package cmu.s3d.fortis.supervisory
 
 import cmu.s3d.fortis.ts.alphabet
-import net.automatalib.automata.fsa.DFA
+import net.automatalib.automaton.fsa.DFA
 
 class SupervisoryDFA<S, I>(
     private val dfa: DFA<S, I>,

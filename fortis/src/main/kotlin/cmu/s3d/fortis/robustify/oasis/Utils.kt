@@ -1,11 +1,11 @@
 package cmu.s3d.fortis.robustify.oasis
 
-import net.automatalib.automata.fsa.DFA
-import net.automatalib.commons.util.Holder
+import net.automatalib.alphabet.Alphabet
+import net.automatalib.automaton.fsa.DFA
+import net.automatalib.common.util.Holder
 import net.automatalib.util.ts.traversal.TSTraversal
 import net.automatalib.util.ts.traversal.TSTraversalAction
 import net.automatalib.util.ts.traversal.TSTraversalVisitor
-import net.automatalib.words.Alphabet
 
 fun <S1, S2, I> controlledEvents(plant: DFA<S1, I>, sup: DFA<S2, I>, inputs: Alphabet<I>): Collection<I> {
     val events = mutableSetOf<I>()

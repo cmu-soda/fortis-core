@@ -1,7 +1,7 @@
 package cmu.s3d.fortis.robustness.explanation
 
-import net.automatalib.words.Alphabet
-import net.automatalib.words.Word
+import net.automatalib.alphabet.Alphabet
+import net.automatalib.word.Word
 
 interface ExplanationGenerator<I> {
 

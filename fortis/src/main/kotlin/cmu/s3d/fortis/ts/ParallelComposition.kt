@@ -1,7 +1,7 @@
 package cmu.s3d.fortis.ts
 
-import net.automatalib.automata.fsa.DFA
-import net.automatalib.automata.fsa.NFA
+import net.automatalib.automaton.fsa.DFA
+import net.automatalib.automaton.fsa.NFA
 import cmu.s3d.fortis.ts.dfa.parallelComposition as DFAParallelComposition
 import cmu.s3d.fortis.ts.lts.parallelComposition as LTSParallelComposition
 import cmu.s3d.fortis.ts.nfa.parallelComposition as NFAParallelComposition

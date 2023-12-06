@@ -1,12 +1,12 @@
 package cmu.s3d.fortis.ts
 
-import net.automatalib.automata.concepts.InputAlphabetHolder
-import net.automatalib.automata.fsa.NFA
-import net.automatalib.commons.util.Holder
+import net.automatalib.alphabet.Alphabet
+import net.automatalib.automaton.concept.InputAlphabetHolder
+import net.automatalib.automaton.fsa.NFA
+import net.automatalib.common.util.Holder
 import net.automatalib.util.ts.traversal.TSTraversal
 import net.automatalib.util.ts.traversal.TSTraversalAction
 import net.automatalib.util.ts.traversal.TSTraversalVisitor
-import net.automatalib.words.Alphabet
 
 fun <I> NFA<*, I>.alphabet(): Alphabet<I> {
     if (this is InputAlphabetHolder<*>) {

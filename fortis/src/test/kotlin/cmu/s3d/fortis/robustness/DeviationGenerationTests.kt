@@ -8,8 +8,8 @@ import cmu.s3d.fortis.ts.lts.ltsa.LTSACall.asDetLTS
 import cmu.s3d.fortis.ts.lts.ltsa.LTSACall.asLTS
 import cmu.s3d.fortis.ts.lts.ltsa.LTSACall.compose
 import cmu.s3d.fortis.ts.nfa.determinise
-import net.automatalib.util.automata.Automata
-import net.automatalib.words.impl.Alphabets
+import net.automatalib.alphabet.Alphabets
+import net.automatalib.util.automaton.Automata
 import org.junit.jupiter.api.Test
 
 class DeviationGenerationTests {

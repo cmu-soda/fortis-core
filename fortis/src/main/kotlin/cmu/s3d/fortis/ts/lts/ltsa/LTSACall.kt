@@ -5,8 +5,8 @@ import cmu.s3d.fortis.ts.LTS
 import cmu.s3d.fortis.ts.lts.asLTS
 import lts.*
 import lts.ltl.AssertDefinition
-import net.automatalib.util.automata.builders.AutomatonBuilders
-import net.automatalib.words.impl.Alphabets
+import net.automatalib.alphabet.Alphabets
+import net.automatalib.util.automaton.builder.AutomatonBuilders
 import org.slf4j.LoggerFactory
 import java.util.*
 

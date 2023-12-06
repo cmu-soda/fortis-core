@@ -1,13 +1,13 @@
 package cmu.s3d.fortis.ts.nfa
 
 import cmu.s3d.fortis.ts.alphabet
-import net.automatalib.automata.fsa.NFA
-import net.automatalib.automata.fsa.impl.compact.CompactNFA
+import net.automatalib.alphabet.Alphabets
+import net.automatalib.automaton.fsa.CompactNFA
+import net.automatalib.automaton.fsa.NFA
 import net.automatalib.ts.UniversalTransitionSystem
 import net.automatalib.util.ts.copy.TSCopy
 import net.automatalib.util.ts.traversal.TSTraversal
 import net.automatalib.util.ts.traversal.TSTraversalMethod
-import net.automatalib.words.impl.Alphabets
 
 open class NFAParallelComposition<S1, S2, I>(
     private val nfa1: NFA<S1, I>,

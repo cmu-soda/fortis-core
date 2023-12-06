@@ -22,8 +22,8 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.split
-import net.automatalib.automata.fsa.impl.compact.CompactDFA
-import net.automatalib.automata.fsa.impl.compact.CompactNFA
+import net.automatalib.automaton.fsa.CompactDFA
+import net.automatalib.automaton.fsa.CompactNFA
 import net.automatalib.util.ts.copy.TSCopy
 import net.automatalib.util.ts.traversal.TSTraversal
 import net.automatalib.util.ts.traversal.TSTraversalMethod

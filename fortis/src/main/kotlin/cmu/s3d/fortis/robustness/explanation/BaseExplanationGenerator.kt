@@ -3,8 +3,8 @@ package cmu.s3d.fortis.robustness.explanation
 import cmu.s3d.fortis.ts.LTS
 import cmu.s3d.fortis.ts.lts.checkSafety
 import cmu.s3d.fortis.ts.lts.traceToLTS
-import net.automatalib.words.Alphabet
-import net.automatalib.words.Word
+import net.automatalib.alphabet.Alphabet
+import net.automatalib.word.Word
 
 class BaseExplanationGenerator<I>(
     private val sys: LTS<*, I>,

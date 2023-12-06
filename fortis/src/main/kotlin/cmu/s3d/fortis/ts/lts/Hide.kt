@@ -6,8 +6,8 @@ import cmu.s3d.fortis.ts.MutableDetLTS
 import cmu.s3d.fortis.ts.alphabet
 import cmu.s3d.fortis.ts.nfa.reachableSet
 import cmu.s3d.fortis.utils.forEachSetBit
-import net.automatalib.automata.fsa.impl.compact.CompactDFA
-import net.automatalib.words.impl.Alphabets
+import net.automatalib.alphabet.Alphabets
+import net.automatalib.automaton.fsa.CompactDFA
 import java.util.*
 
 fun <S, I> hide(lts: LTS<S, I>, hidden: Collection<I>): DetLTS<Int, I> {

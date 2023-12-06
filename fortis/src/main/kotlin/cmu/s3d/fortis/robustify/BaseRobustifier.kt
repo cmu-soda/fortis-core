@@ -1,6 +1,6 @@
 package cmu.s3d.fortis.robustify
 
-import net.automatalib.automata.fsa.DFA
+import net.automatalib.automaton.fsa.DFA
 
 
 /**

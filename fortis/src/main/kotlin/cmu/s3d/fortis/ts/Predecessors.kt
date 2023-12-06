@@ -1,7 +1,7 @@
 package cmu.s3d.fortis.ts
 
-import net.automatalib.automata.fsa.NFA
-import net.automatalib.commons.util.Holder
+import net.automatalib.automaton.fsa.NFA
+import net.automatalib.common.util.Holder
 import net.automatalib.util.ts.traversal.TSTraversal
 import net.automatalib.util.ts.traversal.TSTraversalAction
 import net.automatalib.util.ts.traversal.TSTraversalVisitor

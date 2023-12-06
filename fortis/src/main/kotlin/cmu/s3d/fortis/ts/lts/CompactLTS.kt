@@ -1,9 +1,9 @@
 package cmu.s3d.fortis.ts.lts
 
 import cmu.s3d.fortis.ts.MutableLTS
-import net.automatalib.automata.concepts.InputAlphabetHolder
-import net.automatalib.automata.fsa.impl.compact.CompactNFA
-import net.automatalib.words.Alphabet
+import net.automatalib.alphabet.Alphabet
+import net.automatalib.automaton.concept.InputAlphabetHolder
+import net.automatalib.automaton.fsa.CompactNFA
 
 class CompactLTS<I>(private val nfa: CompactNFA<I>) : MutableLTS<Int, I>, InputAlphabetHolder<I> {
 

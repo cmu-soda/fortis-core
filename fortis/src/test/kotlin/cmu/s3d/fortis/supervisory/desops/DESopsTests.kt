@@ -1,9 +1,9 @@
 package cmu.s3d.fortis.supervisory.desops
 
 import cmu.s3d.fortis.supervisory.*
-import net.automatalib.util.automata.Automata
-import net.automatalib.util.automata.builders.AutomatonBuilders
-import net.automatalib.words.impl.Alphabets
+import net.automatalib.alphabet.Alphabets
+import net.automatalib.util.automaton.Automata
+import net.automatalib.util.automaton.builder.AutomatonBuilders
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.io.ByteArrayOutputStream

@@ -2,8 +2,8 @@ package cmu.s3d.fortis.supervisory.supremica
 
 import cmu.s3d.fortis.supervisory.SupervisoryDFA
 import cmu.s3d.fortis.supervisory.asSupDFA
-import net.automatalib.util.automata.builders.AutomatonBuilders
-import net.automatalib.words.impl.Alphabets
+import net.automatalib.alphabet.Alphabets
+import net.automatalib.util.automaton.builder.AutomatonBuilders
 import org.supremica.automata.Automaton
 
 

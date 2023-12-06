@@ -3,10 +3,10 @@ package cmu.s3d.fortis.weakening
 import cmu.s3d.fortis.ts.alphabet
 import cmu.s3d.fortis.ts.lts.traceToLTS
 import cmu.s3d.fortis.ts.parallel
-import net.automatalib.automata.fsa.NFA
-import net.automatalib.util.automata.builders.AutomatonBuilders
-import net.automatalib.words.Alphabet
-import net.automatalib.words.Word
+import net.automatalib.alphabet.Alphabet
+import net.automatalib.automaton.fsa.NFA
+import net.automatalib.util.automaton.builder.AutomatonBuilders
+import net.automatalib.word.Word
 import java.util.*
 import kotlin.collections.ArrayDeque
 

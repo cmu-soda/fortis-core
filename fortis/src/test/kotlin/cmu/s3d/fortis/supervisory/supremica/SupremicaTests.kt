@@ -4,9 +4,9 @@ import cmu.s3d.fortis.supervisory.SupervisorySynthesizer
 import cmu.s3d.fortis.supervisory.SynthesisTests
 import cmu.s3d.fortis.supervisory.asSupDFA
 import cmu.s3d.fortis.ts.alphabet
-import net.automatalib.util.automata.Automata
-import net.automatalib.util.automata.builders.AutomatonBuilders
-import net.automatalib.words.impl.Alphabets
+import net.automatalib.alphabet.Alphabets
+import net.automatalib.util.automaton.Automata
+import net.automatalib.util.automaton.builder.AutomatonBuilders
 import org.junit.jupiter.api.Test
 import kotlin.test.assertContentEquals
 

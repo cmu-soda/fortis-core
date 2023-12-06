@@ -1,6 +1,6 @@
 package cmu.s3d.fortis.ts.lts
 
-import net.automatalib.words.Word
+import net.automatalib.word.Word
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 

@@ -4,9 +4,9 @@ import cmu.s3d.fortis.supervisory.SupervisoryNFA
 import cmu.s3d.fortis.supervisory.asSupDFA
 import cmu.s3d.fortis.supervisory.asSupNFA
 import cmu.s3d.fortis.ts.alphabet
-import net.automatalib.util.automata.builders.AutomatonBuilders
-import net.automatalib.words.Alphabet
-import net.automatalib.words.impl.Alphabets
+import net.automatalib.alphabet.Alphabet
+import net.automatalib.alphabet.Alphabets
+import net.automatalib.util.automaton.builder.AutomatonBuilders
 import java.io.BufferedReader
 
 fun parseFSM(

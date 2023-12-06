@@ -5,11 +5,11 @@ import cmu.s3d.fortis.assumption.WeakestAssumptionGenerator
 import cmu.s3d.fortis.ts.*
 import cmu.s3d.fortis.ts.lts.hide
 import cmu.s3d.fortis.ts.lts.makeErrorState
-import net.automatalib.commons.util.Holder
+import net.automatalib.common.util.Holder
 import net.automatalib.util.ts.traversal.TSTraversal
 import net.automatalib.util.ts.traversal.TSTraversalAction
 import net.automatalib.util.ts.traversal.TSTraversalVisitor
-import net.automatalib.words.Word
+import net.automatalib.word.Word
 import org.slf4j.LoggerFactory
 
 class BaseCalculator(

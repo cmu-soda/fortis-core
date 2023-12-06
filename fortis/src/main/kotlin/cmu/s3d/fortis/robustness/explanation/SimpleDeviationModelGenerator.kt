@@ -3,15 +3,15 @@ package cmu.s3d.fortis.robustness.explanation
 import cmu.s3d.fortis.ts.LTS
 import cmu.s3d.fortis.ts.alphabet
 import cmu.s3d.fortis.ts.lts.asLTS
-import net.automatalib.automata.fsa.impl.compact.CompactNFA
-import net.automatalib.commons.util.Holder
+import net.automatalib.alphabet.Alphabet
+import net.automatalib.automaton.fsa.CompactNFA
+import net.automatalib.common.util.Holder
 import net.automatalib.util.ts.copy.TSCopy
 import net.automatalib.util.ts.traversal.TSTraversal
 import net.automatalib.util.ts.traversal.TSTraversalAction
 import net.automatalib.util.ts.traversal.TSTraversalMethod
 import net.automatalib.util.ts.traversal.TSTraversalVisitor
-import net.automatalib.words.Alphabet
-import net.automatalib.words.Word
+import net.automatalib.word.Word
 
 class SimpleDeviationModelGenerator<I>(
     val errModel: LTS<Int, I>,

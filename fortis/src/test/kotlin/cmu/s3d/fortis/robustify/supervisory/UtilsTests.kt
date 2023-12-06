@@ -4,11 +4,11 @@ import cmu.s3d.fortis.robustify.acceptsSubWord
 import cmu.s3d.fortis.supervisory.asSupDFA
 import cmu.s3d.fortis.ts.alphabet
 import cmu.s3d.fortis.ts.lts.asLTS
+import net.automatalib.alphabet.Alphabets
 import net.automatalib.serialization.aut.AUTWriter
-import net.automatalib.util.automata.Automata
-import net.automatalib.util.automata.builders.AutomatonBuilders
-import net.automatalib.words.Word
-import net.automatalib.words.impl.Alphabets
+import net.automatalib.util.automaton.Automata
+import net.automatalib.util.automaton.builder.AutomatonBuilders
+import net.automatalib.word.Word
 import org.junit.jupiter.api.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals

@@ -1,9 +1,9 @@
 package cmu.s3d.fortis.supervisory
 
 import cmu.s3d.fortis.ts.alphabet
-import net.automatalib.automata.concepts.InputAlphabetHolder
-import net.automatalib.automata.fsa.NFA
-import net.automatalib.words.Alphabet
+import net.automatalib.alphabet.Alphabet
+import net.automatalib.automaton.concept.InputAlphabetHolder
+import net.automatalib.automaton.fsa.NFA
 
 open class SupervisoryNFA<S, I>(
     private val nfa: NFA<S, I>,

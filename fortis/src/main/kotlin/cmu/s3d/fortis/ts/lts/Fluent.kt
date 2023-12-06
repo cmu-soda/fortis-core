@@ -1,6 +1,6 @@
 package cmu.s3d.fortis.ts.lts
 
-import net.automatalib.words.Word
+import net.automatalib.word.Word
 
 data class Fluent(
     val name: String,
