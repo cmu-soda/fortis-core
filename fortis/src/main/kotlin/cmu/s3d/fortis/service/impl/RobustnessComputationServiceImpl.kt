@@ -193,9 +193,6 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
                     if (deterministic) it.asDetLTS() else it.asLTS()
                 }
             }
-            SpecType.AUT -> {
-                TODO("Not yet implemented")
-            }
             SpecType.FSM -> {
                 parseFSM(spec.content).let { if (deterministic) it.asDetLTS() else it.asLTS() }
             }
@@ -205,6 +202,7 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
                     ?: error("FLTL spec must have an assert name")
                 LTSACall.compileSafetyLTL(spec.content, name).asDetLTS()
             }
+            else -> error("Unsupported spec type")
         }
     }
 

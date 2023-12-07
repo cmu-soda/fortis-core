@@ -44,7 +44,6 @@ class Robustify : CliktCommand(help = "Robustify a system design using superviso
 
     override fun run() {
         if (verbose) {
-//      System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "Debug")
             Configurator.setAllLevels(LogManager.getRootLogger().name, Level.DEBUG)
         }
 
