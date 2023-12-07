@@ -104,6 +104,11 @@ fun parseFSM(reader: BufferedReader): SupervisoryNFA<Int, String> {
     }
 }
 
+fun parseFSM(content: String): SupervisoryNFA<Int, String> {
+    val reader = content.byteInputStream().bufferedReader()
+    return parseFSM(reader)
+}
+
 private fun readNonEmptyLine(reader: BufferedReader): String {
     var line: String?
     while (true) {

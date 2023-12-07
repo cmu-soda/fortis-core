@@ -1,0 +1,24 @@
+{
+  "sys": ["fortis-test-temp/voting/sys.lts"],
+  "env": [],
+  "dev": ["fortis-test-temp/voting/env2.lts"],
+  "safety": ["fortis-test-temp/voting/p.lts"],
+  "method": "supervisory",
+  "options": {
+    "progress": ["confirm"],
+    "preferredMap": {
+      "3": [
+        ["select", "back", "select", "vote", "confirm"]
+      ]
+    },
+    "controllableMap": {
+      "1": ["back", "confirm", "password", "select", "vote"],
+      "3": ["eo.enter", "eo.exit", "v.enter", "v.exit"]
+    },
+    "observableMap": {
+      "0": ["back", "confirm", "password", "select", "vote"],
+      "2": ["eo.enter", "eo.exit", "v.enter", "v.exit"]
+    },
+    "algorithm": "Pareto"
+  }
+}

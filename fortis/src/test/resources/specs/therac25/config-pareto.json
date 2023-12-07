@@ -1,0 +1,28 @@
+{
+  "sys": ["fortis-test-temp/therac25/sys.lts"],
+  "env": [],
+  "dev": ["fortis-test-temp/therac25/env.lts"],
+  "safety": ["fortis-test-temp/therac25/p.lts"],
+  "method": "supervisory",
+  "options": {
+    "progress": ["fire_xray", "fire_ebeam"],
+    "preferredMap": {
+      "3": [
+        ["x", "up", "e", "enter", "b"],
+        ["e", "up", "x", "enter", "b"]
+      ],
+      "2": [
+        ["x", "enter", "up", "up", "e", "enter", "b"],
+        ["e", "enter", "up", "up", "x", "enter", "b"]
+      ]
+    },
+    "controllableMap": {
+      "0": ["fire_xray", "fire_ebeam", "setMode"],
+      "1": ["x", "e", "enter", "up", "b"]
+    },
+    "observableMap": {
+      "0": ["x", "e", "enter", "up", "b", "fire_xray", "fire_ebeam", "setMode"]
+    },
+    "algorithm": "Pareto"
+  }
+}
