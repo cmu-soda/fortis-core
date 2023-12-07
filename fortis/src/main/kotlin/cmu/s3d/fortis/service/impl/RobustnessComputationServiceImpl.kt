@@ -50,8 +50,8 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
         return equivClassMap.map { (_, reps) ->
             reps.map {
                 RepWithExplain(
-                    it,
-                    explainer?.generate(it.word, cal1.weakestAssumption.alphabet())
+                    it.copy(word = it.word.asSerializableWord()),
+                    explainer?.generate(it.word, cal1.weakestAssumption.alphabet())?.asSerializableWord()
                 )
             }
         }
@@ -89,8 +89,8 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
         return equivClassMap.map { (_, reps) ->
             reps.map {
                 RepWithExplain(
-                    it,
-                    explainer?.generate(it.word, cal1.weakestAssumption.alphabet())
+                    it.copy(word = it.word.asSerializableWord()),
+                    explainer?.generate(it.word, cal1.weakestAssumption.alphabet())?.asSerializableWord()
                 )
             }
         }
@@ -120,8 +120,8 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
         return equivClassMap.map { (_, reps) ->
             reps.map {
                 RepWithExplain(
-                    it,
-                    explainer?.generate(it.word, cal.weakestAssumption.alphabet())
+                    it.copy(word = it.word.asSerializableWord()),
+                    explainer?.generate(it.word, cal.weakestAssumption.alphabet())?.asSerializableWord()
                 )
             }
         }
@@ -151,8 +151,8 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
         return equivClassMap.map { (_, reps) ->
             reps.map {
                 RepWithExplain(
-                    it,
-                    explainer?.generate(it.word, cal.weakestAssumption.alphabet())
+                    it.copy(word = it.word.asSerializableWord()),
+                    explainer?.generate(it.word, cal.weakestAssumption.alphabet())?.asSerializableWord()
                 )
             }
         }
