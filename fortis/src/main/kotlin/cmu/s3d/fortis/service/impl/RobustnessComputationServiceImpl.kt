@@ -176,14 +176,14 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
             options
         )
         val wa = cal.weakestAssumption
-        val out = ByteArrayOutputStream().use {
+        return ByteArrayOutputStream().use {
             when (outputFormat) {
                 SpecType.FSP -> writeFSP(it, wa, wa.alphabet())
                 SpecType.AUT -> AUTWriter.writeAutomaton(wa, wa.alphabet(), it)
                 else -> error("Unsupported output format")
             }
+            it.toString()
         }
-        return out.toString()
     }
 
     private fun parseSpec(spec: Spec, deterministic: Boolean = false): LTS<Int, String> {

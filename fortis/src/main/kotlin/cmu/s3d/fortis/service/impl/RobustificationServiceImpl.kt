@@ -41,14 +41,14 @@ class RobustificationServiceImpl : RobustificationService {
             robustifier.synthesize(options.algorithm).toList()
         }
         return sols.map { sol ->
-            val out = ByteArrayOutputStream().use {
+            ByteArrayOutputStream().use {
                 when (outputFormat) {
                     SpecType.FSP -> writeFSP(it, sol, sol.alphabet())
                     SpecType.AUT -> AUTWriter.writeAutomaton(sol, sol.alphabet(), it)
                     else -> error("Unsupported output format")
                 }
+                it.toString()
             }
-            out.toString()
         }
     }
 
