@@ -110,6 +110,6 @@ class RobustificationServiceImplTests {
             "S60 = (b -> S62 | up -> S56),\n" +
             "S59 = (fire_xray -> S41 | setMode -> S62),\n" +
             "S62 = (fire_xray -> S48).\n"
-        assertEquals(expected, sols[0])
+        assertEquals(expected, sols[0].model)
     }
 }

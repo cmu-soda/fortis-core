@@ -20,6 +20,12 @@ class WeightsMap(
     val observable: Map<String, Int>
 )
 
+class Solution(
+    val model: DFA<Int, String>,
+    val preferred: List<Word<String>>,
+    val controllable: List<String>,
+    val observable: List<String>
+)
 
 class SupervisoryRobustifier(
     sys: DFA<*, String>,
@@ -58,6 +64,10 @@ class SupervisoryRobustifier(
     }
 
     fun synthesize(alg: Algorithms): Iterable<DFA<Int, String>> {
+        return synthesize2(alg).map { it.model }
+    }
+
+    fun synthesize2(alg: Algorithms): Iterable<Solution> {
         logger.info("Number of states of the system: ${sys.states.size}")
         logger.info("Number of states of the environment: ${devEnv.states.size}")
         logger.info("Number of states of the plant (S || E): ${plant.states.size}")

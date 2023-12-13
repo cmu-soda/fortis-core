@@ -1,8 +1,6 @@
 package cmu.s3d.fortis.service.impl
 
-import cmu.s3d.fortis.common.Spec
-import cmu.s3d.fortis.common.SpecType
-import cmu.s3d.fortis.common.SupervisoryOptions
+import cmu.s3d.fortis.common.*
 import cmu.s3d.fortis.robustify.supervisory.SupervisoryRobustifier
 import cmu.s3d.fortis.service.RobustificationService
 import cmu.s3d.fortis.supervisory.SupervisoryDFA
@@ -25,7 +23,7 @@ class RobustificationServiceImpl : RobustificationService {
         propSpecs: List<Spec>,
         options: SupervisoryOptions,
         outputFormat: SpecType
-    ): List<String> {
+    ): List<RobustificationResult> {
         val robustifier = SupervisoryRobustifier(
             parseSpecs(sysSpecs),
             parseSpecs(envSpecs),
@@ -38,17 +36,23 @@ class RobustificationServiceImpl : RobustificationService {
             maxIter = options.maxIter
         )
         val sols = robustifier.use {
-            robustifier.synthesize(options.algorithm).toList()
+            robustifier.synthesize2(options.algorithm).toList()
         }
         return sols.map { sol ->
-            ByteArrayOutputStream().use {
+            val model = ByteArrayOutputStream().use {
                 when (outputFormat) {
-                    SpecType.FSP -> writeFSP(it, sol, sol.alphabet())
-                    SpecType.AUT -> AUTWriter.writeAutomaton(sol, sol.alphabet(), it)
+                    SpecType.FSP -> writeFSP(it, sol.model, sol.model.alphabet())
+                    SpecType.AUT -> AUTWriter.writeAutomaton(sol.model, sol.model.alphabet(), it)
                     else -> error("Unsupported output format")
                 }
                 it.toString()
             }
+            RobustificationResult(
+                model,
+                sol.preferred.map { it.asSerializableWord() },
+                sol.controllable,
+                sol.observable
+            )
         }
     }
 

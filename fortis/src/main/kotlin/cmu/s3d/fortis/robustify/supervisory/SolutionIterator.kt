@@ -11,7 +11,6 @@ import cmu.s3d.fortis.utils.combinations
 import cmu.s3d.fortis.utils.pretty
 import net.automatalib.alphabet.Alphabets
 import net.automatalib.automaton.fsa.CompactDFA
-import net.automatalib.automaton.fsa.DFA
 import net.automatalib.word.Word
 import org.slf4j.LoggerFactory
 import java.time.Duration
@@ -31,7 +30,7 @@ class SolutionIterator(
     private val alg: Algorithms,
 //  private val deadlockFree: Boolean,
     private val maxIter: Int
-) : Iterable<DFA<Int, String>>, Iterator<DFA<Int, String>> {
+) : Iterable<Solution>, Iterator<Solution> {
 
     private val constructNewDesign = false
 
@@ -42,10 +41,10 @@ class SolutionIterator(
     private lateinit var maxPreferred: Collection<Word<String>>
     private var minCost = Int.MIN_VALUE
     private var synthesisCounter = 0
-    private val solutions: Deque<DFA<Int, String>> = ArrayDeque()
+    private val solutions: Deque<Solution> = ArrayDeque()
     private var curIter = 0
 
-    override fun iterator(): Iterator<DFA<Int, String>> {
+    override fun iterator(): Iterator<Solution> {
         val startTime = System.currentTimeMillis()
         logger.info("==============================>")
         logger.info("Initializing search by using $alg search...")
@@ -76,7 +75,7 @@ class SolutionIterator(
         val sup = problem.supervisorySynthesize(controllable, observable)
         if (sup == null) {
             logger.warn("No supervisor found with max controllable and observable events.")
-            return emptyArray<DFA<Int, String>>().iterator()
+            return emptyArray<Solution>().iterator()
         }
 
         // compute the maximum fulfilled preferred behavior under the max controllability and observability
@@ -149,7 +148,7 @@ class SolutionIterator(
         return solutions.isNotEmpty()
     }
 
-    override fun next(): DFA<Int, String> {
+    override fun next(): Solution {
         return solutions.poll()
     }
 
@@ -221,7 +220,12 @@ class SolutionIterator(
                     logger.info("\t\t$p")
                 logger.info("Utility Preferred Behavior: ${candidate.utilityPreferred}")
                 logger.info("Utility Cost: ${candidate.utilityCost}")
-                solutions.offer(solution)
+                solutions.offer(Solution(
+                    solution,
+                    candidate.preferred.toList(),
+                    candidate.sup.controllable.toList(),
+                    candidate.sup.observable.toList()
+                ))
             }
         } else {
             logger.info("No new solution found in iteration ${curIter + 1}.")
