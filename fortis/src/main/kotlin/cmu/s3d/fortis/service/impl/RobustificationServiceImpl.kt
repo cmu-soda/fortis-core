@@ -64,6 +64,12 @@ class RobustificationServiceImpl : RobustificationService {
             SpecType.FSM -> {
                 parseFSM(spec.content) as SupervisoryDFA
             }
+            SpecType.FLTL -> {
+                val fltlRegex = "assert\\s+(\\w+)\\s*=".toRegex()
+                val name = fltlRegex.find(spec.content)?.groupValues?.get(1)
+                    ?: error("FLTL spec must have an assert name")
+                LTSACall.compileSafetyLTL(spec.content, name).asDetLTS()
+            }
             else -> error("Unsupported spec type")
         }
     }

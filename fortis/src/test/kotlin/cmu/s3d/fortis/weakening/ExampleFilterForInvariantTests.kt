@@ -10,7 +10,7 @@ import net.automatalib.word.Word
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class ExampleFilterByFluentsTests {
+class ExampleFilterForInvariantTests {
     @Test
     fun testTherac25() {
         val sys = LTSACall
@@ -21,7 +21,7 @@ class ExampleFilterByFluentsTests {
             .compile(ClassLoader.getSystemResource("specs/therac25-2/env.lts").readText())
             .compose()
             .asLTS()
-        val examples = ExampleFilterByFluents(
+        val examples = ExampleFilterForInvariant(
             TraceExampleGenerator(
                 parallel(sys, env),
                 Word.fromSymbols("x", "up", "e", "enter", "b"),
@@ -53,7 +53,7 @@ class ExampleFilterByFluentsTests {
             .compile(ClassLoader.getSystemResource("specs/voting-2/env2.lts").readText())
             .compose()
             .asLTS()
-        val examples = ExampleFilterByFluents(
+        val examples = ExampleFilterForInvariant(
             TraceExampleGenerator(
                 parallel(sys, env),
                 Word.fromSymbols("password", "select", "vote", "confirm"),

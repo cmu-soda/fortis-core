@@ -11,6 +11,6 @@ data class Invariant(
         val consequentStr = consequent.joinToString(" && ") { (name, value) ->
             if (value) name else "!$name"
         }
-        return "$antecedentStr -> $consequentStr"
+        return "[]($antecedentStr -> $consequentStr)"
     }
 }

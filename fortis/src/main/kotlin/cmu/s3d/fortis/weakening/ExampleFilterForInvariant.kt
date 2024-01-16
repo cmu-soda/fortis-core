@@ -5,7 +5,12 @@ import cmu.s3d.fortis.ts.lts.evaluateFluent
 import cmu.s3d.fortis.ts.lts.getFluentValuationString
 import net.automatalib.word.Word
 
-class ExampleFilterByFluents(
+/**
+ * This filter would only return example traces that would visit a new state that has not been visited by other traces.
+ * This is proper for safety invariant with only the Globally operator because the evaluation of the invariant only
+ * depends on the valuation of the fluents at the current state.
+ */
+class ExampleFilterForInvariant(
     private val examples: Iterable<Word<String>>,
     private val fluents: List<Fluent>
 ) : Iterator<Word<String>>, Iterable<Word<String>> {
