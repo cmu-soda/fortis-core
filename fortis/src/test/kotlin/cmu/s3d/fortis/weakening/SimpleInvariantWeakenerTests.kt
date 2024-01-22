@@ -5,13 +5,15 @@ import net.automatalib.word.Word
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class InvariantWeakenerTests {
+class SimpleInvariantWeakenerTests {
 
-    private fun loadTherac(): InvariantWeakener {
-        return InvariantWeakener(
-            invariant = Invariant(
-                antecedent = "Xray".parseConjunction(),
-                consequent = "InPlace".parseConjunction()
+    private fun loadTherac(): SimpleInvariantWeakener {
+        return SimpleInvariantWeakener(
+            invariant = listOf(
+                SimpleInvariant(
+                    antecedent = "Xray".parseConjunction(),
+                    consequent = "InPlace".parseConjunction()
+                )
             ),
             fluents = listOf(
                 "fluent Xray = <set_xray, {set_ebeam, reset}>".toFluent()!!,
@@ -28,6 +30,36 @@ class InvariantWeakenerTests {
         )
     }
 
+    private fun loadVoting(): SimpleInvariantWeakener {
+        return SimpleInvariantWeakener(
+            invariant = listOf(
+                SimpleInvariant(
+                    antecedent = "Confirmed".parseConjunction(),
+                    consequent = "SelectByVoter && VoteByVoter".parseConjunction()
+                )
+            ),
+            fluents = listOf(
+                "fluent Confirmed = <confirm, password>".toFluent()!!,
+                "fluent SelectByVoter = <v.select, {password, eo.select}>".toFluent()!!,
+                "fluent VoteByVoter = <v.vote, {password, eo.vote}>".toFluent()!!,
+            ),
+            positiveExamples = listOf(
+                Word.fromList(
+                    "v.enter,password,v.password,select,v.select,v.exit,eo.enter,vote,eo.vote,confirm,eo.confirm".split(
+                        ","
+                    )
+                ),
+            ),
+            negativeExamples = listOf(
+                Word.fromList(
+                    "v.enter,password,v.password,v.exit,eo.enter,select,eo.select,vote,eo.vote,confirm,eo.confirm".split(
+                        ","
+                    )
+                ),
+            )
+        )
+    }
+
     @Test
     fun testGenerateAlloyTherac() {
         val invWeakener = loadTherac()
@@ -36,15 +68,20 @@ class InvariantWeakenerTests {
             abstract sig Bool {}
             one sig True, False extends Bool {}
             abstract sig Literal {}
-            one sig Xray, EBeam, InPlace, Fired extends Literal {}
-            one sig Invariant {
+            one sig false, Xray, EBeam, InPlace, Fired extends Literal {}
+            abstract sig Invariant {
                 antecedent: Literal -> lone Bool,
                 consequent: Literal -> lone Bool
             } {
                 consequent not in antecedent
                 all l: Literal | (l -> True in antecedent implies l -> False not in consequent) and
 		            (l -> False in antecedent implies l -> True not in consequent)
+                false->False not in antecedent
+            }
+            
+            one sig Invariant0 extends Invariant {} {
                 Xray->True in antecedent
+                false->True in antecedent implies antecedent in (false->True + Xray->True)
                 consequent in (InPlace->True)
             }
 
@@ -79,8 +116,8 @@ class InvariantWeakenerTests {
             }
 
             run {
-            	all inv: Invariant, t: PositiveTrace | G[t, inv]
-            	all inv: Invariant, t: NegativeTrace | not G[t, inv]
+                all t: PositiveTrace | all inv: Invariant | G[t, inv]
+                all t: NegativeTrace | some inv: Invariant | not G[t, inv]
             	minsome[2] Invariant.antecedent
             	maxsome[1] Invariant.consequent
             }
@@ -92,7 +129,7 @@ class InvariantWeakenerTests {
     @Test
     fun testLearnTherac() {
         val invWeakener = loadTherac()
-        val solutions = mutableListOf<Invariant>()
+        val solutions = mutableListOf<List<SimpleInvariant>>()
         var solution = invWeakener.learn()
         while (solution != null) {
             solutions.add(solution.getInvariant())
@@ -101,13 +138,39 @@ class InvariantWeakenerTests {
         assertEquals(2, solutions.size)
         assertEquals(
             listOf(
-                Invariant(
-                    antecedent = "Xray && Fired".parseConjunction(),
-                    consequent = "InPlace".parseConjunction()
+                listOf(
+                    SimpleInvariant(
+                        antecedent = "Xray && Fired".parseConjunction(),
+                        consequent = "InPlace".parseConjunction()
+                    )
                 ),
-                Invariant(
-                    antecedent = "Xray && !EBeam && Fired".parseConjunction(),
-                    consequent = "InPlace".parseConjunction()
+                listOf(
+                    SimpleInvariant(
+                        antecedent = "Xray && !EBeam && Fired".parseConjunction(),
+                        consequent = "InPlace".parseConjunction()
+                    )
+                )
+            ),
+            solutions
+        )
+    }
+
+    @Test
+    fun testLearnVoting() {
+        val invWeakener = loadVoting()
+        val solutions = mutableListOf<List<SimpleInvariant>>()
+        var solution = invWeakener.learn()
+        while (solution != null) {
+            solutions.add(solution.getInvariant())
+            solution = solution.next()
+        }
+        assertEquals(
+            listOf(
+                listOf(
+                    SimpleInvariant(
+                        antecedent = "Confirmed".parseConjunction(),
+                        consequent = "SelectByVoter".parseConjunction()
+                    )
                 )
             ),
             solutions

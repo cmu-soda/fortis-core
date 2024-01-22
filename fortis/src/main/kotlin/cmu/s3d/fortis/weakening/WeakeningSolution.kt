@@ -7,11 +7,15 @@ import edu.mit.csail.sdg.translator.A4TupleSet
 
 class WeakeningSolution(private val world: CompModule, private val alloySolution: A4Solution) {
 
-    fun getInvariant(): Invariant {
-        return Invariant(
-            getPropositions("Invariant.antecedent"),
-            getPropositions("Invariant.consequent")
-        )
+    fun getInvariant(): List<SimpleInvariant> {
+        val expr = CompUtil.parseOneExpression_fromString(world, "Invariant")
+        val invNames = (alloySolution.eval(expr) as A4TupleSet).map { it.atom(0).split('$')[0] }
+        return invNames.map {
+            SimpleInvariant(
+                getPropositions("${it}.antecedent"),
+                getPropositions("${it}.consequent")
+            )
+        }
     }
 
     private fun getPropositions(exprStr: String): List<Pair<String, Boolean>> {

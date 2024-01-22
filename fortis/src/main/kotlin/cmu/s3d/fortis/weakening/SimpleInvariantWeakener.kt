@@ -8,38 +8,51 @@ import edu.mit.csail.sdg.parser.CompUtil
 import edu.mit.csail.sdg.translator.A4Options
 import edu.mit.csail.sdg.translator.TranslateAlloyToKodkod
 import net.automatalib.word.Word
+import org.slf4j.LoggerFactory
 
-class InvariantWeakener(
-    private val invariant: Invariant,
+class SimpleInvariantWeakener(
+    private val invariant: List<SimpleInvariant>,
     private val fluents: List<Fluent>,
     private val positiveExamples: List<Word<String>>,
     private val negativeExamples: List<Word<String>>,
 ) {
+    private val logger = LoggerFactory.getLogger(javaClass)
+
     fun generateAlloyModel(): String {
         val literals = fluents.map { it.name }
-        val antecedent = invariant.antecedent.map { it.first + "->" + if (it.second) "True" else "False" }
-        val consequent = invariant.consequent.map { it.first + "->" + if (it.second) "True" else "False" }
+        val invariantPairs = invariant.map { i -> Pair(
+            i.antecedent.map { it.first + "->" + if (it.second) "True" else "False" },
+            i.consequent.map { it.first + "->" + if (it.second) "True" else "False" }
+        ) }
         val statesMap = mutableMapOf<String, String>()
         val statesAlloyScript = mutableMapOf<String, String>()
         val positiveTraces = positiveExamples.map { generateTrace(it, statesMap, statesAlloyScript) }
         val negativeTraces = negativeExamples.map { generateTrace(it, statesMap, statesAlloyScript) }
 
+        val invariantScript = invariantPairs.indices.map { i -> """
+            one sig Invariant$i extends Invariant {} {
+                ${invariantPairs[i].first.joinToString(" + ")} in antecedent
+                false->True in antecedent implies antecedent in (false->True + ${invariantPairs[i].first.joinToString(" + ")})
+                consequent in (${invariantPairs[i].second.joinToString(" + ")})
+            }
+            """
+        }
+
         val alloyScript = """
             abstract sig Bool {}
             one sig True, False extends Bool {}
             abstract sig Literal {}
-            one sig ${literals.joinToString(", ")} extends Literal {}
-            one sig Invariant {
+            one sig false, ${literals.joinToString(", ")} extends Literal {}
+            abstract sig Invariant {
                 antecedent: Literal -> lone Bool,
                 consequent: Literal -> lone Bool
             } {
                 consequent not in antecedent
                 all l: Literal | (l -> True in antecedent implies l -> False not in consequent) and
 		            (l -> False in antecedent implies l -> True not in consequent)
-                ${antecedent.joinToString(" + ")} in antecedent
-                consequent in (${consequent.joinToString(" + ")})
+                false->False not in antecedent
             }
-
+            ${invariantScript.joinToString("")}
             abstract sig State {
             	trueValues: set Literal
             }
@@ -77,8 +90,8 @@ class InvariantWeakener(
             }
 
             run {
-            	all inv: Invariant, t: PositiveTrace | G[t, inv]
-            	all inv: Invariant, t: NegativeTrace | not G[t, inv]
+                all t: PositiveTrace | all inv: Invariant | G[t, inv]
+                all t: NegativeTrace | some inv: Invariant | not G[t, inv]
             	minsome[2] Invariant.antecedent
             	maxsome[1] Invariant.consequent
             }
@@ -103,7 +116,10 @@ class InvariantWeakener(
     }
 
     fun learn(): WeakeningSolution? {
+        logger.info("Generating Alloy model for weakening...")
         val alloyScript = generateAlloyModel()
+        logger.debug("Generated Alloy model:\n{}", alloyScript)
+
         val reporter = A4Reporter.NOP
         val world = CompUtil.parseEverything_fromString(reporter, alloyScript)
         val options = alloyOptions()

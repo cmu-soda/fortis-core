@@ -94,6 +94,67 @@ class WeakeningServiceImplTests {
     }
 
     @Test
+    fun testWeakenSafetyInvariantForTherac25_2() {
+        val solutions = service.weakenSafetyInvariant(
+            "[](Xray && Fired -> InPlace) && [](EBeam && Fired -> !InPlace)",
+            listOf(
+                "fluent Xray = <set_xray, {set_ebeam, reset}>",
+                "fluent EBeam = <set_ebeam, {set_xray, reset}>",
+                "fluent InPlace = <x, e> initially 1",
+                "fluent Fired = <{fire_xray, fire_ebeam}, reset>",
+            ),
+            listOf(
+                Word.fromList("x,set_xray,up,e,set_ebeam,enter,b,fire_ebeam,reset".split(",")),
+                Word.fromList("e,set_ebeam,up,x,set_xray,enter,b,fire_xray,reset".split(",")),
+                Word.fromList("e,set_ebeam,up,x,enter,b,fire_ebeam,reset".split(","))
+            ),
+            listOf(
+                Word.fromList("x,set_xray,up,e,enter,b,fire_xray,reset".split(",")),
+            )
+        )
+        assertEquals(
+            setOf(
+                "[](Xray && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
+                "[](Xray && !EBeam && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
+                "[](Xray && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)",
+                "[](Xray && !EBeam && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)"
+            ),
+            solutions.toSet()
+        )
+    }
+
+    @Test
+    fun testWeakenSafetyInvariantForTherac25_3() {
+        val solutions = service.weakenSafetyInvariant(
+            "[](Xray && Fired -> InPlace) && [](EBeam && Fired -> !InPlace)",
+            listOf(
+                "fluent Xray = <set_xray, {set_ebeam, reset}>",
+                "fluent EBeam = <set_ebeam, {set_xray, reset}>",
+                "fluent InPlace = <x, e> initially 1",
+                "fluent Fired = <{fire_xray, fire_ebeam}, reset>",
+            ),
+            listOf(
+                Word.fromList("e,set_ebeam,up,x,set_xray,enter,b,fire_xray,reset".split(",")),
+                Word.fromList("e,set_ebeam,up,x,enter,b,fire_ebeam,reset".split(","))
+            ),
+            emptyList()
+        )
+        assertEquals(
+            setOf(
+                "[](Xray && EBeam && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
+                "[](Xray && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
+                "[](Xray && !EBeam && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
+                "[](false && Xray && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
+                "[](false && Xray && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)",
+                "[](Xray && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)",
+                "[](Xray && EBeam && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)",
+                "[](Xray && !EBeam && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)",
+            ),
+            solutions.toSet()
+        )
+    }
+
+    @Test
     fun testWeakenSafetyInvariantForVoting() {
         val solutions = service.weakenSafetyInvariant(
             "[](Confirmed -> SelectByVoter && VoteByVoter)",

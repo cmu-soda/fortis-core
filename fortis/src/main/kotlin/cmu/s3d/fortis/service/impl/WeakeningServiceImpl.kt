@@ -52,14 +52,19 @@ class WeakeningServiceImpl : WeakeningService {
         positiveExamples: List<Word<String>>,
         negativeExamples: List<Word<String>>
     ): List<String> {
-        val invRegex = "\\[\\]\\s*\\((.+)->(.+)\\)".toRegex()
-        val (antecedent, consequent) = invRegex.matchEntire(invariant)?.destructured
-            ?: error("Invalid invariant format")
-        val weakener = InvariantWeakener(
-            invariant = Invariant(
-                antecedent = antecedent.parseConjunction(),
-                consequent = consequent.parseConjunction()
-            ),
+        val invRegex = "\\[\\]\\s*\\(([^\\[\\]]+)\\)".toRegex()
+        val invariantPairs = invRegex.findAll(invariant).map {
+            val splits = it.groupValues[1].split("->")
+            SimpleInvariant(
+                splits[0].parseConjunction(),
+                splits[1].parseConjunction()
+            )
+        }.toList()
+        if (invariantPairs.isEmpty())
+            error("Invalid invariant format")
+
+        val weakener = SimpleInvariantWeakener(
+            invariant = invariantPairs,
             fluents = fluents.map { it.toFluent()?: error("Invalid fluent string") },
             positiveExamples = positiveExamples,
             negativeExamples = negativeExamples
@@ -67,7 +72,7 @@ class WeakeningServiceImpl : WeakeningService {
         val solutions = mutableListOf<String>()
         var solution = weakener.learn()
         while (solution != null) {
-            solutions.add(solution.getInvariant().toString())
+            solutions.add(solution.getInvariant().joinToString(" && "))
             solution = solution.next()
         }
         return solutions

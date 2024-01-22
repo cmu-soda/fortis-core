@@ -1,6 +1,6 @@
 package cmu.s3d.fortis.weakening
 
-data class Invariant(
+data class SimpleInvariant(
     val antecedent: List<Pair<String, Boolean>>,
     val consequent: List<Pair<String, Boolean>>,
 ) {

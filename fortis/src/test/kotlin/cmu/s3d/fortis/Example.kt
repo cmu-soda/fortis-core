@@ -1,8 +1,8 @@
 package cmu.s3d.fortis
 
 import cmu.s3d.fortis.ts.lts.toFluent
-import cmu.s3d.fortis.weakening.Invariant
-import cmu.s3d.fortis.weakening.InvariantWeakener
+import cmu.s3d.fortis.weakening.SimpleInvariant
+import cmu.s3d.fortis.weakening.SimpleInvariantWeakener
 import cmu.s3d.fortis.weakening.parseConjunction
 import net.automatalib.word.Word
 import org.junit.jupiter.api.Test
@@ -10,10 +10,12 @@ import org.junit.jupiter.api.Test
 class Example() {
     @Test
     fun testExample() {
-        val invWeakener = InvariantWeakener(
-            invariant = Invariant(
-                antecedent = "Confirmed".parseConjunction(),
-                consequent = "SelectByVoter && VoteByVoter".parseConjunction()
+        val invWeakener = SimpleInvariantWeakener(
+            invariant = listOf(
+                SimpleInvariant(
+                    antecedent = "Confirmed".parseConjunction(),
+                    consequent = "SelectByVoter && VoteByVoter".parseConjunction()
+                )
             ),
             fluents = listOf(
                 "fluent Confirmed = <confirm, password>".toFluent()!!,
@@ -37,7 +39,7 @@ class Example() {
         )
         var solution = invWeakener.learn()
         while (solution != null) {
-            println(solution.getInvariant())
+            println(solution.getInvariant().joinToString(" && "))
             solution = solution.next()
         }
     }
