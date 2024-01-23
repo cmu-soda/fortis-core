@@ -146,9 +146,9 @@ class WeakeningServiceImplTests {
                 "[](Xray && !EBeam && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
                 "[](Xray && !EBeam && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)",
                 "[](Xray && EBeam && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)",
-                "[](false && Xray && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)",
-                "[](false && Xray && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
                 "[](Xray && EBeam && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
+                "[](false && Xray && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
+                "[](false && Xray && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)",
             ),
             solutions
         )

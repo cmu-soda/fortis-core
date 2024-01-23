@@ -68,14 +68,22 @@ class SimpleInvariantWeakener(
             }
             
             ${
-                positiveTraces.indices.joinToString("\n            ") { i ->
-                    "one sig PT$i extends PositiveTrace {} { states = ${positiveTraces[i]} }"
+                if (positiveTraces.isEmpty()) {
+                    "fact { no PositiveTrace }"
+                } else {
+                    positiveTraces.indices.joinToString("\n            ") { i ->
+                        "one sig PT$i extends PositiveTrace {} { states = ${positiveTraces[i]} }"
+                    }
                 }
             }
             
             ${
-                negativeTraces.indices.joinToString("\n            ") { i ->
-                    "one sig NT$i extends NegativeTrace {} { states = ${negativeTraces[i]} }"
+                if (negativeTraces.isEmpty()) {
+                    "fact { no NegativeTrace }"
+                } else {
+                    negativeTraces.indices.joinToString("\n            ") { i ->
+                        "one sig NT$i extends NegativeTrace {} { states = ${negativeTraces[i]} }"
+                    }
                 }
             }
             
