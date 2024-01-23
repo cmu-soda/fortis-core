@@ -85,11 +85,11 @@ class WeakeningServiceImplTests {
             )
         )
         assertEquals(
-            setOf(
+            listOf(
                 "[](Xray && Fired -> InPlace)",
                 "[](Xray && !EBeam && Fired -> InPlace)",
             ),
-            solutions.toSet()
+            solutions
         )
     }
 
@@ -113,13 +113,13 @@ class WeakeningServiceImplTests {
             )
         )
         assertEquals(
-            setOf(
+            listOf(
                 "[](Xray && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
-                "[](Xray && !EBeam && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
                 "[](Xray && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)",
+                "[](Xray && !EBeam && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
                 "[](Xray && !EBeam && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)"
             ),
-            solutions.toSet()
+            solutions
         )
     }
 
@@ -140,17 +140,17 @@ class WeakeningServiceImplTests {
             emptyList()
         )
         assertEquals(
-            setOf(
-                "[](Xray && EBeam && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
+            listOf(
                 "[](Xray && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
-                "[](Xray && !EBeam && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
-                "[](false && Xray && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
-                "[](false && Xray && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)",
                 "[](Xray && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)",
-                "[](Xray && EBeam && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)",
+                "[](Xray && !EBeam && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
                 "[](Xray && !EBeam && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)",
+                "[](Xray && EBeam && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)",
+                "[](false && Xray && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)",
+                "[](false && Xray && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
+                "[](Xray && EBeam && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
             ),
-            solutions.toSet()
+            solutions
         )
     }
 
@@ -171,10 +171,10 @@ class WeakeningServiceImplTests {
             )
         )
         assertEquals(
-            setOf(
+            listOf(
                 "[](Confirmed -> SelectByVoter)"
             ),
-            solutions.toSet()
+            solutions
         )
     }
 }

@@ -43,9 +43,24 @@ object LTSACall {
      */
     fun compileSafetyLTL(fsp: String, name: String): CompactState {
         val out = StringLTSOutput()
-        compile(fsp)
+        compile(transformAssertion(fsp, name))
         val ltl = AssertDefinition.compile(out, name)
         return if (ltl.composition.hasERROR()) ltl.composition else error("The given LTL is not a safety property")
+    }
+
+    /**
+     * Transform "[](a -> b) && [](c -> d)" to "[]((a -> b) && (c -> d))"
+     */
+    fun transformAssertion(fsp: String, name: String): String {
+        val assertion = "assert\\s+$name\\s*=\\V+".toRegex().find(fsp)?.value
+            ?: error("No such assertion named '$name'")
+        val invRegex = "\\[\\]\\s*(\\([^\\[\\]]+\\))".toRegex()
+        val invariants = invRegex.findAll(assertion).map { it.groupValues[1] }.toList()
+        return if (invariants.size == 1) {
+            fsp
+        } else {
+            fsp.replace(assertion, "assert $name = [](${invariants.joinToString(" && ")})")
+        }
     }
 
     /**

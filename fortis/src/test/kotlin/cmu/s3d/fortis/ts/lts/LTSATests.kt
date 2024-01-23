@@ -112,4 +112,56 @@ class LTSATests {
             out.toString()
         )
     }
+
+    @Test
+    fun testCompileSafetyLTL2() {
+        val assertion = LTSACall.transformAssertion("""
+            fluent Xray = <set_xray, {set_ebeam, reset}>
+            fluent EBeam = <set_ebeam, {set_xray, reset}>
+            fluent InPlace = <x, e> initially 1
+            fluent Fired = <{fire_xray, fire_ebeam}, reset>
+
+            assert OVER_UNDER_DOSE = [](Xray && Fired -> InPlace) && [](EBeam && Fired -> !InPlace)
+            assert OTHER = [](a -> b)
+            """.trimIndent(),
+            "OVER_UNDER_DOSE"
+        )
+        assertEquals("""
+            fluent Xray = <set_xray, {set_ebeam, reset}>
+            fluent EBeam = <set_ebeam, {set_xray, reset}>
+            fluent InPlace = <x, e> initially 1
+            fluent Fired = <{fire_xray, fire_ebeam}, reset>
+
+            assert OVER_UNDER_DOSE = []((Xray && Fired -> InPlace) && (EBeam && Fired -> !InPlace))
+            assert OTHER = [](a -> b)
+            """.trimIndent(),
+            assertion
+        )
+    }
+
+    @Test
+    fun testCompileSafetyLTL3() {
+        val assertion = LTSACall.transformAssertion("""
+            fluent Xray = <set_xray, {set_ebeam, reset}>
+            fluent EBeam = <set_ebeam, {set_xray, reset}>
+            fluent InPlace = <x, e> initially 1
+            fluent Fired = <{fire_xray, fire_ebeam}, reset>
+
+            assert OVER_UNDER_DOSE = []((Xray && Fired -> InPlace) && (EBeam && Fired -> !InPlace))
+            assert OTHER = [](a -> b)
+            """.trimIndent(),
+            "OVER_UNDER_DOSE"
+        )
+        assertEquals("""
+            fluent Xray = <set_xray, {set_ebeam, reset}>
+            fluent EBeam = <set_ebeam, {set_xray, reset}>
+            fluent InPlace = <x, e> initially 1
+            fluent Fired = <{fire_xray, fire_ebeam}, reset>
+
+            assert OVER_UNDER_DOSE = []((Xray && Fired -> InPlace) && (EBeam && Fired -> !InPlace))
+            assert OTHER = [](a -> b)
+            """.trimIndent(),
+            assertion
+        )
+    }
 }

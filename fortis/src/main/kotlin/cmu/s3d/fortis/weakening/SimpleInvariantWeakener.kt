@@ -92,8 +92,7 @@ class SimpleInvariantWeakener(
             run {
                 all t: PositiveTrace | all inv: Invariant | G[t, inv]
                 all t: NegativeTrace | some inv: Invariant | not G[t, inv]
-            	minsome[2] Invariant.antecedent
-            	maxsome[1] Invariant.consequent
+                all inv: Invariant | minsome[2] inv.antecedent and maxsome[1] inv.consequent
             }
         """.trimIndent()
 

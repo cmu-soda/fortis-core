@@ -52,6 +52,7 @@ class WeakeningServiceImpl : WeakeningService {
         positiveExamples: List<Word<String>>,
         negativeExamples: List<Word<String>>
     ): List<String> {
+        // FIXME: This assumes that the invariant is in the form: [](a -> b) && [](c -> d)
         val invRegex = "\\[\\]\\s*\\(([^\\[\\]]+)\\)".toRegex()
         val invariantPairs = invRegex.findAll(invariant).map {
             val splits = it.groupValues[1].split("->")
