@@ -26,14 +26,16 @@ object LTSACall {
      * create an implicit process named DEFAULT which is the composition of all the processes in the spec.
      */
     fun compile(fsp: String, compositeName: String = "DEFAULT"): CompositeState {
-        val ltsInput = StringLTSInput(fsp)
-        val ltsOutput = StringLTSOutput()
-        val compiler = LTSCompiler(ltsInput, ltsOutput, System.getProperty("user.dir"))
-        try {
-            return compiler.compile(compositeName)
-        } catch (e: LTSException) {
-            logger.debug(e.stackTraceToString())
-            throw Exception("Failed to compile the fsp source string of machine '${compositeName}'.")
+        synchronized(this) {
+            val ltsInput = StringLTSInput(fsp)
+            val ltsOutput = StringLTSOutput()
+            val compiler = LTSCompiler(ltsInput, ltsOutput, System.getProperty("user.dir"))
+            try {
+                return compiler.compile(compositeName)
+            } catch (e: LTSException) {
+                logger.debug(e.stackTraceToString())
+                throw Exception("Failed to compile the fsp source string of machine '${compositeName}'.")
+            }
         }
     }
 
