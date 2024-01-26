@@ -21,8 +21,8 @@ class SimpleInvariantWeakener(
     fun generateAlloyModel(): String {
         val literals = fluents.map { it.name }
         val invariantPairs = invariant.map { i -> Pair(
-            i.antecedent.map { it.first + "->" + if (it.second) "True" else "False" },
-            i.consequent.map { it.first + "->" + if (it.second) "True" else "False" }
+            i.antecedent.props.map { it.first + "->" + if (it.second) "True" else "False" },
+            i.consequent.props.map { it.first + "->" + if (it.second) "True" else "False" }
         ) }
         val statesMap = mutableMapOf<String, String>()
         val statesAlloyScript = mutableMapOf<String, String>()
@@ -122,7 +122,7 @@ class SimpleInvariantWeakener(
         }.toSet().joinToString(" + ")
     }
 
-    fun learn(): WeakeningSolution? {
+    fun learn(): SimpleInvariantSolution? {
         logger.info("Generating Alloy model for weakening...")
         val alloyScript = generateAlloyModel()
         logger.debug("Generated Alloy model:\n{}", alloyScript)
@@ -133,7 +133,7 @@ class SimpleInvariantWeakener(
         val command = world.allCommands.first()
         val solution = TranslateAlloyToKodkod.execute_command(reporter, world.allReachableSigs, command, options)
 
-        return if (solution.satisfiable()) WeakeningSolution(world, solution) else null
+        return if (solution.satisfiable()) SimpleInvariantSolution(world, solution) else null
     }
 
     private fun alloyOptions(): A4Options {

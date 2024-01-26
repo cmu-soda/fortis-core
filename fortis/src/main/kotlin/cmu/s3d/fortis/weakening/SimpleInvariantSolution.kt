@@ -5,7 +5,7 @@ import edu.mit.csail.sdg.parser.CompUtil
 import edu.mit.csail.sdg.translator.A4Solution
 import edu.mit.csail.sdg.translator.A4TupleSet
 
-class WeakeningSolution(private val world: CompModule, private val alloySolution: A4Solution) {
+class SimpleInvariantSolution(private val world: CompModule, private val alloySolution: A4Solution) {
 
     fun getInvariant(): List<SimpleInvariant> {
         val expr = CompUtil.parseOneExpression_fromString(world, "Invariant")
@@ -18,17 +18,17 @@ class WeakeningSolution(private val world: CompModule, private val alloySolution
         }
     }
 
-    private fun getPropositions(exprStr: String): List<Pair<String, Boolean>> {
+    private fun getPropositions(exprStr: String): Conjunctions {
         val expr = CompUtil.parseOneExpression_fromString(world, exprStr)
-        return (alloySolution.eval(expr) as A4TupleSet).map {
+        return Conjunctions((alloySolution.eval(expr) as A4TupleSet).map {
             (it.atom(0).split('$')[0]) to (it.atom(1).split('$')[0] == "True")
-        }
+        })
     }
 
-    fun next(): WeakeningSolution? {
+    fun next(): SimpleInvariantSolution? {
         val nextSolution = alloySolution.next()
         return if (nextSolution.satisfiable()) {
-            WeakeningSolution(world, nextSolution)
+            SimpleInvariantSolution(world, nextSolution)
         } else {
             null
         }
