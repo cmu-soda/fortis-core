@@ -16,13 +16,15 @@ data class SimpleGR1Invariant(
 class GR1InvariantWeakener(
     private val invariant: SimpleGR1Invariant,
     private val fluents: List<Fluent>,
-    private val positiveExamples: List<Word<String>>,
-    private val negativeExamples: List<Word<String>>,
-    private val maxNumOfNode: Int
+    positiveExamples: List<Word<String>>,
+    negativeExamples: List<Word<String>>,
+    maxNumOfNode: Int
 ) {
-    fun learn(): LTLLearningSolution? {
+    private val ltlLearner: LTLLearner
+
+    init {
         val constraints = generateConstraints()
-        val ltlLearner = LTLLearner(
+        ltlLearner = LTLLearner(
             literals = fluents.map { it.name },
             positiveExamples = positiveExamples.map { toLassoTrace(evaluateFluent(it, fluents)) },
             negativeExamples = negativeExamples.map { toLassoTrace(evaluateFluent(it, fluents)) },
@@ -30,7 +32,14 @@ class GR1InvariantWeakener(
             excludedOperators = listOf("F", "Until", "X"),
             customConstraints = constraints
         )
+    }
+
+    fun learn(): LTLLearningSolution? {
         return ltlLearner.learn()
+    }
+
+    fun generateAlloyModel(): String {
+        return ltlLearner.generateAlloyModel()
     }
 
     private fun toLassoTrace(valuation: List<Map<Fluent, Boolean>>): LassoTrace {
