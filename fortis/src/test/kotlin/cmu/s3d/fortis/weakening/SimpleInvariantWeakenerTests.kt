@@ -4,6 +4,7 @@ import cmu.s3d.fortis.ts.lts.toFluent
 import net.automatalib.word.Word
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
 class SimpleInvariantWeakenerTests {
 
@@ -26,6 +27,33 @@ class SimpleInvariantWeakenerTests {
             ),
             negativeExamples = listOf(
                 Word.fromList("x,set_xray,up,e,enter,b,fire_xray,reset".split(",")),
+            )
+        )
+    }
+
+    private fun loadTherac2(): SimpleInvariantWeakener {
+        return SimpleInvariantWeakener(
+            invariant = listOf(
+                SimpleInvariant(
+                    antecedent = "Xray && Fired".parseConjunction(),
+                    consequent = "InPlace".parseConjunction()
+                ),
+                SimpleInvariant(
+                    antecedent = "EBeam".parseConjunction(),
+                    consequent = "!InPlace".parseConjunction()
+                )
+            ),
+            fluents = listOf(
+                "fluent Xray = <set_xray, {set_ebeam, reset}>".toFluent()!!,
+                "fluent EBeam = <set_ebeam, {set_xray, reset}>".toFluent()!!,
+                "fluent InPlace = <x, e> initially 1".toFluent()!!,
+                "fluent Fired = <{fire_xray, fire_ebeam}, reset>".toFluent()!!
+            ),
+            positiveExamples = listOf(
+                Word.fromList("e,set_ebeam,up,x,set_xray,enter,b,fire_xray,reset".split(",")),
+            ),
+            negativeExamples = listOf(
+                Word.fromList("e,set_ebeam,up,x,enter,b,fire_ebeam,reset".split(","))
             )
         )
     }
@@ -151,6 +179,26 @@ class SimpleInvariantWeakenerTests {
                 )
             ),
             solutions
+        )
+    }
+
+    @Test
+    fun testLearnTherac2() {
+        val invWeakener = loadTherac2()
+        var solution = invWeakener.learn()
+        assertNotNull(solution)
+        assertEquals(
+            listOf(
+                SimpleInvariant(
+                    antecedent = "Xray && Fired".parseConjunction(),
+                    consequent = "InPlace".parseConjunction()
+                ),
+                SimpleInvariant(
+                    antecedent = "EBeam && Fired".parseConjunction(),
+                    consequent = "!InPlace".parseConjunction()
+                )
+            ),
+            solution.getInvariant()
         )
     }
 
