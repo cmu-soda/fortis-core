@@ -14,7 +14,7 @@ data class SimpleGR1Invariant(
 )
 
 class GR1InvariantWeakener(
-    private val invariant: SimpleGR1Invariant,
+    private val invariant: List<SimpleGR1Invariant>,
     private val fluents: List<Fluent>,
     positiveExamples: List<Word<String>>,
     negativeExamples: List<Word<String>>,
@@ -50,56 +50,65 @@ class GR1InvariantWeakener(
 
     private fun generateConstraints(): String {
         return """
+            fun childrenOf[n: DAGNode]: set DAGNode { n.^(l+r) }
+            fun childrenAndSelfOf[n: DAGNode]: set DAGNode { n.*(l+r) }
+            fun ancestorsOf[n: DAGNode]: set DAGNode { n.~^(l+r) }
+            
             fact {
-                root in G
-                root.l in Imply
-                
-                all n: root.l.^(l+r) | n not in Imply + G
-                all n: Neg & root.l.^(l+r) | n.l in Literal
-                all n: Or & root.l.l.*(l+r) | no n.^(l+r) & And
-                all n: And & root.l.r.*(l+r) | no n.^(l+r) & Or
+                // learn G(a -> b) && G(c -> d)
+                root in G + And
+                all n: G {
+                    ancestorsOf[n] in And
+                    n.l in Imply
+                    all n': childrenOf[n.l] | n' not in Imply + G
+                    all n': childrenOf[n.l] & Neg | n'.l in Literal
+                    all n': childrenAndSelfOf[n.l.l] & Or | no childrenOf[n'] & And
+                    all n': childrenAndSelfOf[n.l.r] & And | no childrenOf[n'] & Or
+                }
             }
-            ${generateInvariantConstraints()}
+            ${invariant.joinToString("") { generateInvariantConstraints(it) } }
         """
     }
 
-    private fun generateInvariantConstraints(): String {
+    private fun generateInvariantConstraints(inv: SimpleGR1Invariant): String {
         val antecedentDAG = mutableListOf<String>()
         val antecedentAnds = mutableListOf<String>()
         val antecedentOrs = mutableListOf<String>()
         val antecedentNegs = mutableListOf<String>()
-        val antecedentRoot = generateDAG(invariant.antecedent, antecedentDAG, antecedentAnds, antecedentOrs, antecedentNegs)
+        val antecedentRoot = generateDAG(inv.antecedent, antecedentDAG, antecedentAnds, antecedentOrs, antecedentNegs)
 
         val consequentDAG = mutableListOf<String>()
         val consequentAnds = mutableListOf<String>()
         val consequentOrs = mutableListOf<String>()
         val consequentNegs = mutableListOf<String>()
-        val consequentRoot = generateDAG(invariant.consequent, consequentDAG, consequentAnds, consequentOrs, consequentNegs)
+        val consequentRoot = generateDAG(inv.consequent, consequentDAG, consequentAnds, consequentOrs, consequentNegs)
 
         return """
             fact {
-                some antecedent: DAGNode${
+                some rt: childrenAndSelfOf[root] & G {
+                    some antecedent: DAGNode${
             if (antecedentAnds.isNotEmpty()) ", ${antecedentAnds.joinToString(", ")}: And" else ""
         }${
             if (antecedentOrs.isNotEmpty()) ", ${antecedentOrs.joinToString(", ")}: Or" else ""
         }${
             if (antecedentNegs.isNotEmpty()) ", ${antecedentNegs.joinToString(", ")}: Neg" else ""
         } {
-                    antecedent in $antecedentRoot
-                    root.l.l in $antecedentRoot or root.l.l in And and root.l.l.l in $antecedentRoot
-                    ${if (antecedentDAG.isNotEmpty()) "(${antecedentDAG.joinToString(" + ")}) in ((l+r) :> root.l.l.^(l+r))" else ""}
-                }
+                        antecedent in $antecedentRoot
+                        rt.l.l in $antecedentRoot or rt.l.l in And and rt.l.l.l in $antecedentRoot
+                        ${if (antecedentDAG.isNotEmpty()) "(${antecedentDAG.joinToString(" + ")}) in ((l+r) :> rt.l.l.^(l+r))" else ""}
+                    }
                 
-                some consequent: DAGNode${
+                    some consequent: DAGNode${
             if (consequentOrs.isNotEmpty()) ", ${consequentOrs.joinToString(", ")}: Or" else ""
         }${
             if (consequentAnds.isNotEmpty()) ", ${consequentAnds.joinToString(", ")}: And" else ""
         }${
             if (consequentNegs.isNotEmpty()) ", ${consequentNegs.joinToString(", ")}: Neg" else ""
         } {
-                    consequent in $consequentRoot
-                    root.l.r in $consequentRoot or root.l.r in Or and root.l.r.l in $consequentRoot
-                    ${if (consequentDAG.isNotEmpty()) "(${consequentDAG.joinToString(" + ")}) in ((l+r) :> root.l.r.^(l+r))" else ""}
+                        consequent in $consequentRoot
+                        rt.l.r in $consequentRoot or rt.l.r in Or and rt.l.r.l in $consequentRoot
+                        ${if (consequentDAG.isNotEmpty()) "(${consequentDAG.joinToString(" + ")}) in ((l+r) :> rt.l.r.^(l+r))" else ""}
+                    }
                 }
             }
         """

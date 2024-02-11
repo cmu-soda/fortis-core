@@ -9,9 +9,11 @@ class GR1InvariantWeakenerTests {
 
     private fun loadTherac(): GR1InvariantWeakener {
         return GR1InvariantWeakener(
-            invariant = SimpleGR1Invariant(
-                antecedent = "Xray".parseCNF(),
-                consequent = "InPlace".parseDNF()
+            invariant = listOf(
+                SimpleGR1Invariant(
+                    antecedent = "Xray".parseCNF(),
+                    consequent = "InPlace".parseDNF()
+                )
             ),
             fluents = listOf(
                 "fluent Xray = <set_xray, {set_ebeam, reset}>".toFluent()!!,
@@ -26,6 +28,34 @@ class GR1InvariantWeakenerTests {
                 Word.fromList("x,set_xray,up,e,enter,b,fire_xray,reset".split(","))
             ),
             maxNumOfNode = 7
+        )
+    }
+
+    private fun loadTherac2(): GR1InvariantWeakener {
+        return GR1InvariantWeakener(
+            invariant = listOf(
+                SimpleGR1Invariant(
+                    antecedent = "Xray && Fired".parseCNF(),
+                    consequent = "InPlace".parseDNF()
+                ),
+                SimpleGR1Invariant(
+                    antecedent = "EBeam".parseCNF(),
+                    consequent = "!InPlace".parseDNF()
+                )
+            ),
+            fluents = listOf(
+                "fluent Xray = <set_xray, {set_ebeam, reset}>".toFluent()!!,
+                "fluent EBeam = <set_ebeam, {set_xray, reset}>".toFluent()!!,
+                "fluent InPlace = <x, e> initially 1".toFluent()!!,
+                "fluent Fired = <{fire_xray, fire_ebeam}, reset>".toFluent()!!
+            ),
+            positiveExamples = listOf(
+                Word.fromList("e,set_ebeam,up,x,set_xray,enter,b,fire_xray,reset".split(",")),
+            ),
+            negativeExamples = listOf(
+                Word.fromList("e,set_ebeam,up,x,enter,b,fire_ebeam,reset".split(","))
+            ),
+            maxNumOfNode = 12
         )
     }
 
@@ -113,27 +143,36 @@ class GR1InvariantWeakenerTests {
             }
             fun root: one DAGNode { LearnedLTL.Root }
 
+            fun childrenOf[n: DAGNode]: set DAGNode { n.^(l+r) }
+            fun childrenAndSelfOf[n: DAGNode]: set DAGNode { n.*(l+r) }
+            fun ancestorsOf[n: DAGNode]: set DAGNode { n.~^(l+r) }
+
             fact {
-                root in G
-                root.l in Imply
-                
-                all n: root.l.^(l+r) | n not in Imply + G
-                all n: Neg & root.l.^(l+r) | n.l in Literal
-                all n: Or & root.l.l.*(l+r) | no n.^(l+r) & And
-                all n: And & root.l.r.*(l+r) | no n.^(l+r) & Or
+                // learn G(a -> b) && G(c -> d)
+                root in G + And
+                all n: G {
+                    ancestorsOf[n] in And
+                    n.l in Imply
+                    all n': childrenOf[n.l] | n' not in Imply + G
+                    all n': childrenOf[n.l] & Neg | n'.l in Literal
+                    all n': childrenAndSelfOf[n.l.l] & Or | no childrenOf[n'] & And
+                    all n': childrenAndSelfOf[n.l.r] & And | no childrenOf[n'] & Or
+                }
             }
 
             fact {
-                some antecedent: DAGNode {
-                    antecedent in Xray
-                    root.l.l in Xray or root.l.l in And and root.l.l.l in Xray
-                    
-                }
+                some rt: childrenAndSelfOf[root] & G {
+                    some antecedent: DAGNode {
+                        antecedent in Xray
+                        rt.l.l in Xray or rt.l.l in And and rt.l.l.l in Xray
+                        
+                    }
                 
-                some consequent: DAGNode {
-                    consequent in InPlace
-                    root.l.r in InPlace or root.l.r in Or and root.l.r.l in InPlace
-                    
+                    some consequent: DAGNode {
+                        consequent in InPlace
+                        rt.l.r in InPlace or rt.l.r in Or and rt.l.r.l in InPlace
+                        
+                    }
                 }
             }
 
@@ -143,7 +182,7 @@ class GR1InvariantWeakenerTests {
                 all t: NegativeTrace | root->T0 not in t.valuation
                 minsome l + r
             } for %d DAGNode
-            """.trimIndent(),
+        """.trimIndent(),
             learner.generateAlloyModel()
         )
 
@@ -151,6 +190,17 @@ class GR1InvariantWeakenerTests {
         assert(solution != null)
         assertEquals(
             "(G (Imply (And Xray Fired) InPlace))",
+            solution!!.getLTL()
+        )
+    }
+
+    @Test
+    fun testTherac2() {
+        val learner = loadTherac2()
+        val solution = learner.learn()
+        assert(solution != null)
+        assertEquals(
+            "(And (G (Imply (And Xray Fired) InPlace)) (G (Imply (And EBeam Fired) (Neg InPlace))))",
             solution!!.getLTL()
         )
     }
