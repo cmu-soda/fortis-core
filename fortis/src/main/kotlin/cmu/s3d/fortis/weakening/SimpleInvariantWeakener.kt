@@ -3,6 +3,7 @@ package cmu.s3d.fortis.weakening
 import cmu.s3d.fortis.ts.lts.Fluent
 import cmu.s3d.fortis.ts.lts.evaluateFluent
 import cmu.s3d.fortis.ts.lts.getFluentValuationString
+import cmu.s3d.ltl.FiniteTrace
 import edu.mit.csail.sdg.alloy4.A4Reporter
 import edu.mit.csail.sdg.parser.CompUtil
 import edu.mit.csail.sdg.translator.A4Options
@@ -12,22 +13,37 @@ import org.slf4j.LoggerFactory
 
 class SimpleInvariantWeakener(
     private val invariant: List<SimpleInvariant>,
-    private val fluents: List<Fluent>,
-    private val positiveExamples: List<Word<String>>,
-    private val negativeExamples: List<Word<String>>,
+    private val literals: List<String>,
+    private val positiveTraces: List<FiniteTrace>,
+    private val negativeTraces: List<FiniteTrace>,
 ) {
+    companion object {
+        fun build(
+            invariant: List<SimpleInvariant>,
+            fluents: List<Fluent>,
+            positiveExamples: List<Word<String>>,
+            negativeExamples: List<Word<String>>
+        ): SimpleInvariantWeakener {
+            return SimpleInvariantWeakener(
+                invariant,
+                fluents.map { it.name },
+                positiveExamples.map { evaluateFluent(it, fluents) },
+                negativeExamples.map { evaluateFluent(it, fluents) }
+            )
+        }
+    }
+
     private val logger = LoggerFactory.getLogger(javaClass)
 
     fun generateAlloyModel(): String {
-        val literals = fluents.map { it.name }
         val invariantPairs = invariant.map { i -> Pair(
             i.antecedent.props.map { it.first + "->" + if (it.second) "True" else "False" },
             i.consequent.props.map { it.first + "->" + if (it.second) "True" else "False" }
         ) }
         val statesMap = mutableMapOf<String, String>()
         val statesAlloyScript = mutableMapOf<String, String>()
-        val positiveTraces = positiveExamples.map { generateTrace(it, statesMap, statesAlloyScript) }
-        val negativeTraces = negativeExamples.map { generateTrace(it, statesMap, statesAlloyScript) }
+        val positiveTraceScript = positiveTraces.map { generateTrace(it, statesMap, statesAlloyScript) }
+        val negativeTraceScript = negativeTraces.map { generateTrace(it, statesMap, statesAlloyScript) }
 
         val invariantScript = invariantPairs.indices.map { i -> """
             one sig Invariant$i extends Invariant {} {
@@ -68,21 +84,21 @@ class SimpleInvariantWeakener(
             }
             
             ${
-                if (positiveTraces.isEmpty()) {
+                if (positiveTraceScript.isEmpty()) {
                     "fact { no PositiveTrace }"
                 } else {
-                    positiveTraces.indices.joinToString("\n            ") { i ->
-                        "one sig PT$i extends PositiveTrace {} { states = ${positiveTraces[i]} }"
+                    positiveTraceScript.indices.joinToString("\n            ") { i ->
+                        "one sig PT$i extends PositiveTrace {} { states = ${positiveTraceScript[i]} }"
                     }
                 }
             }
             
             ${
-                if (negativeTraces.isEmpty()) {
+                if (negativeTraceScript.isEmpty()) {
                     "fact { no NegativeTrace }"
                 } else {
-                    negativeTraces.indices.joinToString("\n            ") { i ->
-                        "one sig NT$i extends NegativeTrace {} { states = ${negativeTraces[i]} }"
+                    negativeTraceScript.indices.joinToString("\n            ") { i ->
+                        "one sig NT$i extends NegativeTrace {} { states = ${negativeTraceScript[i]} }"
                     }
                 }
             }
@@ -107,15 +123,13 @@ class SimpleInvariantWeakener(
         return alloyScript
     }
 
-    private fun generateTrace(
-        example: Word<String>, statesMap: MutableMap<String, String>,
-        statesAlloyScript: MutableMap<String, String>
-    ): String {
-        return evaluateFluent(example, fluents).map { state ->
-            val stateValues = getFluentValuationString(fluents, state)
+    private fun generateTrace(example: FiniteTrace, statesMap: MutableMap<String, String>,
+                              statesAlloyScript: MutableMap<String, String>): String {
+        return example.map { state ->
+            val stateValues = getFluentValuationString(literals, state)
             statesMap.getOrPut(stateValues) {
-                statesAlloyScript[stateValues] = state.entries.filter { it.value }.let {
-                    if (it.isEmpty()) "none" else it.joinToString(" + ") { entry -> entry.key.name }
+                statesAlloyScript[stateValues] = state.values.entries.filter { it.value }.let {
+                    if (it.isEmpty()) "none" else it.joinToString(" + ") { entry -> entry.key }
                 }
                 "S${statesMap.size}"
             }

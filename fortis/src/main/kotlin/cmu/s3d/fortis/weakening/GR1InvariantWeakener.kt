@@ -2,8 +2,8 @@ package cmu.s3d.fortis.weakening
 
 import cmu.s3d.fortis.ts.lts.Fluent
 import cmu.s3d.fortis.ts.lts.evaluateFluent
+import cmu.s3d.ltl.FiniteTrace
 import cmu.s3d.ltl.LassoTrace
-import cmu.s3d.ltl.State
 import cmu.s3d.ltl.learning.LTLLearner
 import cmu.s3d.ltl.learning.LTLLearningSolution
 import net.automatalib.word.Word
@@ -15,9 +15,9 @@ data class SimpleGR1Invariant(
 
 class GR1InvariantWeakener(
     private val invariant: List<SimpleGR1Invariant>,
-    private val fluents: List<Fluent>,
-    positiveExamples: List<Word<String>>,
-    negativeExamples: List<Word<String>>,
+    literals: List<String>,
+    positiveTraces: List<FiniteTrace>,
+    negativeTraces: List<FiniteTrace>,
     maxNumOfNode: Int
 ) {
     private val ltlLearner: LTLLearner
@@ -25,13 +25,31 @@ class GR1InvariantWeakener(
     init {
         val constraints = generateConstraints()
         ltlLearner = LTLLearner(
-            literals = fluents.map { it.name },
-            positiveExamples = positiveExamples.map { toLassoTrace(evaluateFluent(it, fluents)) },
-            negativeExamples = negativeExamples.map { toLassoTrace(evaluateFluent(it, fluents)) },
+            literals = literals,
+            positiveExamples = positiveTraces.map { LassoTrace(prefix = it) },
+            negativeExamples = negativeTraces.map { LassoTrace(prefix = it) },
             maxNumOfNode = maxNumOfNode,
             excludedOperators = listOf("F", "Until", "X"),
             customConstraints = constraints
         )
+    }
+
+    companion object {
+        fun build(
+            invariant: List<SimpleGR1Invariant>,
+            fluents: List<Fluent>,
+            positiveExamples: List<Word<String>>,
+            negativeExamples: List<Word<String>>,
+            maxNumOfNode: Int
+        ): GR1InvariantWeakener {
+            return GR1InvariantWeakener(
+                invariant,
+                fluents.map { it.name },
+                positiveExamples.map { evaluateFluent(it, fluents) },
+                negativeExamples.map { evaluateFluent(it, fluents) },
+                maxNumOfNode
+            )
+        }
     }
 
     fun learn(): LTLLearningSolution? {
@@ -40,12 +58,6 @@ class GR1InvariantWeakener(
 
     fun generateAlloyModel(): String {
         return ltlLearner.generateAlloyModel()
-    }
-
-    private fun toLassoTrace(valuation: List<Map<Fluent, Boolean>>): LassoTrace {
-        return LassoTrace(
-            prefix = valuation.map { s -> State(s.map { (k, v) -> k.name to v }.toMap()) }
-        )
     }
 
     private fun generateConstraints(): String {

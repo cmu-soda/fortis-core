@@ -9,7 +9,7 @@ import kotlin.test.assertNotNull
 class SimpleInvariantWeakenerTests {
 
     private fun loadTherac(): SimpleInvariantWeakener {
-        return SimpleInvariantWeakener(
+        return SimpleInvariantWeakener.build(
             invariant = listOf(
                 SimpleInvariant(
                     antecedent = "Xray".parseConjunction(),
@@ -32,7 +32,7 @@ class SimpleInvariantWeakenerTests {
     }
 
     private fun loadTherac2(): SimpleInvariantWeakener {
-        return SimpleInvariantWeakener(
+        return SimpleInvariantWeakener.build(
             invariant = listOf(
                 SimpleInvariant(
                     antecedent = "Xray && Fired".parseConjunction(),
@@ -59,7 +59,7 @@ class SimpleInvariantWeakenerTests {
     }
 
     private fun loadVoting(): SimpleInvariantWeakener {
-        return SimpleInvariantWeakener(
+        return SimpleInvariantWeakener.build(
             invariant = listOf(
                 SimpleInvariant(
                     antecedent = "Confirmed".parseConjunction(),

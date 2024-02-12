@@ -8,7 +8,7 @@ import kotlin.test.assertEquals
 class GR1InvariantWeakenerTests {
 
     private fun loadTherac(): GR1InvariantWeakener {
-        return GR1InvariantWeakener(
+        return GR1InvariantWeakener.build(
             invariant = listOf(
                 SimpleGR1Invariant(
                     antecedent = "Xray".parseCNF(),
@@ -32,7 +32,7 @@ class GR1InvariantWeakenerTests {
     }
 
     private fun loadTherac2(): GR1InvariantWeakener {
-        return GR1InvariantWeakener(
+        return GR1InvariantWeakener.build(
             invariant = listOf(
                 SimpleGR1Invariant(
                     antecedent = "Xray && Fired".parseCNF(),

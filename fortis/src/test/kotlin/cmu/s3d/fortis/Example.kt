@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 class Example() {
     @Test
     fun testExample() {
-        val invWeakener = SimpleInvariantWeakener(
+        val invWeakener = SimpleInvariantWeakener.build(
             invariant = listOf(
                 SimpleInvariant(
                     antecedent = "Confirmed".parseConjunction(),

@@ -14,6 +14,7 @@ class ExampleFilterForInvariant(
     private val examples: Iterable<Word<String>>,
     private val fluents: List<Fluent>
 ) : Iterator<Word<String>>, Iterable<Word<String>> {
+    private val literals = fluents.map { it.name }
     private val visited = mutableSetOf<String>()
     private var exampleIterator = examples.iterator()
     private var current: Word<String>? = null
@@ -31,7 +32,7 @@ class ExampleFilterForInvariant(
             val evaluation = evaluateFluent(trace, fluents)
             val currentSize = visited.size
             for (state in evaluation) {
-                visited.add(getFluentValuationString(fluents, state))
+                visited.add(getFluentValuationString(literals, state))
             }
             if (visited.size > currentSize) {
                 current = trace

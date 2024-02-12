@@ -1,5 +1,7 @@
 package cmu.s3d.fortis.ts.lts
 
+import cmu.s3d.ltl.FiniteTrace
+import cmu.s3d.ltl.State
 import net.automatalib.word.Word
 
 data class Fluent(
@@ -40,32 +42,32 @@ fun String.toFluent(): Fluent? {
     }
 }
 
-fun evaluateFluent(word: Word<String>, fluents: List<Fluent>): List<Map<Fluent, Boolean>> {
-    val evaluation = mutableListOf<Map<Fluent, Boolean>>()
+fun evaluateFluent(word: Word<String>, fluents: List<Fluent>): FiniteTrace {
+    val evaluation = mutableListOf<State>()
 
     // initial state
-    evaluation.add(fluents.associateWith { it.init })
+    evaluation.add(State(fluents.associate { it.name to it.init }))
     // for each input in word
     for (i in 0 until word.size()) {
         val input = word.getSymbol(i)
         // evaluate each fluent
-        val newEvaluation = evaluation.last().toMutableMap()
+        val newEvaluation = evaluation.last().values.toMutableMap()
         for (fluent in fluents) {
             // if fluent is triggered, then set to true
             if (fluent.trigger.contains(input)) {
-                newEvaluation[fluent] = true
+                newEvaluation[fluent.name] = true
             }
             // if fluent is reset, then set to false
             if (fluent.reset.contains(input)) {
-                newEvaluation[fluent] = false
+                newEvaluation[fluent.name] = false
             }
         }
-        evaluation.add(newEvaluation)
+        evaluation.add(State(newEvaluation))
     }
 
     return evaluation
 }
 
-fun getFluentValuationString(fluents: List<Fluent>, valuation: Map<Fluent, Boolean>): String {
-    return fluents.joinToString { if (valuation[it] == true) "1" else "0" }
+fun getFluentValuationString(literals: List<String>, valuation: State): String {
+    return literals.joinToString { if (valuation.values[it] == true) "1" else "0" }
 }

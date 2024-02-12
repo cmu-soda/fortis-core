@@ -65,7 +65,7 @@ class WeakeningServiceImpl : WeakeningService {
         if (invariantPairs.isEmpty())
             error("Invalid invariant format")
 
-        val weakener = SimpleInvariantWeakener(
+        val weakener = SimpleInvariantWeakener.build(
             invariant = invariantPairs,
             fluents = fluents.map { it.toFluent()?: error("Invalid fluent string") },
             positiveExamples = positiveExamples,
@@ -99,7 +99,7 @@ class WeakeningServiceImpl : WeakeningService {
         if (invariantPairs.isEmpty())
             error("Invalid invariant format")
 
-        val weakener = GR1InvariantWeakener(
+        val weakener = GR1InvariantWeakener.build(
             invariant = invariantPairs,
             fluents = fluents.map { it.toFluent()?: error("Invalid fluent string") },
             positiveExamples = positiveExamples,

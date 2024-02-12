@@ -1,5 +1,6 @@
 package cmu.s3d.fortis.ts.lts
 
+import cmu.s3d.ltl.State
 import net.automatalib.word.Word
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -109,36 +110,36 @@ class FluentTests {
         val evaluation = evaluateFluent(word, fluents)
         assertEquals(
             listOf(
-                mapOf(
-                    fluents[0] to false,
-                    fluents[1] to false,
-                    fluents[2] to true,
-                    fluents[3] to false
-                ),
-                mapOf(
-                    fluents[0] to false,
-                    fluents[1] to false,
-                    fluents[2] to true,
-                    fluents[3] to false
-                ),
-                mapOf(
-                    fluents[0] to true,
-                    fluents[1] to false,
-                    fluents[2] to true,
-                    fluents[3] to false
-                ),
-                mapOf(
-                    fluents[0] to true,
-                    fluents[1] to false,
-                    fluents[2] to true,
-                    fluents[3] to false
-                ),
-                mapOf(
-                    fluents[0] to true,
-                    fluents[1] to false,
-                    fluents[2] to false,
-                    fluents[3] to false
-                )
+                State(mapOf(
+                    fluents[0].name to false,
+                    fluents[1].name to false,
+                    fluents[2].name to true,
+                    fluents[3].name to false
+                )),
+                State(mapOf(
+                    fluents[0].name to false,
+                    fluents[1].name to false,
+                    fluents[2].name to true,
+                    fluents[3].name to false
+                )),
+                State(mapOf(
+                    fluents[0].name to true,
+                    fluents[1].name to false,
+                    fluents[2].name to true,
+                    fluents[3].name to false
+                )),
+                State(mapOf(
+                    fluents[0].name to true,
+                    fluents[1].name to false,
+                    fluents[2].name to true,
+                    fluents[3].name to false
+                )),
+                State(mapOf(
+                    fluents[0].name to true,
+                    fluents[1].name to false,
+                    fluents[2].name to false,
+                    fluents[3].name to false
+                ))
             ),
             evaluation
         )
