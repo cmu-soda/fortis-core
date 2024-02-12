@@ -62,10 +62,6 @@ class GR1InvariantWeakener(
 
     private fun generateConstraints(): String {
         return """
-            fun childrenOf[n: DAGNode]: set DAGNode { n.^(l+r) }
-            fun childrenAndSelfOf[n: DAGNode]: set DAGNode { n.*(l+r) }
-            fun ancestorsOf[n: DAGNode]: set DAGNode { n.~^(l+r) }
-            
             fact {
                 // learn G(a -> b) && G(c -> d)
                 root in G + And
@@ -107,7 +103,7 @@ class GR1InvariantWeakener(
         } {
                         antecedent in $antecedentRoot
                         rt.l.l in $antecedentRoot or rt.l.l in And and rt.l.l.l in $antecedentRoot
-                        ${if (antecedentDAG.isNotEmpty()) "(${antecedentDAG.joinToString(" + ")}) in ((l+r) :> rt.l.l.^(l+r))" else ""}
+                        ${if (antecedentDAG.isNotEmpty()) "(${antecedentDAG.joinToString(" + ")}) in subDAG[rt.l.l]" else ""}
                     }
                 
                     some consequent: DAGNode${
@@ -119,7 +115,7 @@ class GR1InvariantWeakener(
         } {
                         consequent in $consequentRoot
                         rt.l.r in $consequentRoot or rt.l.r in Or and rt.l.r.l in $consequentRoot
-                        ${if (consequentDAG.isNotEmpty()) "(${consequentDAG.joinToString(" + ")}) in ((l+r) :> rt.l.r.^(l+r))" else ""}
+                        ${if (consequentDAG.isNotEmpty()) "(${consequentDAG.joinToString(" + ")}) in subDAG[rt.l.r]" else ""}
                     }
                 }
             }

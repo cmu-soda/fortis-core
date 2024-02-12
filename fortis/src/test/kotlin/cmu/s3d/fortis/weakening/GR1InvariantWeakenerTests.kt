@@ -142,10 +142,11 @@ class GR1InvariantWeakenerTests {
                 Root: DAGNode
             }
             fun root: one DAGNode { LearnedLTL.Root }
-
             fun childrenOf[n: DAGNode]: set DAGNode { n.^(l+r) }
             fun childrenAndSelfOf[n: DAGNode]: set DAGNode { n.*(l+r) }
             fun ancestorsOf[n: DAGNode]: set DAGNode { n.~^(l+r) }
+            fun ancestorsAndSelfOf[n: DAGNode]: set DAGNode { n.~*(l+r) }
+            fun subDAG[n: DAGNode]: DAGNode -> DAGNode { (l+r) :> n.^(l+r) }
 
             fact {
                 // learn G(a -> b) && G(c -> d)
