@@ -155,6 +155,54 @@ class WeakeningServiceImplTests {
     }
 
     @Test
+    fun testWeakenGR1ForTherac25() {
+        val solutions = service.weakenGR1Invariant(
+            "[](Xray -> InPlace)",
+            listOf(
+                "fluent Xray = <set_xray, {set_ebeam, reset}>",
+                "fluent EBeam = <set_ebeam, {set_xray, reset}>",
+                "fluent InPlace = <x, e> initially 1",
+                "fluent Fired = <{fire_xray, fire_ebeam}, reset>",
+            ),
+            listOf(
+                Word.fromList("x,set_xray,up,e,set_ebeam,enter,b,fire_ebeam,reset".split(",")),
+            ),
+            listOf(
+                Word.fromList("x,set_xray,up,e,enter,b,fire_xray,reset".split(",")),
+            ),
+            3
+        )
+        assertEquals(
+            "[]((Xray && Fired) -> InPlace)",
+            solutions
+        )
+    }
+
+    @Test
+    fun testWeakenGR1ForTherac25_2() {
+        val solutions = service.weakenGR1Invariant(
+            "[](Xray && Fired -> InPlace) && [](EBeam -> !InPlace)",
+            listOf(
+                "fluent Xray = <set_xray, {set_ebeam, reset}>",
+                "fluent EBeam = <set_ebeam, {set_xray, reset}>",
+                "fluent InPlace = <x, e> initially 1",
+                "fluent Fired = <{fire_xray, fire_ebeam}, reset>",
+            ),
+            listOf(
+                Word.fromList("e,set_ebeam,up,x,set_xray,enter,b,fire_xray,reset".split(","))
+            ),
+            listOf(
+                Word.fromList("e,set_ebeam,up,x,enter,b,fire_ebeam,reset".split(","))
+            ),
+            8
+        )
+        assertEquals(
+            "([]((Xray && Fired) -> InPlace) && []((EBeam && Fired) -> !InPlace))",
+            solutions
+        )
+    }
+
+    @Test
     fun testWeakenSafetyInvariantForVoting() {
         val solutions = service.weakenSafetyInvariant(
             "[](Confirmed -> SelectByVoter && VoteByVoter)",
