@@ -4,6 +4,7 @@ import cmu.s3d.fortis.ts.lts.Fluent
 import cmu.s3d.fortis.ts.lts.evaluateFluent
 import cmu.s3d.fortis.ts.lts.getFluentValuationString
 import cmu.s3d.ltl.FiniteTrace
+import cmu.s3d.ltl.learning.AlloyMaxBase
 import edu.mit.csail.sdg.alloy4.A4Reporter
 import edu.mit.csail.sdg.parser.CompUtil
 import edu.mit.csail.sdg.translator.A4Options
@@ -16,7 +17,8 @@ class SimpleInvariantWeakener(
     private val literals: List<String>,
     private val positiveTraces: List<FiniteTrace>,
     private val negativeTraces: List<FiniteTrace>,
-) {
+    customAlloyOptions: A4Options? = null
+) : AlloyMaxBase(customAlloyOptions) {
     companion object {
         fun build(
             invariant: List<SimpleInvariant>,
@@ -148,14 +150,5 @@ class SimpleInvariantWeakener(
         val solution = TranslateAlloyToKodkod.execute_command(reporter, world.allReachableSigs, command, options)
 
         return if (solution.satisfiable()) SimpleInvariantSolution(world, solution) else null
-    }
-
-    private fun alloyOptions(): A4Options {
-        val options = A4Options()
-        options.solver = A4Options.SatSolver.SAT4JMax
-        options.skolemDepth = 1
-        options.noOverflow = false
-        options.inferPartialInstance = false
-        return options
     }
 }
