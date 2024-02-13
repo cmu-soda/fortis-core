@@ -115,9 +115,8 @@ class GR1InvariantWeakenerTests {
             fun futureIdx[t: Trace, i: SeqIdx]: set SeqIdx {
             	i.^((next :> seqRange[t]) + t.lasso) + i
             }
-
-            abstract sig PositiveTrace, NegativeTrace extends Trace {}
-
+            abstract sig PositiveTrace extends Trace {}
+            abstract sig NegativeTrace extends Trace {}
             one sig Xray, EBeam, InPlace, Fired extends Literal {}
             one sig T0, T1, T2, T3, T4, T5, T6, T7, T8, T9 extends SeqIdx {}
             fact {
