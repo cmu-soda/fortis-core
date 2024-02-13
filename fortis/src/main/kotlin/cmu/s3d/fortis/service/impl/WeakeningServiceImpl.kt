@@ -10,7 +10,6 @@ import cmu.s3d.fortis.ts.lts.ltsa.LTSACall.compose
 import cmu.s3d.fortis.ts.lts.toFluent
 import cmu.s3d.fortis.ts.parallel
 import cmu.s3d.fortis.weakening.*
-import cmu.s3d.ltl.learning.LTLLearningSolution
 import net.automatalib.alphabet.Alphabets
 import net.automatalib.automaton.fsa.NFA
 import net.automatalib.word.Word
@@ -54,14 +53,7 @@ class WeakeningServiceImpl : WeakeningService {
         negativeExamples: List<Word<String>>
     ): List<String> {
         // FIXME: This assumes that the invariant is in the form: [](a -> b) && [](c -> d), but LTSA does not support.
-        val invRegex = "\\[\\]\\s*\\(([^\\[\\]]+)\\)".toRegex()
-        val invariantPairs = invRegex.findAll(invariant).map {
-            val splits = it.groupValues[1].split("->")
-            SimpleInvariant(
-                splits[0].parseConjunction(),
-                splits[1].parseConjunction()
-            )
-        }.toList()
+        val invariantPairs = SimpleInvariant.multipleFromString(invariant)
         if (invariantPairs.isEmpty())
             error("Invalid invariant format")
 
@@ -88,14 +80,7 @@ class WeakeningServiceImpl : WeakeningService {
         maxNumOfNode: Int
     ): String? {
         // FIXME: This assumes that the invariant is in the form: [](a -> b) && [](c -> d), but LTSA does not support.
-        val invRegex = "\\[\\]\\s*\\(([^\\[\\]]+)\\)".toRegex()
-        val invariantPairs = invRegex.findAll(invariant).map {
-            val splits = it.groupValues[1].split("->")
-            SimpleGR1Invariant(
-                splits[0].parseCNF(),
-                splits[1].parseDNF()
-            )
-        }.toList()
+        val invariantPairs = SimpleGR1Invariant.multipleFromString(invariant)
         if (invariantPairs.isEmpty())
             error("Invalid invariant format")
 
@@ -121,28 +106,5 @@ class WeakeningServiceImpl : WeakeningService {
         if (specs.isEmpty()) error("Specs cannot be empty")
         if (specs.size == 1) return parseSpec(specs.first())
         return parallel(*specs.map { parseSpec(it) }.toTypedArray())
-    }
-
-    private val operatorMapping = mapOf(
-        "G"  to "[]",
-        "Neg"  to "!",
-        "And"  to "&&",
-        "Or"  to "||",
-        "Imply" to "->",
-    )
-
-    private fun LTLLearningSolution.getGR1Invariant(): String {
-        val root = getRoot()
-        return getGR1Invariant(root)
-    }
-
-    private fun LTLLearningSolution.getGR1Invariant(node: String) : String {
-        val (name, leftNode, rightNode) = getNodeAndChildren(node)
-        return when {
-            leftNode == null && rightNode == null -> name
-            leftNode != null && rightNode == null -> "${operatorMapping[name]}${getGR1Invariant(leftNode)}"
-            leftNode != null && rightNode != null -> "(${getGR1Invariant(leftNode)} ${operatorMapping[name]} ${getGR1Invariant(rightNode)})"
-            else -> error("Invalid LTL formula.")
-        }
     }
 }

@@ -6,19 +6,16 @@ import cmu.s3d.ltl.FiniteTrace
 import cmu.s3d.ltl.LassoTrace
 import cmu.s3d.ltl.learning.LTLLearner
 import cmu.s3d.ltl.learning.LTLLearningSolution
+import edu.mit.csail.sdg.translator.A4Options
 import net.automatalib.word.Word
-
-data class SimpleGR1Invariant(
-    val antecedent: CNF,
-    val consequent: DNF,
-)
 
 class GR1InvariantWeakener(
     private val invariant: List<SimpleGR1Invariant>,
     literals: List<String>,
     positiveTraces: List<FiniteTrace>,
     negativeTraces: List<FiniteTrace>,
-    maxNumOfNode: Int
+    maxNumOfNode: Int,
+    customAlloyOptions: A4Options? = null
 ) {
     private val ltlLearner: LTLLearner
 
@@ -30,7 +27,8 @@ class GR1InvariantWeakener(
             negativeExamples = negativeTraces.map { LassoTrace(prefix = it) },
             maxNumOfNode = maxNumOfNode,
             excludedOperators = listOf("F", "Until", "X"),
-            customConstraints = constraints
+            customConstraints = constraints,
+            customAlloyOptions = customAlloyOptions
         )
     }
 
