@@ -15,6 +15,7 @@ import edu.mit.csail.sdg.translator.A4Options
 import org.apache.logging.log4j.Level
 import org.apache.logging.log4j.core.config.Configurator
 import java.io.File
+import java.lang.management.ManagementFactory
 import java.util.*
 
 class ProblemGenerator(
@@ -85,10 +86,31 @@ class Benchmark : CliktCommand(
     private val maxNumOfNode by option("--maxNumOfNode", "-M", help = "The maximum number of nodes in the learning process for GR1 weakener.").int()
     private val dryRun by option("--dryRun", "-D", help = "Dry run the benchmark.").flag()
     private val taskFile by option("--taskFile", "-f", help = "The file task to run.")
+    private val taskFolder by option("--taskFolder", "-F", help = "The folder of tasks to run. This finds tasks in the folder recursively.")
 
     override fun run() {
-        val problem = if (taskFile != null) {
-            ProblemParser.parseTask(File(taskFile!!).readText())
+        if (!dryRun && !_run)
+            println("filename,oldInvariant,expected,sizeOfTrace,numOfPositives,numOfNegatives,solvingTime,formula")
+
+        if (taskFolder != null) {
+            val folder = File(taskFolder!!)
+            if (folder.isDirectory) {
+                folder.walk()
+                    .filter { it.isFile && it.name.endsWith(".trace") }
+                    .forEach { runSingleTask(it) }
+            }
+        } else {
+            runSingleTask(taskFile?.let { File(it) })
+        }
+    }
+
+    private fun runSingleTask(file: File?) {
+        val problem = if (file != null) {
+            if (file.isFile && file.name.endsWith(".trace")) {
+                ProblemParser.parseTask(file.readText())
+            } else {
+                error("The file $file is not a trace file.")
+            }
         } else {
             ProblemGenerator(
                 literals?.split(",")?.map { it.trim() } ?: error("Literals are required."),
@@ -103,19 +125,18 @@ class Benchmark : CliktCommand(
         }
 
         if (_run || dryRun) {
-            actualRun(problem)
+            actualRun(problem, file?.path)
         } else {
-            rubInSubProcess(problem)
+            rubInSubProcess(problem, file?.path)
         }
     }
 
-    private fun actualRun(problem: Problem) {
+    private fun actualRun(problem: Problem, taskPath: String?) {
         if (dryRun) {
             println(problem)
             return
         }
 
-        println("oldInvariant,expected,sizeOfTrace,numOfPositives,numOfNegatives,solvingTime,formula")
         try {
             val options = AlloyMaxBase.defaultAlloyOptions()
             options.solver = when (solver) {
@@ -124,7 +145,7 @@ class Benchmark : CliktCommand(
                 "OpenWBOWeighted" -> A4Options.SatSolver.OpenWBOWeighted
                 "POpenWBO" -> A4Options.SatSolver.POpenWBO
                 "POpenWBOAuto" -> A4Options.SatSolver.POpenWBOAuto
-                else -> throw IllegalArgumentException("Unknown solver: $solver")
+                else -> error("Unknown solver: $solver")
             }
             val (formula, solvingTime) = when (encoding) {
                 "simple" -> solveBySimpleWeakener(problem, options)
@@ -132,10 +153,10 @@ class Benchmark : CliktCommand(
                 null -> error("Encoding is required.")
                 else -> error("Unknown encoding: $encoding")
             }
-            println("${problem.toCSVString()},$solvingTime,\"$formula\"")
+            println("$taskPath,${problem.toCSVString()},$solvingTime,\"$formula\"")
         } catch (e: Exception) {
             val message = e.message?.replace("\\v".toRegex(), " ") ?: "Unknown error"
-            println("${problem.toCSVString()},\"ERR:$message\",-")
+            println("$taskPath,${problem.toCSVString()},\"ERR:$message\",-")
         }
     }
 
@@ -168,9 +189,15 @@ class Benchmark : CliktCommand(
         return Pair(solution?.getGR1Invariant() ?: "UNSAT", solvingTime)
     }
 
-    private fun rubInSubProcess(problem: Problem) {
+    private fun rubInSubProcess(problem: Problem, taskPath: String?) {
+        val jvmArgs = ManagementFactory.getRuntimeMXBean().inputArguments
+        val jvmXms = jvmArgs.find { it.startsWith("-Xms") }
+        val jvmXmx = jvmArgs.find { it.startsWith("-Xmx") }
+
         val cmd = mutableListOf(
             "java",
+            jvmXms ?: "-Xms512m",
+            jvmXmx ?: "-Xmx4g",
             "-Djava.library.path=${System.getProperty("java.library.path")}",
             "-cp",
             System.getProperty("java.class.path"),
@@ -187,7 +214,7 @@ class Benchmark : CliktCommand(
         if (randomTraceSize) cmd.add("-R")
         if (encoding != null) cmd.addAll(listOf("-E", encoding))
         if (maxNumOfNode != null) cmd.addAll(listOf("-M", maxNumOfNode.toString()))
-        if (taskFile != null) cmd.addAll(listOf("-f", taskFile))
+        if (taskPath != null) cmd.addAll(listOf("-f", taskPath))
 
         val processBuilder = ProcessBuilder(cmd)
         val process = processBuilder.start()
@@ -198,7 +225,7 @@ class Benchmark : CliktCommand(
                 override fun run() {
                     if (process.isAlive) {
                         process.destroy()
-                        println("${problem.toCSVString()},TO,-")
+                        println("$taskPath,${problem.toCSVString()},TO,-")
                     }
                 }
             }, timeout.toLong() * 1000)
