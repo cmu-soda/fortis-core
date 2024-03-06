@@ -58,64 +58,68 @@ class GR1InvariantWeakener(
         return ltlLearner.generateAlloyModel()
     }
 
+    private var numberOfGs = 0
+    private var numberOfImplies = 0
+    private var numberOfAnds = 0
+    private var numberOfOrs = 0
+    private var numberOfNegs = 0
+
     private fun generateConstraints(): String {
+        val Ands = (0 until invariant.size-1).map { "And${numberOfAnds++}" }
+        val Gs = invariant.indices.map { "G$it" }
+        val dag = mutableListOf<String>()
+
         return """
+            ${if (Ands.isNotEmpty()) "one sig ${Ands.joinToString(", ")} extends And {}" else ""}
             fact {
-                // learn G(a -> b) && G(c -> d)
-                root in G + And
-                all n: G {
-                    ancestorsOf[n] in And
-                    n.l in Imply
-                    all n': childrenOf[n.l] | n' not in Imply + G
-                    all n': childrenOf[n.l] & Neg | n'.l in Literal
-                    all n': childrenAndSelfOf[n.l.l] & Or | no childrenOf[n'] & And
-                    all n': childrenAndSelfOf[n.l.r] & And | no childrenOf[n'] & Or
+                root = ${generateConjunctionOfInvariants(Ands, Gs, dag)}
+                ${if (dag.isNotEmpty()) dag.joinToString(" and ") else ""}
+                all imply: Imply {
+                    all n: childrenOf[imply] | n in (Literal + And + Or + Neg)
+                    all n: childrenOf[imply] & Neg | n.l in Literal
+                    all n: childrenAndSelfOf[imply.l] & Or | no childrenOf[n] & And
+                    all n: childrenAndSelfOf[imply.r] & And | no childrenOf[n] & Or
                 }
             }
-            ${invariant.joinToString("") { generateInvariantConstraints(it) } }
+            ${invariant.joinToString("") { generateInvariantConstraints(it) }}
         """
     }
 
-    private fun generateInvariantConstraints(inv: SimpleGR1Invariant): String {
-        val antecedentDAG = mutableListOf<String>()
-        val antecedentAnds = mutableListOf<String>()
-        val antecedentOrs = mutableListOf<String>()
-        val antecedentNegs = mutableListOf<String>()
-        val antecedentRoot = generateDAG(inv.antecedent, antecedentDAG, antecedentAnds, antecedentOrs, antecedentNegs)
+    private fun generateConjunctionOfInvariants(Ands: List<String>, Gs: List<String>, dag: MutableList<String>): String {
+        return if (Ands.isEmpty()) {
+            return Gs[0]
+        } else {
+            val and = Ands[0]
+            val l = Gs[0]
+            val r = generateConjunctionOfInvariants(Ands.subList(1, Ands.size), Gs.subList(1, Gs.size), dag)
+            dag.add("$and.l = $l")
+            dag.add("$and.r = $r")
+            and
+        }
+    }
 
+    private fun generateInvariantConstraints(inv: SimpleGR1Invariant): String {
+        val G = "G${numberOfGs++}"
+        val Imply = "Imply${numberOfImplies++}"
+        val Ands = mutableListOf<String>()
+        val Ors = mutableListOf<String>()
+        val Negs = mutableListOf<String>()
+        val antecedentDAG = mutableListOf<String>()
+        val antecedentRoot = generateDAG(inv.antecedent, antecedentDAG, Ands, Ors, Negs)
         val consequentDAG = mutableListOf<String>()
-        val consequentAnds = mutableListOf<String>()
-        val consequentOrs = mutableListOf<String>()
-        val consequentNegs = mutableListOf<String>()
-        val consequentRoot = generateDAG(inv.consequent, consequentDAG, consequentAnds, consequentOrs, consequentNegs)
+        val consequentRoot = generateDAG(inv.consequent, consequentDAG, Ands, Ors, Negs)
 
         return """
+            one sig $G extends G {} { l = $Imply }
+            one sig $Imply extends Imply {}
+            ${if (Ands.isNotEmpty()) "one sig ${Ands.joinToString(", ")} extends And {}" else ""}
+            ${if (Ors.isNotEmpty()) "one sig ${Ors.joinToString(", ")} extends Or {}" else ""}
+            ${if (Negs.isNotEmpty()) "one sig ${Negs.joinToString(", ")} extends Neg {}" else ""}
             fact {
-                some rt: childrenAndSelfOf[root] & G {
-                    some antecedent: DAGNode${
-            if (antecedentAnds.isNotEmpty()) ", ${antecedentAnds.joinToString(", ")}: And" else ""
-        }${
-            if (antecedentOrs.isNotEmpty()) ", ${antecedentOrs.joinToString(", ")}: Or" else ""
-        }${
-            if (antecedentNegs.isNotEmpty()) ", ${antecedentNegs.joinToString(", ")}: Neg" else ""
-        } {
-                        antecedent in $antecedentRoot
-                        rt.l.l in $antecedentRoot or rt.l.l in And and rt.l.l.l in $antecedentRoot
-                        ${if (antecedentDAG.isNotEmpty()) "(${antecedentDAG.joinToString(" + ")}) in subDAG[rt.l.l]" else ""}
-                    }
-                
-                    some consequent: DAGNode${
-            if (consequentOrs.isNotEmpty()) ", ${consequentOrs.joinToString(", ")}: Or" else ""
-        }${
-            if (consequentAnds.isNotEmpty()) ", ${consequentAnds.joinToString(", ")}: And" else ""
-        }${
-            if (consequentNegs.isNotEmpty()) ", ${consequentNegs.joinToString(", ")}: Neg" else ""
-        } {
-                        consequent in $consequentRoot
-                        rt.l.r in $consequentRoot or rt.l.r in Or and rt.l.r.l in $consequentRoot
-                        ${if (consequentDAG.isNotEmpty()) "(${consequentDAG.joinToString(" + ")}) in subDAG[rt.l.r]" else ""}
-                    }
-                }
+                ${Imply}.l = $antecedentRoot or (${Imply}.l in And and ${Imply}.l.l = $antecedentRoot)
+                ${if (antecedentDAG.isNotEmpty()) "(${antecedentDAG.joinToString(" + ")}) in subDAG[${Imply}.l]" else ""}
+                ${Imply}.r = $consequentRoot or (${Imply}.r in Or and ${Imply}.r.l = $consequentRoot)
+                ${if (consequentDAG.isNotEmpty()) "(${consequentDAG.joinToString(" + ")}) in subDAG[${Imply}.r]" else ""}
             }
         """
     }
@@ -130,7 +134,7 @@ class GR1InvariantWeakener(
         if (cnf.clauses.size == 1)
             return generateDAG(cnf.clauses[0], dag, ands, ors, negs)
         else {
-            val and = "a${ands.size}"
+            val and = "And${numberOfAnds++}"
             ands.add(and)
             val l = generateDAG(cnf.clauses[0], dag, ands, ors, negs)
             val r = generateDAG(CNF(cnf.clauses.subList(1, cnf.clauses.size)), dag, ands, ors, negs)
@@ -150,7 +154,7 @@ class GR1InvariantWeakener(
         if (dnf.clauses.size == 1)
             return generateDAG(dnf.clauses[0], dag, ands, ors, negs)
         else {
-            val or = "o${ors.size}"
+            val or = "Or${numberOfOrs++}"
             ors.add(or)
             val l = generateDAG(dnf.clauses[0], dag, ands, ors, negs)
             val r = generateDAG(DNF(dnf.clauses.subList(1, dnf.clauses.size)), dag, ands, ors, negs)
@@ -168,11 +172,11 @@ class GR1InvariantWeakener(
         negs: MutableList<String>
     ): String {
         if (conjunction.props.size == 1)
-            return generateDAG(conjunction.props[0], dag, ands, ors, negs)
+            return generateDAG(conjunction.props[0], dag, negs)
         else {
-            val and = "a${ands.size}"
+            val and = "And${numberOfAnds++}"
             ands.add(and)
-            val l = generateDAG(conjunction.props[0], dag, ands, ors, negs)
+            val l = generateDAG(conjunction.props[0], dag, negs)
             val r = generateDAG(Conjunctions(conjunction.props.subList(1, conjunction.props.size)), dag, ands, ors, negs)
             dag.add("$and->$l")
             dag.add("$and->$r")
@@ -188,11 +192,11 @@ class GR1InvariantWeakener(
         negs: MutableList<String>
     ): String {
         if (disjunction.props.size == 1)
-            return generateDAG(disjunction.props[0], dag, ands, ors, negs)
+            return generateDAG(disjunction.props[0], dag, negs)
         else {
-            val or = "o${ors.size}"
+            val or = "Or${numberOfOrs++}"
             ors.add(or)
-            val l = generateDAG(disjunction.props[0], dag, ands, ors, negs)
+            val l = generateDAG(disjunction.props[0], dag, negs)
             val r = generateDAG(Disjunctions(disjunction.props.subList(1, disjunction.props.size)), dag, ands, ors, negs)
             dag.add("$or->$l")
             dag.add("$or->$r")
@@ -203,14 +207,12 @@ class GR1InvariantWeakener(
     private fun generateDAG(
         prop: Proposition,
         dag: MutableList<String>,
-        ands: MutableList<String>,
-        ors: MutableList<String>,
         negs: MutableList<String>
     ): String {
         if (prop.second) {
             return prop.first
         } else {
-            val neg = "ng${negs.size}"
+            val neg = "Neg${numberOfNegs++}"
             negs.add(neg)
             dag.add("$neg->${prop.first}")
             return neg

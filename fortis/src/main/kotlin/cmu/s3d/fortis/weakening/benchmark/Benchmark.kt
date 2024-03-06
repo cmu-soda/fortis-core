@@ -217,6 +217,7 @@ class Benchmark : CliktCommand(
         if (taskPath != null) cmd.addAll(listOf("-f", taskPath))
 
         val processBuilder = ProcessBuilder(cmd)
+        processBuilder.redirectErrorStream(true)
         val process = processBuilder.start()
 
         try {

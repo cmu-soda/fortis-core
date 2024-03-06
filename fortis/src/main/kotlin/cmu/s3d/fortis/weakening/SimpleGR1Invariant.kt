@@ -39,10 +39,11 @@ private val operatorMapping = mapOf(
 
 private fun LTLLearningSolution.getGR1Invariant(node: String) : String {
     val (name, leftNode, rightNode) = getNodeAndChildren(node)
+    val sigName = name.replace("\\d+$".toRegex(), "")
     return when {
         leftNode == null && rightNode == null -> name
-        leftNode != null && rightNode == null -> "${operatorMapping[name]}${getGR1Invariant(leftNode)}"
-        leftNode != null && rightNode != null -> "(${getGR1Invariant(leftNode)} ${operatorMapping[name]} ${getGR1Invariant(rightNode)})"
+        leftNode != null && rightNode == null -> "${operatorMapping[sigName]}${getGR1Invariant(leftNode)}"
+        leftNode != null && rightNode != null -> "(${getGR1Invariant(leftNode)} ${operatorMapping[sigName]} ${getGR1Invariant(rightNode)})"
         else -> error("Invalid LTL formula.")
     }
 }
