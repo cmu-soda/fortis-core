@@ -197,7 +197,7 @@ class WeakeningServiceImplTests {
             8
         )
         assertEquals(
-            "([]((Fired && Xray) -> InPlace) && []((EBeam && Fired) -> !InPlace))",
+            "([]((Xray && Fired) -> InPlace) && []((EBeam && Fired) -> !InPlace))",
             solutions
         )
     }

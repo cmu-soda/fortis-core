@@ -145,7 +145,7 @@ class GR1InvariantWeakenerTests {
             fun childrenAndSelfOf[n: DAGNode]: set DAGNode { n.*(l+r) }
             fun ancestorsOf[n: DAGNode]: set DAGNode { n.~^(l+r) }
             fun ancestorsAndSelfOf[n: DAGNode]: set DAGNode { n.~*(l+r) }
-            fun subDAG[n: DAGNode]: DAGNode -> DAGNode { (l+r) :> n.^(l+r) }
+            fun subDAG[n: DAGNode]: DAGNode -> DAGNode { n.*(l+r) <: (l+r) }
 
 
             fact {
@@ -276,7 +276,7 @@ class GR1InvariantWeakenerTests {
             fun childrenAndSelfOf[n: DAGNode]: set DAGNode { n.*(l+r) }
             fun ancestorsOf[n: DAGNode]: set DAGNode { n.~^(l+r) }
             fun ancestorsAndSelfOf[n: DAGNode]: set DAGNode { n.~*(l+r) }
-            fun subDAG[n: DAGNode]: DAGNode -> DAGNode { (l+r) :> n.^(l+r) }
+            fun subDAG[n: DAGNode]: DAGNode -> DAGNode { n.*(l+r) <: (l+r) }
 
             one sig And0 extends And {}
             fact {
@@ -325,7 +325,7 @@ class GR1InvariantWeakenerTests {
         )
         assert(solution != null)
         assertEquals(
-            "(And (G (Imply (And Fired Xray) InPlace)) (G (Imply (And EBeam Fired) (Neg InPlace))))",
+            "(And (G (Imply (And Xray Fired) InPlace)) (G (Imply (And EBeam Fired) (Neg InPlace))))",
             solution!!.getLTL()
         )
     }
