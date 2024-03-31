@@ -6,10 +6,13 @@ import cmu.s3d.fortis.service.WeakeningService
 import cmu.s3d.fortis.service.impl.RobustificationServiceImpl
 import cmu.s3d.fortis.service.impl.RobustnessComputationServiceImpl
 import cmu.s3d.fortis.service.impl.WeakeningServiceImpl
+import org.apache.logging.log4j.core.config.Configurator
 import java.rmi.registry.LocateRegistry
 import java.rmi.server.UnicastRemoteObject
 
 fun main() {
+    Configurator.initialize(null, "log4j2-server.properties")
+
     val robustnessComputationService = UnicastRemoteObject.exportObject(
         RobustnessComputationServiceImpl(), 0) as RobustnessComputationService
     val robustificationService = UnicastRemoteObject.exportObject(
