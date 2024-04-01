@@ -80,6 +80,7 @@ open class ExampleGenerator<S, I>(private val model: NFA<S, I>) : Iterator<Word<
     }
 }
 
+@Deprecated("Use TraceExampleGenerator instead")
 class ProgressExampleGenerator<S, I>(model: NFA<S, I>, progress: I) : ExampleGenerator<Int, I>(
     parallel(model, progress.let {
         val inputs = model.alphabet()

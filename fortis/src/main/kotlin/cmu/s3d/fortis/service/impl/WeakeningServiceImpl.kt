@@ -15,6 +15,7 @@ import net.automatalib.automaton.fsa.NFA
 import net.automatalib.word.Word
 
 class WeakeningServiceImpl : WeakeningService {
+    @Deprecated("Use generateExamplesFromTrace instead")
     override fun generateExamplesFromProgress(
         sysSpecs: List<Spec>,
         envSpecs: List<Spec>,
