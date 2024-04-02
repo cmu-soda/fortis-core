@@ -11,7 +11,8 @@ import java.rmi.registry.LocateRegistry
 import java.rmi.server.UnicastRemoteObject
 
 fun main() {
-    Configurator.initialize(null, "log4j2-server.properties")
+    if (System.getProperty("log4j2.configurationFile") == null)
+        Configurator.initialize(null, "log4j2-server.properties")
 
     val robustnessComputationService = UnicastRemoteObject.exportObject(
         RobustnessComputationServiceImpl(), 0) as RobustnessComputationService

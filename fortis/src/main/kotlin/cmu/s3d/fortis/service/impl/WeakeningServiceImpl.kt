@@ -35,12 +35,13 @@ class WeakeningServiceImpl : WeakeningService {
         envSpecs: List<Spec>,
         trace: Word<String>,
         inputs: Collection<String>,
-        fluents: List<String>
+        fluents: List<String>,
+        numOfAdditionalExamples: Int
     ): List<Word<String>> {
         val sys = parseSpecs(sysSpecs)
         val env = parseSpecs(envSpecs)
         val model = parallel(sys, env)
-        return TraceExampleGenerator(model, trace, Alphabets.fromCollection(inputs))
+        return TraceExampleGenerator(model, trace, Alphabets.fromCollection(inputs), numOfAdditionalExamples)
             .withFilter(InvariantExampleFilter(fluents.map { it.toFluent()?: error("Invalid fluent string") }))
             .map { it.asSerializableWord() }.toList()
     }
