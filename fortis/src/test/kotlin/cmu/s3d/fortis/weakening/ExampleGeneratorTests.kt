@@ -46,12 +46,98 @@ class ExampleGeneratorTests {
             Word.fromSymbols("x", "up", "e", "enter", "b"),
             Alphabets.fromArray("x", "up", "e", "enter", "b")
         )
+        val expected = setOf(
+            Word.fromList("x,set_xray,up,e,set_ebeam,enter,b,fire_ebeam,reset".split(",")),
+            Word.fromList("x,set_xray,up,e,enter,set_ebeam,b,fire_ebeam,reset".split(",")),
+            Word.fromList("x,set_xray,up,e,enter,b,fire_xray,reset".split(",")),
+            Word.fromList("x,up,set_xray,e,set_ebeam,enter,b,fire_ebeam,reset".split(",")),
+        )
+        assertEquals(expected, examples.toSet())
+        // test re-iteration
+        assertEquals(expected, examples.toSet())
+    }
+
+    @Test
+    fun testTherac25_2() {
+        val sys = LTSACall
+            .compile(ClassLoader.getSystemResource("specs/therac25-2/sys.lts").readText())
+            .compose()
+            .asLTS()
+        val env = LTSACall
+            .compile(ClassLoader.getSystemResource("specs/therac25-2/env.lts").readText())
+            .compose()
+            .asLTS()
+        val examples = TraceExampleGenerator(
+            parallel(sys, env),
+            Word.fromSymbols("x", "up", "e", "enter", "b"),
+            Alphabets.fromArray("x", "up", "e", "enter", "b"),
+            1
+        )
         assertEquals(
             setOf(
                 Word.fromList("x,set_xray,up,e,set_ebeam,enter,b,fire_ebeam,reset".split(",")),
                 Word.fromList("x,set_xray,up,e,enter,set_ebeam,b,fire_ebeam,reset".split(",")),
                 Word.fromList("x,set_xray,up,e,enter,b,fire_xray,reset".split(",")),
                 Word.fromList("x,up,set_xray,e,set_ebeam,enter,b,fire_ebeam,reset".split(",")),
+                Word.fromList("x,up,set_xray,e,enter,set_ebeam,b,fire_ebeam,reset".split(",")),
+            ),
+            examples.toSet()
+        )
+    }
+
+    @Test
+    fun testTherac25_3() {
+        val sys = LTSACall
+            .compile(ClassLoader.getSystemResource("specs/therac25-2/sys.lts").readText())
+            .compose()
+            .asLTS()
+        val env = LTSACall
+            .compile(ClassLoader.getSystemResource("specs/therac25-2/env.lts").readText())
+            .compose()
+            .asLTS()
+        val examples = TraceExampleGenerator(
+            parallel(sys, env),
+            Word.fromSymbols("x", "up", "e", "enter", "b"),
+            Alphabets.fromArray("x", "up", "e", "enter", "b"),
+            2
+        )
+        assertEquals(
+            setOf(
+                Word.fromList("x,set_xray,up,e,set_ebeam,enter,b,fire_ebeam,reset".split(",")),
+                Word.fromList("x,set_xray,up,e,enter,set_ebeam,b,fire_ebeam,reset".split(",")),
+                Word.fromList("x,set_xray,up,e,enter,b,fire_xray,reset".split(",")),
+                Word.fromList("x,up,set_xray,e,set_ebeam,enter,b,fire_ebeam,reset".split(",")),
+                Word.fromList("x,up,set_xray,e,enter,set_ebeam,b,fire_ebeam,reset".split(",")),
+                Word.fromList("x,up,set_xray,e,enter,b,fire_xray,reset".split(",")),
+            ),
+            examples.toSet()
+        )
+    }
+
+    @Test
+    fun testTherac25_4() {
+        val sys = LTSACall
+            .compile(ClassLoader.getSystemResource("specs/therac25-2/sys.lts").readText())
+            .compose()
+            .asLTS()
+        val env = LTSACall
+            .compile(ClassLoader.getSystemResource("specs/therac25-2/env.lts").readText())
+            .compose()
+            .asLTS()
+        val examples = TraceExampleGenerator(
+            parallel(sys, env),
+            Word.fromSymbols("x", "up", "e", "enter", "b"),
+            Alphabets.fromArray("x", "up", "e", "enter", "b"),
+            -1
+        )
+        assertEquals(
+            setOf(
+                Word.fromList("x,set_xray,up,e,set_ebeam,enter,b,fire_ebeam,reset".split(",")),
+                Word.fromList("x,set_xray,up,e,enter,set_ebeam,b,fire_ebeam,reset".split(",")),
+                Word.fromList("x,set_xray,up,e,enter,b,fire_xray,reset".split(",")),
+                Word.fromList("x,up,set_xray,e,set_ebeam,enter,b,fire_ebeam,reset".split(",")),
+                Word.fromList("x,up,set_xray,e,enter,set_ebeam,b,fire_ebeam,reset".split(",")),
+                Word.fromList("x,up,set_xray,e,enter,b,fire_xray,reset".split(",")),
             ),
             examples.toSet()
         )

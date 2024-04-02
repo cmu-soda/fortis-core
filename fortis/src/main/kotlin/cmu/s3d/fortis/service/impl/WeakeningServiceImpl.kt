@@ -25,10 +25,9 @@ class WeakeningServiceImpl : WeakeningService {
         val sys = parseSpecs(sysSpecs)
         val env = parseSpecs(envSpecs)
         val model = parallel(sys, env)
-        return ExampleFilterForInvariant(
-            ProgressExampleGenerator(model, progress),
-            fluents.map { it.toFluent()?: error("Invalid fluent string") }
-        ).map { it.asSerializableWord() }.toList()
+        return ProgressExampleGenerator(model, progress)
+            .withFilter(InvariantExampleFilter(fluents.map { it.toFluent()?: error("Invalid fluent string") }))
+            .map { it.asSerializableWord() }.toList()
     }
 
     override fun generateExamplesFromTrace(
@@ -41,10 +40,9 @@ class WeakeningServiceImpl : WeakeningService {
         val sys = parseSpecs(sysSpecs)
         val env = parseSpecs(envSpecs)
         val model = parallel(sys, env)
-        return ExampleFilterForInvariant(
-            TraceExampleGenerator(model, trace, Alphabets.fromCollection(inputs)),
-            fluents.map { it.toFluent()?: error("Invalid fluent string") }
-        ).map { it.asSerializableWord() }.toList()
+        return TraceExampleGenerator(model, trace, Alphabets.fromCollection(inputs))
+            .withFilter(InvariantExampleFilter(fluents.map { it.toFluent()?: error("Invalid fluent string") }))
+            .map { it.asSerializableWord() }.toList()
     }
 
     override fun weakenSafetyInvariant(

@@ -10,10 +10,16 @@ import net.automatalib.word.Word
 import java.util.*
 import kotlin.collections.ArrayDeque
 
-open class ExampleGenerator<S, I>(private val model: NFA<S, I>) : Iterator<Word<I>>, Iterable<Word<I>> {
+open class ExampleGenerator<S, I>(
+    private val model: NFA<S, I>,
+    numOfAdditionalExamples: Int
+) : Iterator<Word<I>>, Iterable<Word<I>> {
     private val dfsStack: ArrayDeque<DFSRecord<S, I>> = ArrayDeque()
     private val visited: MutableSet<S> = mutableSetOf()
     private val examples: Queue<Word<I>> = LinkedList()
+    private val numOfAdditionalExamples = if (numOfAdditionalExamples < 0) Int.MAX_VALUE else numOfAdditionalExamples
+    private var additionalExamplesCount = 0
+    private var exampleFilter: ExampleFilter<I>? = null
 
     private class DFSRecord<S, I>(val state: S, val trace: Word<I>, val visited: Set<S>)
 
@@ -22,11 +28,13 @@ open class ExampleGenerator<S, I>(private val model: NFA<S, I>) : Iterator<Word<
         model.initialStates.forEach { dfsStack.add(DFSRecord(it, Word.epsilon(), emptySet())) }
         visited.clear()
         examples.clear()
+        additionalExamplesCount = 0
+        exampleFilter?.reset()
         return this
     }
 
     private fun searchNext() {
-        if (visited.size == model.size())
+        if (visited.size == model.size() && additionalExamplesCount++ >= numOfAdditionalExamples)
             return
 
         val currentExampleSize = examples.size
@@ -64,7 +72,9 @@ open class ExampleGenerator<S, I>(private val model: NFA<S, I>) : Iterator<Word<
     }
 
     protected open fun offerExample(trace: Word<I>) {
-        examples.offer(trace)
+        if (exampleFilter == null || exampleFilter!!.filter(trace)) {
+            examples.offer(trace)
+        }
     }
 
     override fun hasNext(): Boolean {
@@ -77,6 +87,11 @@ open class ExampleGenerator<S, I>(private val model: NFA<S, I>) : Iterator<Word<
 
     override fun next(): Word<I> {
         return if (examples.isNotEmpty()) examples.poll() else error("No more examples")
+    }
+
+    fun withFilter(filter: ExampleFilter<I>): ExampleGenerator<S, I> {
+        exampleFilter = filter
+        return this
     }
 }
 
@@ -93,15 +108,18 @@ class ProgressExampleGenerator<S, I>(model: NFA<S, I>, progress: I) : ExampleGen
             }
         }
         builder.create()
-    })
+    }),
+    0
 )
 
 class TraceExampleGenerator<S, I>(
     model: NFA<S, I>,
     private val observedTrace: Word<I>,
-    private val observedInputs: Alphabet<I>
+    private val observedInputs: Alphabet<I>,
+    numOfAdditionalExamples: Int = 0
 ) : ExampleGenerator<Int, I>(
-    parallel(model, traceToLTS(observedTrace, observedInputs, makeError = false))
+    parallel(model, traceToLTS(observedTrace, observedInputs, makeError = false)),
+    numOfAdditionalExamples
 ) {
     override fun offerExample(trace: Word<I>) {
         val projected = trace.filter { it in observedInputs }
