@@ -84,6 +84,13 @@ class SolutionIterator(
         for (p in maxPreferred)
             logger.info("\t$p")
 
+        // check if must-have (P0) preferred behavior is satisfied
+        for (p in problem.preferredMap[Priority.P0] ?: emptyList()) {
+            if (p !in maxPreferred) {
+                logger.warn("Must-have preferred behavior '$p' is not satisfied.")
+            }
+        }
+
         // remove those absolutely unused controllable and observable events which generates the initial solution
         initSup = if (problem.optimization) removeUnnecessary(sup) else sup
 
