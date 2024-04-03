@@ -52,18 +52,18 @@ class Robustify : CliktCommand(help = "Robustify a system design using superviso
 
         val (robustifier, sols) = when (config.method) {
             "supervisory-non-opt" -> {
-                val robustifer = buildSupervisory(config)
-                robustifer.optimization = false
-                val sols = robustifer.synthesize(Algorithms.valueOf(config.options.algorithm)).toList()
-                robustifer.close()
-                Pair(robustifer, sols)
+                val robustifier = buildSupervisory(config)
+                robustifier.optimization = false
+                val sols = robustifier.synthesize(Algorithms.valueOf(config.options.algorithm)).toList()
+                robustifier.close()
+                Pair(robustifier, sols)
             }
 
             "supervisory" -> {
-                val robustifer = buildSupervisory(config)
-                val sols = robustifer.synthesize(Algorithms.valueOf(config.options.algorithm)).toList()
-                robustifer.close()
-                Pair(robustifer, sols)
+                val robustifier = buildSupervisory(config)
+                val sols = robustifier.synthesize(Algorithms.valueOf(config.options.algorithm)).toList()
+                robustifier.close()
+                Pair(robustifier, sols)
             }
 
             "oasis" -> {
