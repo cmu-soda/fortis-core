@@ -13,6 +13,7 @@ import net.automatalib.util.ts.traversal.TSTraversal
 import net.automatalib.util.ts.traversal.TSTraversalAction
 import net.automatalib.util.ts.traversal.TSTraversalMethod
 import net.automatalib.util.ts.traversal.TSTraversalVisitor
+import net.automatalib.word.Word
 
 fun <I> NFA<*, I>.alphabet(): Alphabet<I> {
     if (this is InputAlphabetHolder<*>) {
@@ -66,6 +67,25 @@ fun <I> makeProgress(input: I): CompactDFA<I> {
         .from(0).on(input).to(1)
         .from(1).on(input).to(1)
         .withAccepting(1)
+        .create()
+}
+
+fun <I> makeMustHaveBehavior(trace: Word<I>): CompactDFA<I> {
+    val inputs = Alphabets.fromCollection(trace.toSet())
+    val builder = AutomatonBuilders.newDFA(inputs).withInitial(0)
+    for ((i, e) in trace.withIndex()) {
+        for (a in inputs) {
+            if (a == e) {
+                builder.from(i).on(a).to(i + 1)
+            } else {
+                builder.from(i).on(a).loop()
+            }
+        }
+    }
+    for (a in inputs)
+        builder.from(trace.length()).on(a).loop()
+    return builder
+        .withAccepting(trace.length())
         .create()
 }
 

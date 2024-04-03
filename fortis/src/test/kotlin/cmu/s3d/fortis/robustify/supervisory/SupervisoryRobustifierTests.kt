@@ -176,6 +176,47 @@ class SupervisoryRobustifierTests : RobustifierTests() {
         )
     }
 
+    private fun loadTherac3(): SupervisoryRobustifier {
+        val sysSpec =
+            ClassLoader.getSystemResource("specs/therac25/sys.lts")?.readText() ?: error("Cannot find therac25/sys.lts")
+        val envSpec =
+            ClassLoader.getSystemResource("specs/therac25/env.lts")?.readText() ?: error("Cannot find therac25/env.lts")
+        val pSpec =
+            ClassLoader.getSystemResource("specs/therac25/p.lts")?.readText() ?: error("Cannot find therac25/p.lts")
+        val back1 = Word.fromSymbols("x", "up", "e", "enter", "b")
+        val back2 = Word.fromSymbols("e", "up", "x", "enter", "b")
+        val back3 = Word.fromSymbols("x", "enter", "up", "up", "e", "enter", "b")
+        val back4 = Word.fromSymbols("e", "enter", "up", "up", "x", "enter", "b")
+
+        val sys = LTSACall.compile(sysSpec).compose().asDetLTS()
+        val env = LTSACall.compile(envSpec).compose().asDetLTS()
+        val safety = LTSACall.compile(pSpec).compose().asDetLTS()
+
+        return SupervisoryRobustifier(
+            sys,
+            env,
+            safety,
+            progress = emptyList(),
+            preferredMap = mapOf(
+                Priority.P3 to listOf(back1, back2),
+                Priority.P2 to listOf(back3, back4),
+                Priority.P0 to listOf(
+                    Word.fromSymbols("x", "enter", "b", "fire_xray"),
+                    Word.fromSymbols("e", "enter", "b", "fire_ebeam")
+                )
+            ),
+            controllableMap = mapOf(
+                Priority.P0 to listOf("fire_xray", "fire_ebeam", "setMode"),
+                Priority.P1 to listOf("x", "e", "enter", "up", "b")
+            ),
+            observableMap = mapOf(
+                Priority.P0 to listOf("x", "e", "enter", "up", "b", "fire_xray", "fire_ebeam", "setMode"),
+            ),
+            synthesizer = SupremicaRunner(),
+            maxIter = 1
+        )
+    }
+
     private fun loadPump(): SupervisoryRobustifier {
         val powerSpec =
             ClassLoader.getSystemResource("specs/pump/power.lts")?.readText() ?: error("Cannot find pump/power.lts")
@@ -473,6 +514,39 @@ class SupervisoryRobustifierTests : RobustifierTests() {
             assertSynthesisResults(
                 fastExpected,
                 solutions.map { r -> Pair((r as SupervisoryDFA).controllable, r.observable) }
+            )
+        }
+    }
+
+    @Test
+    fun testTherac3() {
+        val robustifier = loadTherac3()
+
+        robustifier.use {
+            val paretoExpected = listOf(
+                Pair(
+                    listOf("b", "fire_ebeam", "fire_xray", "setMode"),
+                    listOf("b", "e", "enter", "fire_ebeam", "fire_xray", "setMode", "up", "x")
+                ),
+                Pair(
+                    listOf("enter", "fire_ebeam", "fire_xray", "setMode"),
+                    listOf("b", "e", "enter", "fire_ebeam", "fire_xray", "setMode", "up", "x")
+                )
+            )
+            assertSynthesisResults(
+                paretoExpected,
+                it.synthesize(Algorithms.Pareto).map { r -> Pair((r as SupervisoryDFA).controllable, r.observable) }
+            )
+
+            val fastExpected = listOf(
+                Pair(
+                    listOf("enter", "fire_ebeam", "fire_xray", "setMode"),
+                    listOf("b", "e", "enter", "fire_ebeam", "fire_xray", "setMode", "up", "x")
+                )
+            )
+            assertSynthesisResults(
+                fastExpected,
+                it.synthesize(Algorithms.Fast).map { r -> Pair((r as SupervisoryDFA).controllable, r.observable) }
             )
         }
     }
