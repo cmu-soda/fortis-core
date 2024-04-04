@@ -5,6 +5,7 @@ import cmu.s3d.fortis.common.SpecType
 import net.automatalib.word.Word
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class WeakeningServiceImplTests {
     private val service = WeakeningServiceImpl()
@@ -71,7 +72,7 @@ class WeakeningServiceImplTests {
 
     @Test
     fun testWeakenSafetyInvariantForTherac25() {
-        val solutions = service.weakenSafetyInvariant(
+        val solution = service.weakenSafetyInvariant(
             "[](Xray -> InPlace)",
             listOf(
                 "fluent Xray = <set_xray, {set_ebeam, reset}>",
@@ -86,18 +87,13 @@ class WeakeningServiceImplTests {
                 Word.fromList("x,set_xray,up,e,enter,b,fire_xray,reset".split(",")),
             )
         )
-        assertEquals(
-            listOf(
-                "[](Xray && Fired -> InPlace)",
-                "[](Xray && !EBeam && Fired -> InPlace)",
-            ),
-            solutions
-        )
+        assertEquals("[](Xray && Fired -> InPlace)", solution)
+        assertEquals("[](Xray && !EBeam && Fired -> InPlace)", service.nextSolution())
     }
 
     @Test
     fun testWeakenSafetyInvariantForTherac25_2() {
-        val solutions = service.weakenSafetyInvariant(
+        val solution = service.weakenSafetyInvariant(
             "[](Xray && Fired -> InPlace) && [](EBeam && Fired -> !InPlace)",
             listOf(
                 "fluent Xray = <set_xray, {set_ebeam, reset}>",
@@ -114,20 +110,15 @@ class WeakeningServiceImplTests {
                 Word.fromList("x,set_xray,up,e,enter,b,fire_xray,reset".split(",")),
             )
         )
-        assertEquals(
-            listOf(
-                "[](Xray && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
-                "[](Xray && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)",
-                "[](Xray && !EBeam && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
-                "[](Xray && !EBeam && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)"
-            ),
-            solutions
-        )
+        assertEquals("[](Xray && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)", solution)
+        assertEquals("[](Xray && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)", service.nextSolution())
+        assertEquals("[](Xray && !EBeam && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)", service.nextSolution())
+        assertEquals("[](Xray && !EBeam && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)", service.nextSolution())
     }
 
     @Test
     fun testWeakenSafetyInvariantForTherac25_3() {
-        val solutions = service.weakenSafetyInvariant(
+        val solution = service.weakenSafetyInvariant(
             "[](Xray && Fired -> InPlace) && [](EBeam && Fired -> !InPlace)",
             listOf(
                 "fluent Xray = <set_xray, {set_ebeam, reset}>",
@@ -141,19 +132,14 @@ class WeakeningServiceImplTests {
             ),
             emptyList()
         )
-        assertEquals(
-            listOf(
-                "[](Xray && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
-                "[](Xray && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)",
-                "[](Xray && !EBeam && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
-                "[](Xray && !EBeam && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)",
-                "[](Xray && EBeam && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)",
-                "[](Xray && EBeam && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
-                "[](false && Xray && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)",
-                "[](false && Xray && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)",
-            ),
-            solutions
-        )
+        assertEquals("[](Xray && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)", solution)
+        assertEquals("[](Xray && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)", service.nextSolution())
+        assertEquals("[](Xray && !EBeam && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)", service.nextSolution())
+        assertEquals("[](Xray && !EBeam && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)", service.nextSolution())
+        assertEquals("[](Xray && EBeam && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)", service.nextSolution())
+        assertEquals("[](Xray && EBeam && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)", service.nextSolution())
+        assertEquals("[](false && Xray && Fired -> InPlace) && [](Xray && EBeam && Fired -> !InPlace)", service.nextSolution())
+        assertEquals("[](false && Xray && Fired -> InPlace) && [](false && EBeam && Fired -> !InPlace)", service.nextSolution())
     }
 
     @Test
@@ -206,7 +192,7 @@ class WeakeningServiceImplTests {
 
     @Test
     fun testWeakenSafetyInvariantForVoting() {
-        val solutions = service.weakenSafetyInvariant(
+        val solution = service.weakenSafetyInvariant(
             "[](Confirmed -> SelectByVoter && VoteByVoter)",
             listOf(
                 "fluent Confirmed = <confirm, password>",
@@ -220,11 +206,7 @@ class WeakeningServiceImplTests {
                 Word.fromList("v.enter,password,v.password,v.exit,eo.enter,select,eo.select,vote,eo.vote,confirm,eo.confirm".split(",")),
             )
         )
-        assertEquals(
-            listOf(
-                "[](Confirmed -> SelectByVoter)"
-            ),
-            solutions
-        )
+        assertEquals("[](Confirmed -> SelectByVoter)", solution)
+        assertNull(service.nextSolution())
     }
 }

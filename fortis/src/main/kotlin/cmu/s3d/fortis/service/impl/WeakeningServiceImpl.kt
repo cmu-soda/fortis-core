@@ -10,11 +10,20 @@ import cmu.s3d.fortis.ts.lts.ltsa.LTSACall.compose
 import cmu.s3d.fortis.ts.lts.toFluent
 import cmu.s3d.fortis.ts.parallel
 import cmu.s3d.fortis.weakening.*
+import cmu.s3d.ltl.learning.LTLLearningSolution
 import net.automatalib.alphabet.Alphabets
 import net.automatalib.automaton.fsa.NFA
 import net.automatalib.word.Word
 
 class WeakeningServiceImpl : WeakeningService {
+    private var simpleSolution: SimpleInvariantSolution? = null
+    private var gr1Solution: LTLLearningSolution? = null
+
+    private fun resetSolution() {
+        simpleSolution = null
+        gr1Solution = null
+    }
+
     @Deprecated("Use generateExamplesFromTrace instead")
     override fun generateExamplesFromProgress(
         sysSpecs: List<Spec>,
@@ -51,7 +60,9 @@ class WeakeningServiceImpl : WeakeningService {
         fluents: List<String>,
         positiveExamples: List<Word<String>>,
         negativeExamples: List<Word<String>>
-    ): List<String> {
+    ): String? {
+        resetSolution()
+
         // FIXME: This assumes that the invariant is in the form: [](a -> b) && [](c -> d), but LTSA does not support.
         val invariantPairs = SimpleInvariant.multipleFromString(invariant)
         if (invariantPairs.isEmpty())
@@ -63,13 +74,8 @@ class WeakeningServiceImpl : WeakeningService {
             positiveExamples = positiveExamples,
             negativeExamples = negativeExamples
         )
-        val solutions = mutableListOf<String>()
-        var solution = weakener.learn()
-        while (solution != null) {
-            solutions.add(solution.getInvariant().joinToString(" && "))
-            solution = solution.next()
-        }
-        return solutions
+        simpleSolution = weakener.learn()
+        return simpleSolution?.getInvariant()?.joinToString(" && ")
     }
 
     override fun weakenGR1Invariant(
@@ -79,6 +85,8 @@ class WeakeningServiceImpl : WeakeningService {
         negativeExamples: List<Word<String>>,
         maxNumOfNode: Int
     ): String? {
+        resetSolution()
+
         // FIXME: This assumes that the invariant is in the form: [](a -> b) && [](c -> d), but LTSA does not support.
         val invariantPairs = SimpleGR1Invariant.multipleFromString(invariant)
         if (invariantPairs.isEmpty())
@@ -91,8 +99,25 @@ class WeakeningServiceImpl : WeakeningService {
             negativeExamples = negativeExamples,
             maxNumOfNode = maxNumOfNode + fluents.size
         )
-        val solution = weakener.learn()
-        return solution?.getGR1Invariant()
+        gr1Solution = weakener.learn()
+        return gr1Solution?.getGR1Invariant()
+    }
+
+    override fun nextSolution(): String? {
+        when {
+            simpleSolution != null -> {
+                simpleSolution = simpleSolution!!.next()
+                return simpleSolution?.getInvariant()?.joinToString(" && ")
+            }
+            gr1Solution != null -> {
+                val current = gr1Solution!!.getGR1Invariant()
+                do {
+                    gr1Solution = gr1Solution!!.next()
+                } while (gr1Solution != null && gr1Solution!!.getGR1Invariant() == current)
+                return gr1Solution?.getGR1Invariant()
+            }
+            else -> return null
+        }
     }
 
     private fun parseSpec(spec: Spec): NFA<Int, String> {
