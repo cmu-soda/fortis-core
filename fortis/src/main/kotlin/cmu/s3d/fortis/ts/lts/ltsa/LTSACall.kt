@@ -113,7 +113,10 @@ object LTSACall {
     }
 
     private fun CompactState.alphabet(escape: Boolean = false): List<String> {
-        val alphabet = this.alphabet.toList()
+        val alphabet = this.alphabet.toMutableList()
+        // There would be * and @<assertion> event in the alphabet when the LTS is a FLTL property.
+        alphabet.remove("*")
+        alphabet.removeIf { it.first() == '@' }
         return if (escape) alphabet.map(LTSACall::escapeEvent) else alphabet
     }
 
@@ -152,7 +155,9 @@ object LTSACall {
         for (s in this.states.indices) { // if s is an error state, then it will not be in this iteration
             val state = this.states[s]
             for (a in this.alphabet.indices) {
-                val input = inputs[a]
+                val input = this.alphabet[a]
+                if (input !in inputs)
+                    continue
                 val succ = EventState.nextState(state, a)
                 if (succ != null && (!removeError || succ[0] != -1)) {
                     builder.from(s).on(input).to(succ[0])
@@ -176,7 +181,9 @@ object LTSACall {
         for (s in this.states.indices) { // if s is an error state, then it will not be in this iteration
             val state = this.states[s]
             for (a in this.alphabet.indices) {
-                val input = inputs[a]
+                val input = this.alphabet[a]
+                if (input !in inputs)
+                    continue
                 val succs = EventState.nextState(state, a)
                 if (succs != null) {
                     for (succ in succs) {
