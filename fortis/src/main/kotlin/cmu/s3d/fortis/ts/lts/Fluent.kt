@@ -65,7 +65,7 @@ fun evaluateFluent(word: Word<String>, fluents: List<Fluent>): FiniteTrace {
         evaluation.add(State(newEvaluation))
     }
 
-    return evaluation
+    return evaluation.subList(1, evaluation.size)
 }
 
 fun getFluentValuationString(literals: List<String>, valuation: State): String {

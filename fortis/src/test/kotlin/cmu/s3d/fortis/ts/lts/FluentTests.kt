@@ -110,12 +110,12 @@ class FluentTests {
         val evaluation = evaluateFluent(word, fluents)
         assertEquals(
             listOf(
-                State(mapOf(
-                    fluents[0].name to false,
-                    fluents[1].name to false,
-                    fluents[2].name to true,
-                    fluents[3].name to false
-                )),
+//                State(mapOf(
+//                    fluents[0].name to false,
+//                    fluents[1].name to false,
+//                    fluents[2].name to true,
+//                    fluents[3].name to false
+//                )),
                 State(mapOf(
                     fluents[0].name to false,
                     fluents[1].name to false,
