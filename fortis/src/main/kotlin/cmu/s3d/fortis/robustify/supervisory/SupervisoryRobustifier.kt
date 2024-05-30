@@ -52,8 +52,9 @@ class SupervisoryRobustifier(
     init {
         val extendedSafety = extendAlphabet(safety, safety.alphabet(), plant.alphabet())
         val progressProp = progress.map { makeProgress(it) }
-        val mustHaveProp = preferredMap[Priority.P0]?.map { makeMustHaveBehavior(it) } ?: emptyList()
-        prop = parallel(extendedSafety, *progressProp.toTypedArray(), *mustHaveProp.toTypedArray())
+        prop = parallel(extendedSafety, *progressProp.toTypedArray())
+//        val mustHaveProp = preferredMap[Priority.P0]?.map { makeMustHaveBehavior(it) } ?: emptyList()
+//        prop = parallel(extendedSafety, *progressProp.toTypedArray(), *mustHaveProp.toTypedArray())
     }
 
     override fun close() {

@@ -11,6 +11,7 @@ import cmu.s3d.fortis.ts.lts.ltsa.LTSACall.asDetLTS
 import cmu.s3d.fortis.ts.lts.ltsa.LTSACall.compose
 import cmu.s3d.fortis.ts.parallel
 import net.automatalib.word.Word
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
 import kotlin.test.assertContentEquals
@@ -519,6 +520,7 @@ class SupervisoryRobustifierTests : RobustifierTests() {
     }
 
     @Test
+    @Disabled("Must have (P0) preferred behavior is problematic.")
     fun testTherac3() {
         val robustifier = loadTherac3()
 
