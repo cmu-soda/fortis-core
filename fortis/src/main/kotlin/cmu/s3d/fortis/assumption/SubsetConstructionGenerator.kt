@@ -21,9 +21,10 @@ class SubsetConstructionGenerator(
     private val logger = LoggerFactory.getLogger(javaClass)
 
     init {
-        val common = sys.alphabet() intersect env.alphabet()
-        val internal = sys.alphabet() - common
-        assumptionInputs = common union (safety.alphabet() - internal.toSet())
+//        val common = sys.alphabet() intersect env.alphabet()
+//        val internal = sys.alphabet() - common
+//        assumptionInputs = common union (safety.alphabet() - internal.toSet())
+        assumptionInputs = sys.alphabet() intersect env.alphabet()
     }
 
     override fun generate(options: RobustnessOptions): DetLTS<Int, String> {

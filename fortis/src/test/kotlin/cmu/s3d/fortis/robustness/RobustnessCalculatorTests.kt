@@ -326,21 +326,6 @@ class RobustnessCalculatorTests {
         for (t in actual) {
             println("$t => ${explain.generate(t, cal.weakestAssumption.alphabet())}")
         }
-        val expectedExplain = setOf(
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            Word.fromList("v.enter,password,select,vote,omit_confirm,v.exit,v.enter".split(',')),
-            null,
-            null,
-            null,
-            null,
-            Word.fromList("v.enter,password,select,vote,omit_confirm,v.exit,eo.enter".split(',')),
-            null,
-        )
-        assertEquals(expectedExplain, actual.map { explain.generate(it, cal.weakestAssumption.alphabet()) }.toSet())
+        assertEquals(emptySet(), actual.map { explain.generate(it, cal.weakestAssumption.alphabet()) }.toSet())
     }
 }
