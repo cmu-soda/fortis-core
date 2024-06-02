@@ -14,9 +14,9 @@ import net.automatalib.word.Word
 /**
  *
  */
-fun <I> acceptsSubWord(dfa: DFA<*, I>, word: Word<I>): Pair<Boolean, List<I>> {
+fun <I> acceptsSubWord(dfa: DFA<*, I>, word: Word<I>, inputs: Collection<I>? = null): Pair<Boolean, List<I>> {
     // build automata from the word
-    val builder = AutomatonBuilders.newDFA(Alphabets.fromCollection(word.distinct()))
+    val builder = AutomatonBuilders.newDFA(Alphabets.fromCollection(inputs ?: word.distinct()))
         .withInitial(0)
         .withAccepting(0)
     var s = 0

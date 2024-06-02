@@ -118,4 +118,16 @@ class UtilsTests {
         assertEquals(true, acceptsSubWord(a, word).first)
     }
 
+    @Test
+    fun testAcceptsSubWord4() {
+        val a = AutomatonBuilders.newDFA(Alphabets.fromArray('a', 'b', 'c'))
+            .withInitial(0)
+            .from(0).on('a').to(1)
+            .from(1).on('b').to(2)
+            .from(2).on('c').to(0)
+            .withAccepting(0, 1, 2)
+            .create()
+        val word = Word.fromSymbols('a', 'c')
+        assertEquals(false, acceptsSubWord(a, word, listOf('a', 'b', 'c')).first)
+    }
 }

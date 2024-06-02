@@ -171,7 +171,18 @@ class SupervisoryRobustifier(
         val key = Triple(sup.controllable, sup.observable, p)
         if (key !in checkPreferredCache) {
             logger.debug("Start checking preferred behavior: [$p]")
-            val (r, how) = acceptsSubWord(sup, p)
+            // compute the alphabet of the word, if the last symbol is in: +{a, b, c}
+            // then, add a, b, and c to the alphabet and remove the last symbol from the word
+            val (word, inputs) = if (p.lastSymbol().startsWith("+")) {
+                val word = p.subWord(0, p.size() - 1)
+                val inputs = word.distinct() + p.lastSymbol().substring(2, p.lastSymbol().length - 1)
+                    .split(",").map { it.trim() }
+                Pair(word, inputs)
+            } else {
+                Pair(p, p.distinct())
+            }
+
+            val (r, how) = acceptsSubWord(sup, word, inputs)
             logger.debug("It is satisfied by $how")
             checkPreferredCache[key] = r
             logger.debug("Preferred behavior check completed: ${checkPreferredCache[key]}.")
