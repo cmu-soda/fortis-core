@@ -99,6 +99,32 @@ class FluentTests {
     }
 
     @Test
+    fun testFluent8() {
+        assertEquals(
+            Fluent(
+                "A",
+                listOf("a.1.b"),
+                listOf("a.12.c"),
+                false
+            ),
+            "fluent A = <a[1].b, a[12].c>".toFluent()
+        )
+    }
+
+    @Test
+    fun testFluent9() {
+        assertEquals(
+            Fluent(
+                "A",
+                listOf("a.1.2.b"),
+                listOf("a.12.34.c"),
+                false
+            ),
+            "fluent A = <a[1][2].b, a[12][34].c>".toFluent()
+        )
+    }
+
+    @Test
     fun testEvaluateFluent1() {
         val fluents = listOf(
             "fluent Xray = <set_xray, {set_ebeam, reset}>".toFluent()!!,

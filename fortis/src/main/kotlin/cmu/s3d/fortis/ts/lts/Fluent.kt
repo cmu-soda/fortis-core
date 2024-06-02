@@ -31,7 +31,10 @@ fun String.toFluent(): Fluent? {
         }.toList()
     }
 
-    return fluentReg.matchEntire(this)?.let { match ->
+    // replace xxx[i][j].xxx with xxx.i.j.xxx
+    val replaced = this.replace(Regex("\\[(\\d+)]"), ".$1")
+
+    return fluentReg.matchEntire(replaced)?.let { match ->
         val (name, trigger, reset, init) = match.destructured
         Fluent(
             name,
