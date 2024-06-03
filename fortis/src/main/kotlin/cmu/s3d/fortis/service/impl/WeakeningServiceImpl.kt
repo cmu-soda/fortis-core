@@ -18,10 +18,12 @@ import net.automatalib.word.Word
 class WeakeningServiceImpl : WeakeningService {
     private var simpleSolution: SimpleInvariantSolution? = null
     private var gr1Solution: LTLLearningSolution? = null
+    private val solutions: MutableList<String> = mutableListOf()
 
     private fun resetSolution() {
         simpleSolution = null
         gr1Solution = null
+        solutions.clear()
     }
 
     @Deprecated("Use generateExamplesFromTrace instead")
@@ -110,10 +112,10 @@ class WeakeningServiceImpl : WeakeningService {
                 return simpleSolution?.getInvariant()?.joinToString(" && ")
             }
             gr1Solution != null -> {
-                val current = gr1Solution!!.getGR1Invariant()
+                solutions.add(gr1Solution!!.getGR1Invariant())
                 do {
                     gr1Solution = gr1Solution!!.next()
-                } while (gr1Solution != null && gr1Solution!!.getGR1Invariant() == current)
+                } while (gr1Solution != null && gr1Solution!!.getGR1Invariant() in solutions)
                 return gr1Solution?.getGR1Invariant()
             }
             else -> return null

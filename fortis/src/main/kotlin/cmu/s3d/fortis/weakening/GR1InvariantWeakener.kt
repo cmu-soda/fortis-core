@@ -82,6 +82,9 @@ class GR1InvariantWeakener(
                 }
             }
             ${invariant.joinToString("") { generateInvariantConstraints(it) }}
+            fact {
+                all n: And + Or + Imply | n.l != n.r
+            }
         """
     }
 

@@ -171,6 +171,9 @@ class GR1InvariantWeakenerTests {
                 
             }
 
+            fact {
+                all n: And + Or + Imply | n.l != n.r
+            }
 
             run {
                 all t: PositiveTrace | root->T0 in t.valuation
@@ -314,6 +317,9 @@ class GR1InvariantWeakenerTests {
                 (Neg0->InPlace) in subDAG[Imply1.r]
             }
 
+            fact {
+                all n: And + Or + Imply | n.l != n.r
+            }
 
             run {
                 all t: PositiveTrace | root->T0 in t.valuation
