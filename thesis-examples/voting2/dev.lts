@@ -1,0 +1,10 @@
+
+range N_VOTER = 1..4
+range N_EO = 1..4
+
+ENV = (v[i:N_VOTER].enter -> VOTER[i] | eo[j:N_EO].enter -> EO[j]),
+VOTER[i:N_VOTER] = (password -> VOTER1[i]),
+VOTER1[i:N_VOTER] = (select -> VOTER2[i]),
+VOTER2[i:N_VOTER] = (vote -> VOTER3[i] | back -> VOTER1[i]),
+VOTER3[i:N_VOTER] = (confirm -> v[i].exit -> ENV | omit_confirm -> v[i].exit -> ENV | back -> VOTER2[i]),
+EO[j:N_EO] = (select -> EO[j] | vote -> EO[j] | confirm -> eo[j].exit -> ENV | back -> EO[j] | eo[j].exit -> ENV).

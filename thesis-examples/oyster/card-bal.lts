@@ -1,0 +1,9 @@
+
+const MAX_BAL = 5
+
+CARD_BAL = CARD_BAL[MAX_BAL],
+CARD_BAL[b:0..MAX_BAL] = (
+    when (b < MAX_BAL) rld.card[c:1..(MAX_BAL-b)] -> CARD_BAL[b+c]
+    |
+    when (b > 0) rcv.card.fin -> CARD_BAL[b-1]
+).

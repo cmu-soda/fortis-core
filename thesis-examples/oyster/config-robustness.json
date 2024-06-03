@@ -1,0 +1,6 @@
+{
+    "sys": ["gate-in.lts", "gate-out.lts", "card-bal.lts", "oyster-bal.lts"],
+    "env": ["human.lts"],
+    "prop": ["no-collision.lts"],
+    "dev": ["human-dev.lts"]
+}

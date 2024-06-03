@@ -1,0 +1,18 @@
+{
+  "sys": ["sys.lts"],
+  "env": [],
+  "dev": ["env.lts"],
+  "safety": ["p.lts"],
+  "method": "simple",
+  "options": {
+    "progress": ["fire_xray", "fire_ebeam"],
+    "preferred": [
+      ["x", "up", "e", "enter", "b"],
+      ["e", "up", "x", "enter", "b"],
+      ["x", "enter", "up", "up", "e", "enter", "b"],
+      ["e", "enter", "up", "up", "x", "enter", "b"]
+    ],
+    "controllable": ["x", "e", "enter", "up", "b", "fire_xray", "fire_ebeam", "set_xray", "set_ebeam"],
+    "observable": ["x", "e", "enter", "up", "b", "fire_xray", "fire_ebeam", "set_xray", "set_ebeam"]
+  }
+}

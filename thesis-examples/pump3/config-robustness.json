@@ -1,0 +1,5 @@
+{
+    "sys": ["lines.lts", "power.lts", "alarm.lts"],
+    "env": ["env0.lts"],
+    "prop": ["p.lts"]
+}

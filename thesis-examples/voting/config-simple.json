@@ -1,0 +1,15 @@
+{
+  "sys": ["sys.lts"],
+  "env": [],
+  "dev": ["env.lts"],
+  "safety": ["p.lts"],
+  "method": "simple",
+  "options": {
+    "progress": ["confirm"],
+    "preferred": [
+      ["select", "vote", "confirm"],
+      ["select", "back", "select", "vote", "confirm"],
+      ["select", "vote", "back", "back", "select", "vote", "confirm"]
+    ]
+  }
+}

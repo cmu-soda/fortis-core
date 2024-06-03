@@ -1,0 +1,16 @@
+const True = 1
+const False = 0
+range Bool = False .. True
+
+P = P[False][True],
+P[isXray:Bool][isInPlace:Bool] = (
+    set_xray -> P[True][isInPlace]
+    |
+    set_ebeam -> P[False][isInPlace] | reset -> P[False][isInPlace]
+    |
+    x -> P[isXray][True]
+    |
+    e -> P[isXray][False]
+    |
+    when (isXray == False || isInPlace == True) b -> P[isXray][isInPlace]
+).
