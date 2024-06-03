@@ -171,22 +171,7 @@ class ExampleGeneratorTests {
                     )
                 ),
                 Word.fromList(
-                    "v.enter,password,v.password,v.exit,eo.enter,select,eo.select,eo.exit,v.enter,vote,v.vote,confirm,v.confirm,v.exit,v.enter".split(
-                        ','
-                    )
-                ),
-                Word.fromList(
-                    "v.enter,password,v.password,v.exit,eo.enter,select,eo.select,eo.exit,v.enter,vote,v.vote,confirm,v.confirm,v.exit,eo.enter,eo.exit".split(
-                        ','
-                    )
-                ),
-                Word.fromList(
-                    "v.enter,password,v.password,v.exit,eo.enter,select,eo.select,vote,eo.vote,eo.exit,v.enter,confirm,v.confirm,v.exit,v.enter".split(
-                        ','
-                    )
-                ),
-                Word.fromList(
-                    "v.enter,password,v.password,v.exit,eo.enter,select,eo.select,vote,eo.vote,eo.exit,v.enter,confirm,v.confirm,v.exit,eo.enter,eo.exit".split(
+                    "v.enter,password,v.password,v.exit,eo.enter,select,eo.select,eo.exit,v.enter,vote,v.vote,confirm,v.confirm,v.exit".split(
                         ','
                     )
                 ),
@@ -196,12 +181,7 @@ class ExampleGeneratorTests {
                     )
                 ),
                 Word.fromList(
-                    "v.enter,password,v.password,v.exit,eo.enter,select,eo.select,vote,eo.vote,confirm,eo.confirm,eo.exit,v.enter,v.exit".split(
-                        ','
-                    )
-                ),
-                Word.fromList(
-                    "v.enter,password,v.password,select,v.select,v.exit,eo.enter,vote,eo.vote,eo.exit,v.enter,confirm,v.confirm,v.exit,v.enter".split(
+                    "v.enter,password,v.password,select,v.select,vote,v.vote,v.exit,eo.enter,confirm,eo.confirm,eo.exit,eo.enter".split(
                         ','
                     )
                 ),

@@ -7,86 +7,108 @@ import net.automatalib.alphabet.Alphabet
 import net.automatalib.automaton.fsa.NFA
 import net.automatalib.util.automaton.builder.AutomatonBuilders
 import net.automatalib.word.Word
-import java.util.*
-import kotlin.collections.ArrayDeque
+import kotlin.math.min
 
 open class ExampleGenerator<S, I>(
     private val model: NFA<S, I>,
-    numOfAdditionalExamples: Int
+    private val numOfAdditionalExamples: Int
 ) : Iterator<Word<I>>, Iterable<Word<I>> {
     private val dfsStack: ArrayDeque<DFSRecord<S, I>> = ArrayDeque()
-    private val visited: MutableSet<S> = mutableSetOf()
-    private val examples: Queue<Word<I>> = LinkedList()
-    private val numOfAdditionalExamples = if (numOfAdditionalExamples < 0) Int.MAX_VALUE else numOfAdditionalExamples
-    private var additionalExamplesCount = 0
+    // visited states s.t. visited[s] is the set of traces from this state s leading to an accepting example
+    private val visited: MutableMap<S, MutableList<Word<I>>> = mutableMapOf()
+    private val examples1: MutableList<Word<I>> = mutableListOf()
+    private val examples2: MutableList<Word<I>> = mutableListOf()
+    private var examplesCount = 0
     private var exampleFilter: ExampleFilter<I>? = null
 
-    private class DFSRecord<S, I>(val state: S, val trace: Word<I>, val visited: Set<S>)
+    protected class DFSRecord<S, I>(val state: S, val trace: Word<I>, val visited: List<S>)
 
     override fun iterator(): Iterator<Word<I>> {
         dfsStack.clear()
-        model.initialStates.forEach { dfsStack.add(DFSRecord(it, Word.epsilon(), emptySet())) }
+        model.initialStates.forEach { dfsStack.add(DFSRecord(it, Word.epsilon(), emptyList())) }
         visited.clear()
-        examples.clear()
-        additionalExamplesCount = 0
+        examples1.clear()
+        examples2.clear()
+        examplesCount = 0
         exampleFilter?.reset()
+
+        searchNext()
         return this
     }
 
     private fun searchNext() {
-        if (visited.size == model.size() && additionalExamplesCount++ >= numOfAdditionalExamples)
-            return
-
-        val currentExampleSize = examples.size
         // a DFS search
         while (dfsStack.isNotEmpty()) {
             val record = dfsStack.removeLast()
             var isDeadlock = true
 
-            visited.add(record.state)
+            visited[record.state] = mutableListOf()
             for (a in model.alphabet()) {
                 val successors = model.getSuccessors(record.state, a)
+                val traceVisited = record.visited.toSet()
                 isDeadlock = isDeadlock && successors.isEmpty()
-                // search non-lasso cases
-                for (s in successors - record.visited) {
-                    dfsStack.add(
-                        DFSRecord(
-                            state = s,
-                            trace = Word.fromList(record.trace + a),
-                            visited = record.visited + record.state
-                        )
-                    )
-                }
-                // search lasso cases
-                if ((successors intersect record.visited).isNotEmpty()) {
-                    offerExample(Word.fromList(record.trace + a))
+                for (s in successors) {
+                    when (s) {
+                        // lasso
+                        in traceVisited -> {
+                            offerExample(Word.fromList(record.trace + a), examples1, record)
+                        }
+                        // exist a trace from s to an accepting example
+                        in visited -> {
+                            for ((i, t) in visited[s]!!.withIndex()) {
+                                if (i == 0) {
+                                    offerExample(Word.fromList(record.trace + a + t), examples1, record)
+                                } else {
+                                    offerExample(Word.fromList(record.trace + a + t), examples2, record)
+                                }
+                            }
+                        }
+                        else -> {
+                            dfsStack.add(
+                                DFSRecord(
+                                    state = s,
+                                    trace = Word.fromList(record.trace + a),
+                                    visited = record.visited + record.state
+                                )
+                            )
+                        }
+                    }
                 }
             }
             if (isDeadlock) {
-                offerExample(record.trace)
-            }
-            if (examples.size > currentExampleSize) {
-                return
+                offerExample(record.trace, examples1, record)
             }
         }
     }
 
-    protected open fun offerExample(trace: Word<I>) {
-        if (exampleFilter == null || exampleFilter!!.filter(trace)) {
-            examples.offer(trace)
+    private fun updateVisited(record: DFSRecord<S, I>, trace: Word<I>) {
+        for ((i, s) in (record.visited + record.state).withIndex()) {
+            visited[s]!!.add(trace.subWord(i))
         }
+    }
+
+    protected open fun offerExample(trace: Word<I>, examples: MutableList<Word<I>>, record: DFSRecord<S, I>): Boolean {
+        if (exampleFilter == null || exampleFilter!!.filter(trace)) {
+            examples.add(trace)
+            updateVisited(record, trace)
+            return true
+        }
+        return false
     }
 
     override fun hasNext(): Boolean {
-        if (examples.isEmpty()) {
-            searchNext()
-            return examples.isNotEmpty()
-        }
-        return true
+        return if (numOfAdditionalExamples >= 0)
+            examplesCount < min(examples1.size + examples2.size, examples1.size + numOfAdditionalExamples)
+        else
+            examplesCount < examples1.size + examples2.size
     }
 
     override fun next(): Word<I> {
-        return if (examples.isNotEmpty()) examples.poll() else error("No more examples")
+        return if (examplesCount < examples1.size) {
+            examples1[examplesCount++]
+        } else {
+            examples2[examplesCount++ - examples1.size]
+        }
     }
 
     fun withFilter(filter: ExampleFilter<I>): ExampleGenerator<S, I> {
@@ -121,10 +143,11 @@ class TraceExampleGenerator<S, I>(
     parallel(model, traceToLTS(observedTrace, observedInputs, makeError = false)),
     numOfAdditionalExamples
 ) {
-    override fun offerExample(trace: Word<I>) {
+    override fun offerExample(trace: Word<I>, examples: MutableList<Word<I>>, record: DFSRecord<Int, I>): Boolean {
         val projected = trace.filter { it in observedInputs }
         if (observedTrace.asList() == projected) {
-            super.offerExample(trace)
+            return super.offerExample(trace, examples, record)
         }
+        return false
     }
 }
