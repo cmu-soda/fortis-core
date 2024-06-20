@@ -22,6 +22,10 @@ data class SimpleGR1Invariant(
             }.toList()
         }
     }
+
+    override fun toString(): String {
+        return "[](${antecedent} -> ${consequent})"
+    }
 }
 
 fun LTLLearningSolution.getGR1Invariant(): String {

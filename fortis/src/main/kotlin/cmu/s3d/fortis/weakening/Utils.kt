@@ -2,12 +2,33 @@ package cmu.s3d.fortis.weakening
 
 typealias Proposition = Pair<String, Boolean>
 
-data class Conjunctions(val props: List<Proposition>)
-data class Disjunctions(val props: List<Proposition>)
+data class Conjunctions(val props: List<Proposition>) {
+    override fun toString(): String {
+        return props.joinToString(" && ") { (name, value) ->
+            if (value) name else "!$name"
+        }
+    }
+}
 
-data class CNF(val clauses: List<Disjunctions>)
+data class Disjunctions(val props: List<Proposition>) {
+    override fun toString(): String {
+        return props.joinToString(" || ") { (name, value) ->
+            if (value) name else "!$name"
+        }
+    }
+}
 
-data class DNF(val clauses: List<Conjunctions>)
+data class CNF(val clauses: List<Disjunctions>) {
+    override fun toString(): String {
+        return clauses.joinToString(" && ") { if (it.props.size > 1) "($it)" else it.toString() }
+    }
+}
+
+data class DNF(val clauses: List<Conjunctions>) {
+    override fun toString(): String {
+        return clauses.joinToString(" || ") { if (it.props.size > 1) "($it)" else it.toString() }
+    }
+}
 
 fun String.parseConjunction(): Conjunctions {
     val literals = this.split("&&").map { it.trim() }

@@ -1,6 +1,7 @@
 package cmu.s3d.fortis.weakening
 
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 class UtilsTests {
     @Test
@@ -49,5 +50,87 @@ class UtilsTests {
         assert(dnf == DNF(listOf(
             Conjunctions(listOf("a" to true))
         )))
+    }
+
+    @Test
+    fun testGR1Invariant1() {
+        val invString = "[](a && b -> c)"
+        val expected = SimpleGR1Invariant(
+            CNF(listOf(
+                Disjunctions(listOf("a" to true)),
+                Disjunctions(listOf("b" to true))
+            )),
+            DNF(listOf(
+                Conjunctions(listOf("c" to true))
+            ))
+        )
+        assertEquals(expected, SimpleGR1Invariant.oneFromString(invString))
+        assertEquals(invString, expected.toString())
+    }
+
+    @Test
+    fun testGR1Invariant2() {
+        val invString = "[](a && (b || c) -> d)"
+        val expected = SimpleGR1Invariant(
+            CNF(listOf(
+                Disjunctions(listOf("a" to true)),
+                Disjunctions(listOf("b" to true, "c" to true))
+            )),
+            DNF(listOf(
+                Conjunctions(listOf("d" to true))
+            ))
+        )
+        assertEquals(expected, SimpleGR1Invariant.oneFromString(invString))
+        assertEquals(invString, expected.toString())
+    }
+
+    @Test
+    fun testGR1Invariant3() {
+        val invString = "[](a && b -> c || d)"
+        val expected = SimpleGR1Invariant(
+            CNF(listOf(
+                Disjunctions(listOf("a" to true)),
+                Disjunctions(listOf("b" to true))
+            )),
+            DNF(listOf(
+                Conjunctions(listOf("c" to true)),
+                Conjunctions(listOf("d" to true))
+            ))
+        )
+        assertEquals(expected, SimpleGR1Invariant.oneFromString(invString))
+        assertEquals(invString, expected.toString())
+    }
+
+    @Test
+    fun testGR1Invariant4() {
+        val invString = "[](a && b -> (c && d) || e)"
+        val expected = SimpleGR1Invariant(
+            CNF(listOf(
+                Disjunctions(listOf("a" to true)),
+                Disjunctions(listOf("b" to true))
+            )),
+            DNF(listOf(
+                Conjunctions(listOf("c" to true, "d" to true)),
+                Conjunctions(listOf("e" to true))
+            ))
+        )
+        assertEquals(expected, SimpleGR1Invariant.oneFromString(invString))
+        assertEquals(invString, expected.toString())
+    }
+
+    @Test
+    fun testGR1Invariant5() {
+        val invString = "[](a && !b -> c)"
+        val expected = SimpleGR1Invariant(
+            CNF(listOf(
+                Disjunctions(listOf("a" to true)),
+                Disjunctions(listOf("b" to false))
+            )),
+            DNF(listOf(
+                Conjunctions(listOf("c" to true))
+            ))
+        )
+        assertEquals(expected, SimpleGR1Invariant.oneFromString(invString))
+        assertEquals(invString, expected.toString())
     }
 }
