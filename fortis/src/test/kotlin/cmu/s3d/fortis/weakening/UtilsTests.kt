@@ -66,6 +66,7 @@ class UtilsTests {
         )
         assertEquals(expected, SimpleGR1Invariant.oneFromString(invString))
         assertEquals(invString, expected.toString())
+        assertEquals("G(->(&(x0,x1),x2))", expected.toLTL2String(listOf("a", "b", "c")))
     }
 
     @Test
@@ -82,6 +83,7 @@ class UtilsTests {
         )
         assertEquals(expected, SimpleGR1Invariant.oneFromString(invString))
         assertEquals(invString, expected.toString())
+        assertEquals("G(->(&(x0,|(x1,x2)),x3))", expected.toLTL2String(listOf("a", "b", "c", "d")))
     }
 
     @Test
@@ -99,6 +101,7 @@ class UtilsTests {
         )
         assertEquals(expected, SimpleGR1Invariant.oneFromString(invString))
         assertEquals(invString, expected.toString())
+        assertEquals("G(->(&(x0,x1),|(x2,x3)))", expected.toLTL2String(listOf("a", "b", "c", "d")))
     }
 
     @Test
@@ -116,6 +119,7 @@ class UtilsTests {
         )
         assertEquals(expected, SimpleGR1Invariant.oneFromString(invString))
         assertEquals(invString, expected.toString())
+        assertEquals("G(->(&(x0,x1),|(&(x2,x3),x4)))", expected.toLTL2String(listOf("a", "b", "c", "d", "e")))
     }
 
     @Test
@@ -132,5 +136,39 @@ class UtilsTests {
         )
         assertEquals(expected, SimpleGR1Invariant.oneFromString(invString))
         assertEquals(invString, expected.toString())
+        assertEquals("G(->(&(x0,!(x1)),x2))", expected.toLTL2String(listOf("a", "b", "c")))
+    }
+
+    @Test
+    fun testGR1ToSimple1() {
+        val invString = "[](a && b -> c)"
+        val inv = SimpleGR1Invariant.oneFromString(invString)
+        val expected = SimpleInvariant(
+            Conjunctions(listOf("a" to true, "b" to true)),
+            Conjunctions(listOf("c" to true))
+        )
+        assertEquals(expected, inv.toSimpleInvariant())
+    }
+
+    @Test
+    fun testGR1ToSimple2() {
+        val invString = "[](a -> b && c)"
+        val inv = SimpleGR1Invariant.oneFromString(invString)
+        val expected = SimpleInvariant(
+            Conjunctions(listOf("a" to true)),
+            Conjunctions(listOf("b" to true, "c" to true))
+        )
+        assertEquals(expected, inv.toSimpleInvariant())
+    }
+
+    @Test
+    fun testGR1ToSimple3() {
+        val invString = "[](a && !b -> c)"
+        val inv = SimpleGR1Invariant.oneFromString(invString)
+        val expected = SimpleInvariant(
+            Conjunctions(listOf("a" to true, "b" to false)),
+            Conjunctions(listOf("c" to true))
+        )
+        assertEquals(expected, inv.toSimpleInvariant())
     }
 }

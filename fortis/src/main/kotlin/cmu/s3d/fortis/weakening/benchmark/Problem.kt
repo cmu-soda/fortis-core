@@ -1,13 +1,13 @@
 package cmu.s3d.fortis.weakening.benchmark
 
-import cmu.s3d.fortis.weakening.SimpleInvariant
+import cmu.s3d.fortis.weakening.SimpleGR1Invariant
 import cmu.s3d.ltl.FiniteTrace
 import cmu.s3d.ltl.State
 
 data class Problem(
     val literals: List<String>,
-    val oldInvariant: SimpleInvariant,
-    val expected: SimpleInvariant,
+    val oldInvariant: SimpleGR1Invariant,
+    val expected: SimpleGR1Invariant,
     val positiveTraces: List<FiniteTrace>,
     val negativeTraces: List<FiniteTrace>,
     val maxNumOfNode: Int?
@@ -54,8 +54,8 @@ object ProblemParser {
 
         return Problem(
             literals = literals,
-            oldInvariant = SimpleInvariant.oneFromString(oldInvariant),
-            expected = SimpleInvariant.oneFromString(expected),
+            oldInvariant = SimpleGR1Invariant.oneFromString(oldInvariant),
+            expected = SimpleGR1Invariant.oneFromString(expected),
             positiveTraces = positives.lines().map { parseFiniteTrace(it, literals) },
             negativeTraces = negatives.lines().map { parseFiniteTrace(it, literals) },
             maxNumOfNode = maxNumOfNode

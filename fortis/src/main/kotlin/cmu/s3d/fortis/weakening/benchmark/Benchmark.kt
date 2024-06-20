@@ -1,7 +1,7 @@
 package cmu.s3d.fortis.weakening.benchmark
 
 import cmu.s3d.fortis.weakening.GR1InvariantWeakener
-import cmu.s3d.fortis.weakening.SimpleInvariant
+import cmu.s3d.fortis.weakening.SimpleGR1Invariant
 import cmu.s3d.fortis.weakening.SimpleInvariantWeakener
 import cmu.s3d.fortis.weakening.getGR1Invariant
 import cmu.s3d.ltl.State
@@ -20,8 +20,8 @@ import java.util.*
 
 class ProblemGenerator(
     private val literals: List<String>,
-    private val oldInvariant: SimpleInvariant,
-    private val expected: SimpleInvariant,
+    private val oldInvariant: SimpleGR1Invariant,
+    private val expected: SimpleGR1Invariant,
     private val sizeOfTrace: Int,
     private val numOfPositives: Int,
     private val numOfNegatives: Int,
@@ -40,10 +40,14 @@ class ProblemGenerator(
     }
 
     private fun satisfy(state: State): Boolean {
-        return !expected.antecedent.props.all {
-            state.values[it.first]!! == it.second
-        } || expected.consequent.props.any {
-            state.values[it.first]!! == it.second
+        return !expected.antecedent.clauses.all { disjunction ->
+            disjunction.props.any {
+                state.values[it.first]!! == it.second
+            }
+        } || expected.consequent.clauses.any { conjunction ->
+            conjunction.props.all {
+                state.values[it.first]!! == it.second
+            }
         }
     }
 
@@ -114,8 +118,8 @@ class Benchmark : CliktCommand(
         } else {
             ProblemGenerator(
                 literals?.split(",")?.map { it.trim() } ?: error("Literals are required."),
-                SimpleInvariant.oneFromString(oldInvariant ?: error("Old invariant is required.")),
-                SimpleInvariant.oneFromString(expected ?: error("Expected invariant is required.")),
+                SimpleGR1Invariant.oneFromString(oldInvariant ?: error("Old invariant is required.")),
+                SimpleGR1Invariant.oneFromString(expected ?: error("Expected invariant is required.")),
                 sizeOfTrace ?: error("Size of trace is required."),
                 numOfPositives ?: error("Number of positives is required."),
                 numOfNegatives ?: error("Number of negatives is required."),
@@ -162,7 +166,7 @@ class Benchmark : CliktCommand(
 
     private fun solveBySimpleWeakener(problem: Problem, options: A4Options): Pair<String, Double> {
         val weakener = SimpleInvariantWeakener(
-            listOf(problem.oldInvariant),
+            listOf(problem.oldInvariant.toSimpleInvariant()),
             problem.literals,
             problem.positiveTraces,
             problem.negativeTraces,
@@ -176,7 +180,7 @@ class Benchmark : CliktCommand(
 
     private fun solveByGR1Weakener(problem: Problem, options: A4Options): Pair<String, Double> {
         val weakener = GR1InvariantWeakener(
-            listOf(problem.oldInvariant.toGR1Invariant()),
+            listOf(problem.oldInvariant),
             problem.literals,
             problem.positiveTraces,
             problem.negativeTraces,

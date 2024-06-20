@@ -1,6 +1,6 @@
 package cmu.s3d.fortis.weakening.benchmark
 
-import cmu.s3d.fortis.weakening.SimpleInvariant
+import cmu.s3d.fortis.weakening.SimpleGR1Invariant
 import cmu.s3d.ltl.State
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -10,8 +10,8 @@ class ProblemTests {
     fun testProblemToString() {
         val problem = Problem(
             literals = listOf("a", "b", "c"),
-            oldInvariant = SimpleInvariant.oneFromString("[](a -> b)"),
-            expected = SimpleInvariant.oneFromString("[](a && c -> b)"),
+            oldInvariant = SimpleGR1Invariant.oneFromString("[](a -> b)"),
+            expected = SimpleGR1Invariant.oneFromString("[](a && c -> b)"),
             positiveTraces = listOf(
                 listOf(
                     State(mapOf("a" to true, "b" to true, "c" to true)),
@@ -68,8 +68,8 @@ class ProblemTests {
             a,b,c
         """.trimIndent())
         assertEquals(listOf("a", "b", "c"), problem.literals)
-        assertEquals(SimpleInvariant.oneFromString("[](a -> b)"), problem.oldInvariant)
-        assertEquals(SimpleInvariant.oneFromString("[](a && c -> b)"), problem.expected)
+        assertEquals(SimpleGR1Invariant.oneFromString("[](a -> b)"), problem.oldInvariant)
+        assertEquals(SimpleGR1Invariant.oneFromString("[](a && c -> b)"), problem.expected)
         assertEquals(
             listOf(
                 listOf(
