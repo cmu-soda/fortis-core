@@ -1,0 +1,235 @@
+filename,oldInvariant,expected,sizeOfTrace,numOfPositives,numOfNegatives,solvingTime,formula
+weakening/w_conseq_3_20_5_5.trace,"[](a -> b)","[](a -> b || c)",20,5,5,5.413,"[](a -> (b || c))"
+weakening/w_antec_3_5_60_60.trace,"[](a -> b)","[](a && c -> b)",5,60,60,1.528,"[]((a && c) -> b)"
+weakening/w_conseq_11_45_5_5.trace,"[](a -> b)","[](a -> b || c)",45,5,5,TO,-
+weakening/w_antec_3_10_5_5.trace,"[](a -> b)","[](a && c -> b)",10,5,5,0.742,"[]((a && c) -> b)"
+weakening/w_antec_7_5_70_70.trace,"[](a -> b)","[](a && c -> b)",5,70,70,3.69,"[]((a && c) -> b)"
+weakening/w_antec_3_55_5_5.trace,"[](a -> b)","[](a && c -> b)",55,5,5,"ERR:Unknown exception occurred: java.lang.OutOfMemoryError: GC overhead limit exceeded",-
+weakening/w_antec_11_5_60_60.trace,"[](a -> b)","[](a && c -> b)",5,60,60,5.638,"[]((a && c) -> b)"
+weakening/w_antec_7_10_5_5.trace,"[](a -> b)","[](a && c -> b)",10,5,5,1.322,"[]((a && c) -> b)"
+weakening/w_conseq_3_5_70_70.trace,"[](a -> b)","[](a -> b || c)",5,70,70,1.93,"[](a -> (b || c))"
+weakening/w_antec_11_50_5_5.trace,"[](a -> b)","[](a && c -> b)",50,5,5,TO,-
+weakening/w_conseq_3_100_5_5.trace,"[](a -> b)","[](a -> b || c)",100,5,5,TO,-
+weakening/w_antec_3_40_5_5.trace,"[](a -> b)","[](a && c -> b)",40,5,5,53.531,"[]((a && c) -> b)"
+weakening/w_antec_11_5_55_55.trace,"[](a -> b)","[](a && c -> b)",5,55,55,5.055,"[]((a && c) -> b)"
+weakening/w_antec_7_5_90_90.trace,"[](a -> b)","[](a && c -> b)",5,90,90,4.622,"[]((a && c) -> b)"
+weakening/w_antec_3_5_5_5.trace,"[](a -> b)","[](a && c -> b)",5,5,5,0.292,"[]((a && c) -> b)"
+weakening/w_antec_3_75_5_5.trace,"[](a -> b)","[](a && c -> b)",75,5,5,TO,-
+weakening/w_conseq_3_5_30_30.trace,"[](a -> b)","[](a -> b || c)",5,30,30,0.87,"[](a -> (b || c))"
+weakening/w_conseq_7_5_5_5.trace,"[](a -> b)","[](a -> b || c)",5,5,5,0.533,"[](a -> (b || c))"
+weakening/w_conseq_3_60_5_5.trace,"[](a -> b)","[](a -> b || c)",60,5,5,"ERR:Unknown exception occurred: java.lang.OutOfMemoryError: GC overhead limit exceeded",-
+weakening/w_antec_7_55_5_5.trace,"[](a -> b)","[](a && c -> b)",55,5,5,"ERR:Unknown exception occurred: java.lang.OutOfMemoryError: GC overhead limit exceeded",-
+weakening/w_antec_11_90_5_5.trace,"[](a -> b)","[](a && c -> b)",90,5,5,TO,-
+weakening/w_antec_7_90_5_5.trace,"[](a -> b)","[](a && c -> b)",90,5,5,TO,-
+weakening/w_conseq_7_5_20_20.trace,"[](a -> b)","[](a -> b || c)",5,20,20,1.207,"[](a -> (b || c))"
+weakening/w_antec_3_5_80_80.trace,"[](a -> b)","[](a && c -> b)",5,80,80,2.001,"[]((a && c) -> b)"
+weakening/w_conseq_11_5_10_10.trace,"[](a -> b)","[](a -> b || c)",5,10,10,1.273,"[](a -> (b || c))"
+weakening/w_antec_7_65_5_5.trace,"[](a -> b)","[](a && c -> b)",65,5,5,"ERR:Unknown exception occurred: java.lang.OutOfMemoryError: GC overhead limit exceeded",-
+weakening/w_antec_11_5_65_65.trace,"[](a -> b)","[](a && c -> b)",5,65,65,5.604,"[]((a && c) -> b)"
+weakening/w_conseq_7_5_25_25.trace,"[](a -> b)","[](a -> b || c)",5,25,25,1.364,"[](a -> (b || c))"
+weakening/w_conseq_11_5_65_65.trace,"[](a -> b)","[](a -> b || c)",5,65,65,5.541,"[](a -> (b || c))"
+weakening/w_antec_11_80_5_5.trace,"[](a -> b)","[](a && c -> b)",80,5,5,TO,-
+weakening/w_conseq_11_5_60_60.trace,"[](a -> b)","[](a -> b || c)",5,60,60,5.417,"[](a -> (b || c))"
+weakening/w_conseq_7_5_50_50.trace,"[](a -> b)","[](a -> b || c)",5,50,50,2.683,"[](a -> (b || c))"
+weakening/w_antec_11_20_5_5.trace,"[](a -> b)","[](a && c -> b)",20,5,5,12.019,"[]((a && c) -> b)"
+weakening/w_antec_3_5_90_90.trace,"[](a -> b)","[](a && c -> b)",5,90,90,2.289,"[]((a && c) -> b)"
+weakening/w_antec_11_5_85_85.trace,"[](a -> b)","[](a && c -> b)",5,85,85,7.198,"[]((a && c) -> b)"
+weakening/w_antec_3_90_5_5.trace,"[](a -> b)","[](a && c -> b)",90,5,5,TO,-
+weakening/w_antec_11_5_80_80.trace,"[](a -> b)","[](a && c -> b)",5,80,80,6.987,"[]((a && c) -> b)"
+weakening/w_conseq_7_20_5_5.trace,"[](a -> b)","[](a -> b || c)",20,5,5,7.299,"[](a -> (b || c))"
+weakening/w_antec_11_30_5_5.trace,"[](a -> b)","[](a && c -> b)",30,5,5,44.08,"[]((a && c) -> b)"
+weakening/w_antec_7_5_20_20.trace,"[](a -> b)","[](a && c -> b)",5,20,20,1.147,"[]((a && c) -> b)"
+weakening/w_conseq_7_5_45_45.trace,"[](a -> b)","[](a -> b || c)",5,45,45,2.167,"[](a -> (b || c))"
+weakening/w_antec_3_5_35_35.trace,"[](a -> b)","[](a && c -> b)",5,35,35,0.951,"[]((a && c) -> b)"
+weakening/w_antec_11_5_5_5.trace,"[](a -> b)","[](a && c -> b)",5,5,5,0.834,"[](a -> (b || e))"
+weakening/w_antec_11_5_90_90.trace,"[](a -> b)","[](a && c -> b)",5,90,90,7.787,"[]((a && c) -> b)"
+weakening/w_conseq_7_35_5_5.trace,"[](a -> b)","[](a -> b || c)",35,5,5,55.755,"[](a -> (b || c))"
+weakening/w_antec_7_5_5_5.trace,"[](a -> b)","[](a && c -> b)",5,5,5,0.483,"[]((a && c) -> b)"
+weakening/w_antec_11_5_75_75.trace,"[](a -> b)","[](a && c -> b)",5,75,75,6.549,"[]((a && c) -> b)"
+weakening/w_conseq_11_5_85_85.trace,"[](a -> b)","[](a -> b || c)",5,85,85,7.418,"[](a -> (b || c))"
+weakening/w_antec_7_5_65_65.trace,"[](a -> b)","[](a && c -> b)",5,65,65,3.209,"[]((a && c) -> b)"
+weakening/w_antec_3_5_40_40.trace,"[](a -> b)","[](a && c -> b)",5,40,40,1.022,"[]((a && c) -> b)"
+weakening/w_antec_11_70_5_5.trace,"[](a -> b)","[](a && c -> b)",70,5,5,TO,-
+weakening/w_antec_11_5_50_50.trace,"[](a -> b)","[](a && c -> b)",5,50,50,4.347,"[]((a && c) -> b)"
+weakening/w_antec_3_35_5_5.trace,"[](a -> b)","[](a && c -> b)",35,5,5,34.111,"[]((a && c) -> b)"
+weakening/w_antec_7_5_15_15.trace,"[](a -> b)","[](a && c -> b)",5,15,15,0.91,"[]((a && c) -> b)"
+weakening/w_conseq_3_5_5_5.trace,"[](a -> b)","[](a -> b || c)",5,5,5,0.285,"[](a -> (b || c))"
+weakening/w_antec_7_50_5_5.trace,"[](a -> b)","[](a && c -> b)",50,5,5,TO,-
+weakening/w_conseq_11_10_5_5.trace,"[](a -> b)","[](a -> b || c)",10,5,5,2.142,"[](a -> (b || c))"
+weakening/w_antec_7_85_5_5.trace,"[](a -> b)","[](a && c -> b)",85,5,5,TO,-
+weakening/w_antec_7_20_5_5.trace,"[](a -> b)","[](a && c -> b)",20,5,5,7.872,"[]((a && c) -> b)"
+weakening/w_conseq_3_5_25_25.trace,"[](a -> b)","[](a -> b || c)",5,25,25,0.777,"[](a -> (b || c))"
+weakening/w_conseq_7_60_5_5.trace,"[](a -> b)","[](a -> b || c)",60,5,5,"ERR:Unknown exception occurred: java.lang.OutOfMemoryError: GC overhead limit exceeded",-
+weakening/w_conseq_11_5_50_50.trace,"[](a -> b)","[](a -> b || c)",5,50,50,4.49,"[](a -> (b || c))"
+weakening/w_conseq_11_5_90_90.trace,"[](a -> b)","[](a -> b || c)",5,90,90,8.099,"[](a -> (b || c))"
+weakening/w_antec_3_50_5_5.trace,"[](a -> b)","[](a && c -> b)",50,5,5,154.3,"[]((a && c) -> b)"
+weakening/w_antec_11_45_5_5.trace,"[](a -> b)","[](a && c -> b)",45,5,5,TO,-
+weakening/w_conseq_7_30_5_5.trace,"[](a -> b)","[](a -> b || c)",30,5,5,28.059,"[](a -> (b || c))"
+weakening/w_antec_7_15_5_5.trace,"[](a -> b)","[](a && c -> b)",15,5,5,2.708,"[]((a && c) -> b)"
+weakening/w_conseq_7_5_40_40.trace,"[](a -> b)","[](a -> b || c)",5,40,40,1.983,"[](a -> (b || c))"
+weakening/w_antec_3_5_65_65.trace,"[](a -> b)","[](a && c -> b)",5,65,65,1.589,"[]((a && c) -> b)"
+weakening/w_conseq_3_5_45_45.trace,"[](a -> b)","[](a -> b || c)",5,45,45,1.201,"[](a -> (b || c))"
+weakening/w_antec_7_5_50_50.trace,"[](a -> b)","[](a && c -> b)",5,50,50,2.622,"[]((a && c) -> b)"
+weakening/w_antec_11_85_5_5.trace,"[](a -> b)","[](a && c -> b)",85,5,5,TO,-
+weakening/w_antec_11_60_5_5.trace,"[](a -> b)","[](a && c -> b)",60,5,5,"ERR:Unknown exception occurred: java.lang.OutOfMemoryError: GC overhead limit exceeded",-
+weakening/w_conseq_3_75_5_5.trace,"[](a -> b)","[](a -> b || c)",75,5,5,TO,-
+weakening/w_conseq_7_90_5_5.trace,"[](a -> b)","[](a -> b || c)",90,5,5,TO,-
+weakening/w_antec_7_45_5_5.trace,"[](a -> b)","[](a && c -> b)",45,5,5,128.757,"[]((a && c) -> b)"
+weakening/w_conseq_7_5_60_60.trace,"[](a -> b)","[](a -> b || c)",5,60,60,3.066,"[](a -> (b || c))"
+weakening/w_antec_3_5_70_70.trace,"[](a -> b)","[](a && c -> b)",5,70,70,1.86,"[]((a && c) -> b)"
+weakening/w_conseq_3_5_85_85.trace,"[](a -> b)","[](a -> b || c)",5,85,85,2.236,"[](a -> (b || c))"
+weakening/w_conseq_7_5_35_35.trace,"[](a -> b)","[](a -> b || c)",5,35,35,1.956,"[](a -> (b || c))"
+weakening/w_conseq_11_5_5_5.trace,"[](a -> b)","[](a -> b || c)",5,5,5,0.901,"[](a -> (b || c))"
+weakening/w_conseq_3_5_95_95.trace,"[](a -> b)","[](a -> b || c)",5,95,95,2.39,"[](a -> (b || c))"
+weakening/w_antec_3_70_5_5.trace,"[](a -> b)","[](a && c -> b)",70,5,5,TO,-
+weakening/w_antec_11_5_30_30.trace,"[](a -> b)","[](a && c -> b)",5,30,30,2.896,"[]((a && c) -> b)"
+weakening/w_antec_7_5_80_80.trace,"[](a -> b)","[](a && c -> b)",5,80,80,4.256,"[]((a && c) -> b)"
+weakening/w_antec_3_5_50_50.trace,"[](a -> b)","[](a && c -> b)",5,50,50,1.409,"[]((a && c) -> b)"
+weakening/w_antec_3_5_55_55.trace,"[](a -> b)","[](a && c -> b)",5,55,55,1.501,"[]((a && c) -> b)"
+weakening/w_conseq_3_5_55_55.trace,"[](a -> b)","[](a -> b || c)",5,55,55,1.489,"[](a -> (b || c))"
+weakening/w_conseq_3_65_5_5.trace,"[](a -> b)","[](a -> b || c)",65,5,5,"ERR:Unknown exception occurred: java.lang.OutOfMemoryError: GC overhead limit exceeded",-
+weakening/w_antec_3_95_5_5.trace,"[](a -> b)","[](a && c -> b)",95,5,5,TO,-
+weakening/w_conseq_11_5_15_15.trace,"[](a -> b)","[](a -> b || c)",5,15,15,1.761,"[](a -> (b || c))"
+weakening/w_antec_3_80_5_5.trace,"[](a -> b)","[](a && c -> b)",80,5,5,TO,-
+weakening/w_conseq_3_45_5_5.trace,"[](a -> b)","[](a -> b || c)",45,5,5,74.895,"[](a -> (b || c))"
+weakening/w_conseq_3_5_80_80.trace,"[](a -> b)","[](a -> b || c)",5,80,80,2.101,"[](a -> (b || c))"
+weakening/w_antec_3_25_5_5.trace,"[](a -> b)","[](a && c -> b)",25,5,5,8.862,"[]((a && c) -> b)"
+weakening/w_conseq_7_5_75_75.trace,"[](a -> b)","[](a -> b || c)",5,75,75,3.842,"[](a -> (b || c))"
+weakening/w_antec_7_25_5_5.trace,"[](a -> b)","[](a && c -> b)",25,5,5,15.544,"[]((a && c) -> b)"
+weakening/w_conseq_7_100_5_5.trace,"[](a -> b)","[](a -> b || c)",100,5,5,TO,-
+weakening/w_antec_3_60_5_5.trace,"[](a -> b)","[](a && c -> b)",60,5,5,"ERR:Unknown exception occurred: java.lang.OutOfMemoryError: GC overhead limit exceeded",-
+weakening/w_antec_3_5_30_30.trace,"[](a -> b)","[](a && c -> b)",5,30,30,0.85,"[]((a && c) -> b)"
+weakening/w_conseq_11_15_5_5.trace,"[](a -> b)","[](a -> b || c)",15,5,5,4.649,"[](a -> (b || c))"
+weakening/w_antec_7_5_10_10.trace,"[](a -> b)","[](a && c -> b)",5,10,10,0.701,"[]((a && c) -> b)"
+weakening/w_conseq_7_75_5_5.trace,"[](a -> b)","[](a -> b || c)",75,5,5,TO,-
+weakening/w_conseq_11_35_5_5.trace,"[](a -> b)","[](a -> b || c)",35,5,5,86.019,"[](a -> (b || c))"
+weakening/w_antec_3_5_100_100.trace,"[](a -> b)","[](a && c -> b)",5,100,100,2.471,"[]((a && c) -> b)"
+weakening/w_antec_3_30_5_5.trace,"[](a -> b)","[](a && c -> b)",30,5,5,14.464,"[]((a && c) -> b)"
+weakening/w_antec_3_100_5_5.trace,"[](a -> b)","[](a && c -> b)",100,5,5,TO,-
+weakening/w_conseq_11_5_30_30.trace,"[](a -> b)","[](a -> b || c)",5,30,30,2.793,"[](a -> (b || c))"
+weakening/w_conseq_11_65_5_5.trace,"[](a -> b)","[](a -> b || c)",65,5,5,"ERR:Unknown exception occurred: java.lang.OutOfMemoryError: GC overhead limit exceeded",-
+weakening/w_conseq_11_100_5_5.trace,"[](a -> b)","[](a -> b || c)",100,5,5,TO,-
+weakening/w_antec_3_65_5_5.trace,"[](a -> b)","[](a && c -> b)",65,5,5,"ERR:Unknown exception occurred: java.lang.OutOfMemoryError: GC overhead limit exceeded",-
+weakening/w_conseq_7_65_5_5.trace,"[](a -> b)","[](a -> b || c)",65,5,5,"ERR:Unknown exception occurred: java.lang.OutOfMemoryError: GC overhead limit exceeded",-
+weakening/w_conseq_11_25_5_5.trace,"[](a -> b)","[](a -> b || c)",25,5,5,21.466,"[](a -> (b || c))"
+weakening/w_conseq_7_5_85_85.trace,"[](a -> b)","[](a -> b || c)",5,85,85,4.107,"[](a -> (b || c))"
+weakening/w_conseq_7_5_100_100.trace,"[](a -> b)","[](a -> b || c)",5,100,100,5.148,"[](a -> (b || c))"
+weakening/w_conseq_11_80_5_5.trace,"[](a -> b)","[](a -> b || c)",80,5,5,TO,-
+weakening/w_antec_11_75_5_5.trace,"[](a -> b)","[](a && c -> b)",75,5,5,TO,-
+weakening/w_antec_7_5_55_55.trace,"[](a -> b)","[](a && c -> b)",5,55,55,2.721,"[]((a && c) -> b)"
+weakening/w_conseq_11_5_20_20.trace,"[](a -> b)","[](a -> b || c)",5,20,20,2.009,"[](a -> (b || c))"
+weakening/w_conseq_3_25_5_5.trace,"[](a -> b)","[](a -> b || c)",25,5,5,9.06,"[](a -> (b || c))"
+weakening/w_antec_7_5_25_25.trace,"[](a -> b)","[](a && c -> b)",5,25,25,1.39,"[]((a && c) -> b)"
+weakening/w_conseq_11_75_5_5.trace,"[](a -> b)","[](a -> b || c)",75,5,5,TO,-
+weakening/w_antec_3_5_20_20.trace,"[](a -> b)","[](a && c -> b)",5,20,20,0.655,"[]((a && c) -> b)"
+weakening/w_conseq_3_5_90_90.trace,"[](a -> b)","[](a -> b || c)",5,90,90,2.179,"[](a -> (b || c))"
+weakening/w_antec_11_5_100_100.trace,"[](a -> b)","[](a && c -> b)",5,100,100,8.624,"[]((a && c) -> b)"
+weakening/w_antec_3_5_10_10.trace,"[](a -> b)","[](a && c -> b)",5,10,10,0.395,"[]((a && c) -> b)"
+weakening/w_antec_3_5_95_95.trace,"[](a -> b)","[](a && c -> b)",5,95,95,2.31,"[]((a && c) -> b)"
+weakening/w_conseq_7_5_30_30.trace,"[](a -> b)","[](a -> b || c)",5,30,30,1.544,"[](a -> (b || c))"
+weakening/w_antec_11_10_5_5.trace,"[](a -> b)","[](a && c -> b)",10,5,5,2.07,"[]((a && c) -> b)"
+weakening/w_conseq_7_25_5_5.trace,"[](a -> b)","[](a -> b || c)",25,5,5,14.573,"[](a -> (b || c))"
+weakening/w_antec_7_95_5_5.trace,"[](a -> b)","[](a && c -> b)",95,5,5,TO,-
+weakening/w_antec_11_55_5_5.trace,"[](a -> b)","[](a && c -> b)",55,5,5,"ERR:Unknown exception occurred: java.lang.OutOfMemoryError: GC overhead limit exceeded",-
+weakening/w_conseq_7_10_5_5.trace,"[](a -> b)","[](a -> b || c)",10,5,5,1.261,"[](a -> (b || c))"
+weakening/w_antec_7_80_5_5.trace,"[](a -> b)","[](a && c -> b)",80,5,5,TO,-
+weakening/w_antec_7_5_60_60.trace,"[](a -> b)","[](a && c -> b)",5,60,60,2.952,"[]((a && c) -> b)"
+weakening/w_conseq_11_95_5_5.trace,"[](a -> b)","[](a -> b || c)",95,5,5,TO,-
+weakening/w_conseq_3_95_5_5.trace,"[](a -> b)","[](a -> b || c)",95,5,5,TO,-
+weakening/w_conseq_3_5_35_35.trace,"[](a -> b)","[](a -> b || c)",5,35,35,0.973,"[](a -> (b || c))"
+weakening/w_antec_11_25_5_5.trace,"[](a -> b)","[](a && c -> b)",25,5,5,22.496,"[]((a && c) -> b)"
+weakening/w_conseq_7_5_80_80.trace,"[](a -> b)","[](a -> b || c)",5,80,80,3.998,"[](a -> (b || c))"
+weakening/w_antec_11_15_5_5.trace,"[](a -> b)","[](a && c -> b)",15,5,5,4.776,"[]((a && c) -> b)"
+weakening/w_conseq_11_30_5_5.trace,"[](a -> b)","[](a -> b || c)",30,5,5,45.631,"[](a -> (b || c))"
+weakening/w_conseq_3_40_5_5.trace,"[](a -> b)","[](a -> b || c)",40,5,5,52.473,"[](a -> (b || c))"
+weakening/w_conseq_7_5_70_70.trace,"[](a -> b)","[](a -> b || c)",5,70,70,3.507,"[](a -> (b || c))"
+weakening/w_antec_7_100_5_5.trace,"[](a -> b)","[](a && c -> b)",100,5,5,TO,-
+weakening/w_antec_11_5_95_95.trace,"[](a -> b)","[](a && c -> b)",5,95,95,8.639,"[]((a && c) -> b)"
+weakening/w_antec_11_35_5_5.trace,"[](a -> b)","[](a && c -> b)",35,5,5,85.647,"[]((a && c) -> b)"
+weakening/w_conseq_7_85_5_5.trace,"[](a -> b)","[](a -> b || c)",85,5,5,TO,-
+weakening/w_conseq_7_15_5_5.trace,"[](a -> b)","[](a -> b || c)",15,5,5,2.796,"[](a -> (b || c))"
+weakening/w_antec_7_5_95_95.trace,"[](a -> b)","[](a && c -> b)",5,95,95,4.71,"[]((a && c) -> b)"
+weakening/w_conseq_7_70_5_5.trace,"[](a -> b)","[](a -> b || c)",70,5,5,TO,-
+weakening/w_conseq_3_5_20_20.trace,"[](a -> b)","[](a -> b || c)",5,20,20,0.631,"[](a -> (b || c))"
+weakening/w_conseq_11_5_40_40.trace,"[](a -> b)","[](a -> b || c)",5,40,40,3.432,"[](a -> (b || c))"
+weakening/w_conseq_7_95_5_5.trace,"[](a -> b)","[](a -> b || c)",95,5,5,TO,-
+weakening/w_conseq_11_5_100_100.trace,"[](a -> b)","[](a -> b || c)",5,100,100,8.724,"[](a -> (b || c))"
+weakening/w_conseq_3_5_100_100.trace,"[](a -> b)","[](a -> b || c)",5,100,100,2.421,"[](a -> (b || c))"
+weakening/w_antec_3_20_5_5.trace,"[](a -> b)","[](a && c -> b)",20,5,5,5.129,"[]((a && c) -> b)"
+weakening/w_conseq_7_55_5_5.trace,"[](a -> b)","[](a -> b || c)",55,5,5,"ERR:Unknown exception occurred: java.lang.OutOfMemoryError: GC overhead limit exceeded",-
+weakening/w_antec_7_5_45_45.trace,"[](a -> b)","[](a && c -> b)",5,45,45,2.225,"[]((a && c) -> b)"
+weakening/w_conseq_11_55_5_5.trace,"[](a -> b)","[](a -> b || c)",55,5,5,"ERR:Unknown exception occurred: java.lang.OutOfMemoryError: GC overhead limit exceeded",-
+weakening/w_antec_3_15_5_5.trace,"[](a -> b)","[](a && c -> b)",15,5,5,1.647,"[]((a && c) -> b)"
+weakening/w_antec_3_5_15_15.trace,"[](a -> b)","[](a && c -> b)",5,15,15,0.486,"[]((a && c) -> b)"
+weakening/w_antec_7_40_5_5.trace,"[](a -> b)","[](a && c -> b)",40,5,5,87.424,"[]((a && c) -> b)"
+weakening/w_antec_7_5_35_35.trace,"[](a -> b)","[](a && c -> b)",5,35,35,1.777,"[]((a && c) -> b)"
+weakening/w_conseq_11_90_5_5.trace,"[](a -> b)","[](a -> b || c)",90,5,5,TO,-
+weakening/w_conseq_3_5_10_10.trace,"[](a -> b)","[](a -> b || c)",5,10,10,0.386,"[](a -> (b || c))"
+weakening/w_antec_7_5_30_30.trace,"[](a -> b)","[](a && c -> b)",5,30,30,1.589,"[]((a && c) -> b)"
+weakening/w_conseq_3_5_75_75.trace,"[](a -> b)","[](a -> b || c)",5,75,75,1.857,"[](a -> (b || c))"
+weakening/w_conseq_7_5_65_65.trace,"[](a -> b)","[](a -> b || c)",5,65,65,3.1,"[](a -> (b || c))"
+weakening/w_conseq_7_40_5_5.trace,"[](a -> b)","[](a -> b || c)",40,5,5,87.643,"[](a -> (b || c))"
+weakening/w_conseq_11_5_80_80.trace,"[](a -> b)","[](a -> b || c)",5,80,80,6.725,"[](a -> (b || c))"
+weakening/w_conseq_3_5_15_15.trace,"[](a -> b)","[](a -> b || c)",5,15,15,0.471,"[](a -> (b || c))"
+weakening/w_conseq_3_80_5_5.trace,"[](a -> b)","[](a -> b || c)",80,5,5,TO,-
+weakening/w_conseq_11_60_5_5.trace,"[](a -> b)","[](a -> b || c)",60,5,5,"ERR:Unknown exception occurred: java.lang.OutOfMemoryError: GC overhead limit exceeded",-
+weakening/w_conseq_11_20_5_5.trace,"[](a -> b)","[](a -> b || c)",20,5,5,11.213,"[](a -> (b || c))"
+weakening/w_conseq_7_5_95_95.trace,"[](a -> b)","[](a -> b || c)",5,95,95,4.6,"[](a -> (b || c))"
+weakening/w_antec_3_45_5_5.trace,"[](a -> b)","[](a && c -> b)",45,5,5,69.005,"[]((a && c) -> b)"
+weakening/w_antec_3_5_45_45.trace,"[](a -> b)","[](a && c -> b)",5,45,45,1.14,"[]((a && c) -> b)"
+weakening/w_conseq_3_90_5_5.trace,"[](a -> b)","[](a -> b || c)",90,5,5,TO,-
+weakening/w_antec_11_5_10_10.trace,"[](a -> b)","[](a && c -> b)",5,10,10,1.298,"[]((a && c) -> b)"
+weakening/w_conseq_11_85_5_5.trace,"[](a -> b)","[](a -> b || c)",85,5,5,TO,-
+weakening/w_conseq_11_5_55_55.trace,"[](a -> b)","[](a -> b || c)",5,55,55,4.862,"[](a -> (b || c))"
+weakening/w_conseq_7_5_90_90.trace,"[](a -> b)","[](a -> b || c)",5,90,90,4.402,"[](a -> (b || c))"
+weakening/w_conseq_3_15_5_5.trace,"[](a -> b)","[](a -> b || c)",15,5,5,1.589,"[](a -> (b || c))"
+weakening/w_antec_11_5_25_25.trace,"[](a -> b)","[](a && c -> b)",5,25,25,2.391,"[]((a && c) -> b)"
+weakening/w_antec_7_5_85_85.trace,"[](a -> b)","[](a && c -> b)",5,85,85,4.131,"[]((a && c) -> b)"
+weakening/w_antec_3_5_85_85.trace,"[](a -> b)","[](a && c -> b)",5,85,85,2.002,"[]((a && c) -> b)"
+weakening/w_conseq_3_50_5_5.trace,"[](a -> b)","[](a -> b || c)",50,5,5,151.7,"[](a -> (b || c))"
+weakening/w_antec_11_5_45_45.trace,"[](a -> b)","[](a && c -> b)",5,45,45,3.994,"[]((a && c) -> b)"
+weakening/w_antec_11_5_35_35.trace,"[](a -> b)","[](a && c -> b)",5,35,35,3.362,"[]((a && c) -> b)"
+weakening/w_conseq_3_5_40_40.trace,"[](a -> b)","[](a -> b || c)",5,40,40,1.056,"[](a -> (b || c))"
+weakening/w_conseq_7_5_55_55.trace,"[](a -> b)","[](a -> b || c)",5,55,55,3.021,"[](a -> (b || c))"
+weakening/w_antec_3_5_25_25.trace,"[](a -> b)","[](a && c -> b)",5,25,25,0.734,"[]((a && c) -> b)"
+weakening/w_conseq_7_5_15_15.trace,"[](a -> b)","[](a -> b || c)",5,15,15,0.977,"[](a -> (b || c))"
+weakening/w_conseq_3_70_5_5.trace,"[](a -> b)","[](a -> b || c)",70,5,5,TO,-
+weakening/w_conseq_3_35_5_5.trace,"[](a -> b)","[](a -> b || c)",35,5,5,35.669,"[](a -> (b || c))"
+weakening/w_antec_7_5_75_75.trace,"[](a -> b)","[](a && c -> b)",5,75,75,3.826,"[]((a && c) -> b)"
+weakening/w_antec_7_5_40_40.trace,"[](a -> b)","[](a && c -> b)",5,40,40,2.023,"[]((a && c) -> b)"
+weakening/w_antec_7_5_100_100.trace,"[](a -> b)","[](a && c -> b)",5,100,100,5.127,"[]((a && c) -> b)"
+weakening/w_conseq_3_5_60_60.trace,"[](a -> b)","[](a -> b || c)",5,60,60,1.435,"[](a -> (b || c))"
+weakening/w_antec_7_60_5_5.trace,"[](a -> b)","[](a && c -> b)",60,5,5,"ERR:Unknown exception occurred: java.lang.OutOfMemoryError: GC overhead limit exceeded",-
+weakening/w_antec_11_5_70_70.trace,"[](a -> b)","[](a && c -> b)",5,70,70,6.049,"[]((a && c) -> b)"
+weakening/w_antec_11_5_20_20.trace,"[](a -> b)","[](a && c -> b)",5,20,20,2.027,"[]((a && c) -> b)"
+weakening/w_antec_3_5_75_75.trace,"[](a -> b)","[](a && c -> b)",5,75,75,1.872,"[]((a && c) -> b)"
+weakening/w_antec_7_70_5_5.trace,"[](a -> b)","[](a && c -> b)",70,5,5,TO,-
+weakening/w_antec_11_40_5_5.trace,"[](a -> b)","[](a && c -> b)",40,5,5,139.458,"[]((a && c) -> b)"
+weakening/w_conseq_11_5_35_35.trace,"[](a -> b)","[](a -> b || c)",5,35,35,3.16,"[](a -> (b || c))"
+weakening/w_conseq_11_5_45_45.trace,"[](a -> b)","[](a -> b || c)",5,45,45,3.837,"[](a -> (b || c))"
+weakening/w_antec_3_85_5_5.trace,"[](a -> b)","[](a && c -> b)",85,5,5,TO,-
+weakening/w_conseq_11_5_70_70.trace,"[](a -> b)","[](a -> b || c)",5,70,70,6.323,"[](a -> (b || c))"
+weakening/w_conseq_11_70_5_5.trace,"[](a -> b)","[](a -> b || c)",70,5,5,TO,-
+weakening/w_antec_11_5_15_15.trace,"[](a -> b)","[](a && c -> b)",5,15,15,1.716,"[]((a && c) -> b)"
+weakening/w_conseq_3_5_65_65.trace,"[](a -> b)","[](a -> b || c)",5,65,65,1.729,"[](a -> (b || c))"
+weakening/w_conseq_11_5_75_75.trace,"[](a -> b)","[](a -> b || c)",5,75,75,6.597,"[](a -> (b || c))"
+weakening/w_antec_7_30_5_5.trace,"[](a -> b)","[](a && c -> b)",30,5,5,28.622,"[]((a && c) -> b)"
+weakening/w_conseq_7_80_5_5.trace,"[](a -> b)","[](a -> b || c)",80,5,5,TO,-
+weakening/w_antec_11_65_5_5.trace,"[](a -> b)","[](a && c -> b)",65,5,5,"ERR:Unknown exception occurred: java.lang.OutOfMemoryError: GC overhead limit exceeded",-
+weakening/w_antec_11_5_40_40.trace,"[](a -> b)","[](a && c -> b)",5,40,40,3.61,"[]((a && c) -> b)"
+weakening/w_antec_7_35_5_5.trace,"[](a -> b)","[](a && c -> b)",35,5,5,58.138,"[]((a && c) -> b)"
+weakening/w_conseq_11_5_95_95.trace,"[](a -> b)","[](a -> b || c)",5,95,95,8.407,"[](a -> (b || c))"
+weakening/w_conseq_3_5_50_50.trace,"[](a -> b)","[](a -> b || c)",5,50,50,1.295,"[](a -> (b || c))"
+weakening/w_conseq_3_55_5_5.trace,"[](a -> b)","[](a -> b || c)",55,5,5,"ERR:Unknown exception occurred: java.lang.OutOfMemoryError: GC overhead limit exceeded",-
+weakening/w_antec_11_100_5_5.trace,"[](a -> b)","[](a && c -> b)",100,5,5,TO,-
+weakening/w_conseq_11_40_5_5.trace,"[](a -> b)","[](a -> b || c)",40,5,5,138.81,"[](a -> (b || c))"
+weakening/w_antec_11_95_5_5.trace,"[](a -> b)","[](a && c -> b)",95,5,5,TO,-
+weakening/w_conseq_3_30_5_5.trace,"[](a -> b)","[](a -> b || c)",30,5,5,14.758,"[](a -> (b || c))"
+weakening/w_antec_7_75_5_5.trace,"[](a -> b)","[](a && c -> b)",75,5,5,TO,-
+weakening/w_conseq_11_5_25_25.trace,"[](a -> b)","[](a -> b || c)",5,25,25,2.559,"[](a -> (b || c))"
+weakening/w_conseq_11_50_5_5.trace,"[](a -> b)","[](a -> b || c)",50,5,5,TO,-
+weakening/w_conseq_3_10_5_5.trace,"[](a -> b)","[](a -> b || c)",10,5,5,0.776,"[](a -> (b || c))"
+weakening/w_conseq_7_50_5_5.trace,"[](a -> b)","[](a -> b || c)",50,5,5,TO,-
+weakening/w_conseq_3_85_5_5.trace,"[](a -> b)","[](a -> b || c)",85,5,5,TO,-
+weakening/w_conseq_7_5_10_10.trace,"[](a -> b)","[](a -> b || c)",5,10,10,0.765,"[](a -> (b || c))"
+weakening/w_conseq_7_45_5_5.trace,"[](a -> b)","[](a -> b || c)",45,5,5,124.626,"[](a -> (b || c))"
