@@ -17,9 +17,12 @@ import cmu.s3d.fortis.ts.lts.ltsa.LTSACall.compose
 import cmu.s3d.fortis.ts.lts.ltsa.writeFSP
 import cmu.s3d.fortis.ts.parallel
 import net.automatalib.serialization.aut.AUTWriter
+import org.slf4j.LoggerFactory
 import java.io.ByteArrayOutputStream
 
 class RobustnessComputationServiceImpl : RobustnessComputationService {
+    private val logger = LoggerFactory.getLogger(javaClass)
+
     override fun compareRobustnessOfTwoProps(
         sysSpecs: List<Spec>,
         envSpecs: List<Spec>,
@@ -28,6 +31,7 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
         devSpecs: List<Spec>,
         options: RobustnessOptions
     ): List<EquivClassRep> {
+        val start = System.currentTimeMillis()
         val sys = parseSpecs(sysSpecs)
         val env = parseSpecs(envSpecs)
         val dev = if (devSpecs.isEmpty()) null else parseSpecs(devSpecs)
@@ -45,8 +49,8 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
             options
         )
         val explainer = if (dev != null) BaseExplanationGenerator(sys, dev) else null
-
         val equivClassMap = cal1.compare(cal2)
+        logger.info("Found ${equivClassMap.size} equivalence classes in ${System.currentTimeMillis() - start}ms")
         return equivClassMap.map { (_, reps) ->
             reps.map {
                 RepWithExplain(
@@ -65,6 +69,7 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
         devSpecs: List<Spec>,
         options: RobustnessOptions
     ): List<EquivClassRep> {
+        val start = System.currentTimeMillis()
         val sys1 = parseSpecs(sys1Specs)
         val sys2 = parseSpecs(sys2Specs)
         val env = parseSpecs(envSpecs)
@@ -84,8 +89,8 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
             options
         )
         val explainer = if (dev != null) BaseExplanationGenerator(sys1, dev) else null
-
         val equivClassMap = cal1.compare(cal2)
+        logger.info("Found ${equivClassMap.size} equivalence classes in ${System.currentTimeMillis() - start}ms")
         return equivClassMap.map { (_, reps) ->
             reps.map {
                 RepWithExplain(
@@ -103,6 +108,7 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
         devSpecs: List<Spec>,
         options: RobustnessOptions
     ): List<EquivClassRep> {
+        val start = System.currentTimeMillis()
         val sys = parseSpecs(sysSpecs)
         val env = parseSpecs(envSpecs)
         val prop = parseSpecs(propSpecs, true) as DetLTS<Int, String>
@@ -115,8 +121,8 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
             options
         )
         val explainer = if (dev != null) BaseExplanationGenerator(sys, dev) else null
-
         val equivClassMap = cal.computeUnsafeBeh()
+        logger.info("Found ${equivClassMap.size} equivalence classes in ${System.currentTimeMillis() - start}ms")
         return equivClassMap.map { (_, reps) ->
             reps.map {
                 RepWithExplain(
@@ -134,6 +140,7 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
         devSpecs: List<Spec>,
         options: RobustnessOptions
     ): List<EquivClassRep> {
+        val start = System.currentTimeMillis()
         val sys = parseSpecs(sysSpecs)
         val env = parseSpecs(envSpecs)
         val prop = parseSpecs(propSpecs, true) as DetLTS<Int, String>
@@ -146,8 +153,8 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
             options
         )
         val explainer = if (dev != null) BaseExplanationGenerator(sys, dev) else null
-
         val equivClassMap = cal.computeRobustness()
+        logger.info("Found ${equivClassMap.size} equivalence classes in ${System.currentTimeMillis() - start}ms")
         return equivClassMap.map { (_, reps) ->
             reps.map {
                 RepWithExplain(
@@ -165,6 +172,7 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
         options: RobustnessOptions,
         outputFormat: SpecType
     ): String {
+        val start = System.currentTimeMillis()
         val sys = parseSpecs(sysSpecs)
         val env = parseSpecs(envSpecs)
         val prop = parseSpecs(propSpecs, true) as DetLTS<Int, String>
@@ -176,6 +184,7 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
             options
         )
         val wa = cal.weakestAssumption
+        logger.info("Found weakest assumption in ${System.currentTimeMillis() - start}ms")
         return ByteArrayOutputStream().use {
             when (outputFormat) {
                 SpecType.FSP -> writeFSP(it, wa, wa.alphabet())

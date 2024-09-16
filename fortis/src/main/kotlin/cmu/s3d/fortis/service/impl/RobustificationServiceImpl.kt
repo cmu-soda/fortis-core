@@ -14,9 +14,12 @@ import cmu.s3d.fortis.ts.lts.ltsa.writeFSP
 import cmu.s3d.fortis.ts.parallel
 import net.automatalib.automaton.fsa.DFA
 import net.automatalib.serialization.aut.AUTWriter
+import org.slf4j.LoggerFactory
 import java.io.ByteArrayOutputStream
 
 class RobustificationServiceImpl : RobustificationService {
+    private val logger = LoggerFactory.getLogger(javaClass)
+
     override fun robustify(
         sysSpecs: List<Spec>,
         envSpecs: List<Spec>,
@@ -24,6 +27,7 @@ class RobustificationServiceImpl : RobustificationService {
         options: SupervisoryOptions,
         outputFormat: SpecType
     ): List<RobustificationResult> {
+        val start = System.currentTimeMillis()
         val robustifier = SupervisoryRobustifier(
             parseSpecs(sysSpecs),
             parseSpecs(envSpecs),
@@ -38,6 +42,7 @@ class RobustificationServiceImpl : RobustificationService {
         val sols = robustifier.use {
             robustifier.synthesize2(options.algorithm).toList()
         }
+        logger.info("Found ${sols.size} solutions in ${System.currentTimeMillis() - start}ms")
         return sols.map { sol ->
             val model = ByteArrayOutputStream().use {
                 when (outputFormat) {

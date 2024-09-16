@@ -8,17 +8,20 @@ import cmu.s3d.fortis.ts.lts.ltsa.LTSACall
 import cmu.s3d.fortis.ts.lts.ltsa.LTSACall.asLTS
 import cmu.s3d.fortis.ts.lts.ltsa.LTSACall.compose
 import cmu.s3d.fortis.ts.lts.toFluent
+import cmu.s3d.fortis.ts.numOfTransitions
 import cmu.s3d.fortis.ts.parallel
 import cmu.s3d.fortis.weakening.*
 import cmu.s3d.ltl.learning.LTLLearningSolution
 import net.automatalib.alphabet.Alphabets
 import net.automatalib.automaton.fsa.NFA
 import net.automatalib.word.Word
+import org.slf4j.LoggerFactory
 
 class WeakeningServiceImpl : WeakeningService {
     private var simpleSolution: SimpleInvariantSolution? = null
     private var gr1Solution: LTLLearningSolution? = null
     private val solutions: MutableList<String> = mutableListOf()
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     private fun resetSolution() {
         simpleSolution = null
@@ -49,12 +52,18 @@ class WeakeningServiceImpl : WeakeningService {
         fluents: List<String>,
         numOfAdditionalExamples: Int
     ): List<Word<String>> {
+        val start = System.currentTimeMillis()
         val sys = parseSpecs(sysSpecs)
         val env = parseSpecs(envSpecs)
         val model = parallel(sys, env)
-        return TraceExampleGenerator(model, trace, Alphabets.fromCollection(inputs), numOfAdditionalExamples)
+
+        logger.info("Generating examples for model with ${model.size()} states and ${model.numOfTransitions()} transitions")
+        val results = TraceExampleGenerator(model, trace, Alphabets.fromCollection(inputs), numOfAdditionalExamples)
             .withFilter(InvariantExampleFilter(fluents.map { it.toFluent()?: error("Invalid fluent string") }))
             .map { it.asSerializableWord() }.toList()
+        logger.info("Generation completed in ${System.currentTimeMillis() - start}ms")
+
+        return results
     }
 
     override fun weakenSafetyInvariant(
@@ -70,6 +79,7 @@ class WeakeningServiceImpl : WeakeningService {
         if (invariantPairs.isEmpty())
             error("Invalid invariant format")
 
+        val start = System.currentTimeMillis()
         val weakener = SimpleInvariantWeakener.build(
             invariant = invariantPairs,
             fluents = fluents.map { it.toFluent()?: error("Invalid fluent string") },
@@ -77,6 +87,7 @@ class WeakeningServiceImpl : WeakeningService {
             negativeExamples = negativeExamples
         )
         simpleSolution = weakener.learn()
+        logger.info("Weakening completed in ${System.currentTimeMillis() - start}ms")
         return simpleSolution?.getInvariant()?.joinToString(" && ")
     }
 
@@ -94,6 +105,7 @@ class WeakeningServiceImpl : WeakeningService {
         if (invariantPairs.isEmpty())
             error("Invalid invariant format")
 
+        val start = System.currentTimeMillis()
         val weakener = GR1InvariantWeakener.build(
             invariant = invariantPairs,
             fluents = fluents.map { it.toFluent()?: error("Invalid fluent string") },
@@ -102,24 +114,28 @@ class WeakeningServiceImpl : WeakeningService {
             maxNumOfNode = maxNumOfNode + fluents.size
         )
         gr1Solution = weakener.learn()
+        logger.info("Weakening completed in ${System.currentTimeMillis() - start}ms")
         return gr1Solution?.getGR1Invariant()
     }
 
     override fun nextSolution(): String? {
-        when {
+        val start = System.currentTimeMillis()
+        val sol = when {
             simpleSolution != null -> {
                 simpleSolution = simpleSolution!!.next()
-                return simpleSolution?.getInvariant()?.joinToString(" && ")
+                simpleSolution?.getInvariant()?.joinToString(" && ")
             }
             gr1Solution != null -> {
                 solutions.add(gr1Solution!!.getGR1Invariant())
                 do {
                     gr1Solution = gr1Solution!!.next()
                 } while (gr1Solution != null && gr1Solution!!.getGR1Invariant() in solutions)
-                return gr1Solution?.getGR1Invariant()
+                gr1Solution?.getGR1Invariant()
             }
-            else -> return null
+            else -> null
         }
+        logger.info("Find next solution completed in ${System.currentTimeMillis() - start}ms")
+        return sol
     }
 
     private fun parseSpec(spec: Spec): NFA<Int, String> {
