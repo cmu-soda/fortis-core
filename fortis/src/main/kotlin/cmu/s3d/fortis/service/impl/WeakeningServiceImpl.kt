@@ -86,7 +86,12 @@ class WeakeningServiceImpl : WeakeningService {
             positiveExamples = positiveExamples,
             negativeExamples = negativeExamples
         )
-        simpleSolution = weakener.learn()
+        try {
+            simpleSolution = weakener.learn()
+        } catch (e: Exception) {
+            logger.error("Error in learning safety invariant: {}", e.stackTraceToString())
+            throw RuntimeException("Error in learning safety invariant: ${e.message}")
+        }
         logger.info("Weakening completed in ${System.currentTimeMillis() - start}ms")
         return simpleSolution?.getInvariant()?.joinToString(" && ")
     }
@@ -113,29 +118,41 @@ class WeakeningServiceImpl : WeakeningService {
             negativeExamples = negativeExamples,
             maxNumOfNode = maxNumOfNode + fluents.size
         )
-        gr1Solution = weakener.learn()
+        try {
+            gr1Solution = weakener.learn()
+        } catch (e: Exception) {
+            logger.error("Error in learning GR1 invariant: {}", e.stackTraceToString())
+            throw RuntimeException("Error in learning GR1 invariant: ${e.message}")
+        }
         logger.info("Weakening completed in ${System.currentTimeMillis() - start}ms")
         return gr1Solution?.getGR1Invariant()
     }
 
     override fun nextSolution(): String? {
-        val start = System.currentTimeMillis()
-        val sol = when {
-            simpleSolution != null -> {
-                simpleSolution = simpleSolution!!.next()
-                simpleSolution?.getInvariant()?.joinToString(" && ")
+        try {
+            val start = System.currentTimeMillis()
+            val sol = when {
+                simpleSolution != null -> {
+                    simpleSolution = simpleSolution!!.next()
+                    simpleSolution?.getInvariant()?.joinToString(" && ")
+                }
+
+                gr1Solution != null -> {
+                    solutions.add(gr1Solution!!.getGR1Invariant())
+                    do {
+                        gr1Solution = gr1Solution!!.next()
+                    } while (gr1Solution != null && gr1Solution!!.getGR1Invariant() in solutions)
+                    gr1Solution?.getGR1Invariant()
+                }
+
+                else -> null
             }
-            gr1Solution != null -> {
-                solutions.add(gr1Solution!!.getGR1Invariant())
-                do {
-                    gr1Solution = gr1Solution!!.next()
-                } while (gr1Solution != null && gr1Solution!!.getGR1Invariant() in solutions)
-                gr1Solution?.getGR1Invariant()
-            }
-            else -> null
+            logger.info("Find next solution completed in ${System.currentTimeMillis() - start}ms")
+            return sol
+        } catch (e: Exception) {
+            logger.error("Error in finding next solution: {}", e.stackTraceToString())
+            throw RuntimeException("Error in finding next solution: ${e.message}")
         }
-        logger.info("Find next solution completed in ${System.currentTimeMillis() - start}ms")
-        return sol
     }
 
     private fun parseSpec(spec: Spec): NFA<Int, String> {
