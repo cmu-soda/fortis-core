@@ -85,6 +85,8 @@ class GR1InvariantWeakener(
             fact {
                 all n: And + Or + Imply | n.l != n.r
                 all n: Or | (n.l in Neg implies n.l.l != n.r) and (n.r in Neg implies n.r.l != n.l)
+                all imply: Imply | no ((imply.l - And) + (childrenAndSelfOf[imply.l] & And).(l + r)) &
+                    ((imply.r - Or) + (childrenAndSelfOf[imply.r] & Or).(l + r))
             }
         """
     }
