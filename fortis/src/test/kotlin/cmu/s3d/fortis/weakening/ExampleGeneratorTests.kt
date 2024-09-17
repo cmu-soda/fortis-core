@@ -161,27 +161,27 @@ class ExampleGeneratorTests {
         assertEquals(
             setOf(
                 Word.fromList(
-                    "v.enter,password,v.password,v.exit,eo.enter,select,eo.select,eo.exit,v.enter,vote,v.vote,v.exit,eo.enter,confirm,eo.confirm,eo.exit,eo.enter".split(
+                    "v.enter,password,v.password,v.exit,eo.enter,select,eo.select,eo.exit,v.enter,vote,v.vote,v.exit,eo.enter,confirm,eo.confirm,eo.exit".split(
                         ','
                     )
                 ),
                 Word.fromList(
-                    "v.enter,password,v.password,v.exit,eo.enter,select,eo.select,eo.exit,v.enter,vote,v.vote,v.exit,eo.enter,confirm,eo.confirm,eo.exit,v.enter,v.exit".split(
+                    "v.enter,password,v.password,v.exit,eo.enter,select,eo.select,eo.exit,v.enter,vote,v.vote,v.exit,eo.enter,confirm,eo.confirm,eo.exit,v.enter".split(
                         ','
                     )
                 ),
                 Word.fromList(
-                    "v.enter,password,v.password,v.exit,eo.enter,select,eo.select,eo.exit,v.enter,vote,v.vote,confirm,v.confirm,v.exit".split(
+                    "v.enter,password,v.password,v.exit,eo.enter,select,eo.select,eo.exit,v.enter,vote,v.vote,confirm,v.confirm".split(
                         ','
                     )
                 ),
                 Word.fromList(
-                    "v.enter,password,v.password,v.exit,eo.enter,select,eo.select,vote,eo.vote,confirm,eo.confirm,eo.exit,eo.enter".split(
+                    "v.enter,password,v.password,v.exit,eo.enter,select,eo.select,vote,eo.vote,confirm,eo.confirm,eo.exit".split(
                         ','
                     )
                 ),
                 Word.fromList(
-                    "v.enter,password,v.password,select,v.select,vote,v.vote,v.exit,eo.enter,confirm,eo.confirm,eo.exit,eo.enter".split(
+                    "v.enter,password,v.password,select,v.select,vote,v.vote,v.exit,eo.enter,confirm,eo.confirm,eo.exit".split(
                         ','
                     )
                 ),
