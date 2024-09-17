@@ -16,11 +16,11 @@
       ]
     },
     "controllableMap": {
-      "1": ["back", "confirm", "password", "select", "vote"],
+      "1": ["back", "confirm", "password", "select", "vote", "reset"],
       "3": ["eo.enter", "eo.exit", "v.enter", "v.exit"]
     },
     "observableMap": {
-      "0": ["back", "confirm", "password", "select", "vote"],
+      "0": ["back", "confirm", "password", "select", "vote", "reset"],
       "2": ["eo.enter", "eo.exit", "v.enter", "v.exit"]
     },
     "algorithm": "Fast"

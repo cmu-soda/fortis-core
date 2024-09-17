@@ -6,9 +6,9 @@ def gen_sys(n, m):
 range N_VOTER = 1..{n}
 
 EM = (password -> P1),
-P1 = (select -> P2),
-P2 = (vote -> P3 | back -> P1),
-P3 = (confirm -> v[N_VOTER].done -> EM | back -> P2).
+P1 = (select -> P2 | reset -> EM),
+P2 = (vote -> P3 | back -> P1 | reset -> EM),
+P3 = (confirm -> v[N_VOTER].done -> EM | back -> P2 | reset -> EM).
 '''
 
 
@@ -19,7 +19,7 @@ range N_EO = 1..{m}
 
 ENV = (v[i:N_VOTER].enter -> VOTER[i] | eo[j:N_EO].enter -> EO[j]),
 VOTER[i:N_VOTER] = (password -> VOTER[i] | select -> VOTER[i] | vote -> VOTER[i] | confirm -> v[i].done -> v[i].exit -> ENV | back -> VOTER[i] | v[i].exit -> ENV),
-EO[j:N_EO] = (select -> EO[j] | vote -> EO[j] | confirm -> eo[j].exit -> ENV | back -> EO[j] | eo[j].exit -> ENV).
+EO[j:N_EO] = (select -> EO[j] | vote -> EO[j] | confirm -> eo[j].exit -> ENV | back -> EO[j] | reset -> eo[j].exit -> ENV | eo[j].exit -> ENV).
 '''
 
 
@@ -71,11 +71,11 @@ def gen_run(n, m, mode, opt=True):
       ]
     }},
     "controllableMap": {{
-      "1": ["back", "confirm", "password", "select", "vote", {dones}],
+      "1": ["back", "confirm", "password", "select", "vote", "reset", {dones}],
       "3": [{enter_exits}]
     }},
     "observableMap": {{
-      "0": ["back", "confirm", "password", "select", "vote", {dones}],
+      "0": ["back", "confirm", "password", "select", "vote", "reset", {dones}],
       "2": [{enter_exits}]
     }},
     "algorithm": "{mode}"

@@ -7,4 +7,4 @@ VOTER[i:N_VOTER] = (password -> VOTER1[i]),
 VOTER1[i:N_VOTER] = (select -> VOTER2[i]),
 VOTER2[i:N_VOTER] = (vote -> VOTER3[i] | back -> VOTER1[i]),
 VOTER3[i:N_VOTER] = (confirm -> v[i].exit -> ENV | omit_confirm -> v[i].exit -> ENV | back -> VOTER2[i]),
-EO[j:N_EO] = (select -> EO[j] | vote -> EO[j] | confirm -> eo[j].exit -> ENV | back -> EO[j] | eo[j].exit -> ENV).
+EO[j:N_EO] = (select -> EO[j] | vote -> EO[j] | confirm -> eo[j].exit -> ENV | back -> EO[j] | reset -> eo[j].exit -> ENV | eo[j].exit -> ENV).

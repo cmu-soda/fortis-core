@@ -6,9 +6,9 @@ def gen_sys(n, m):
 range N_VOTER = 1..{n}
 
 EM = (password -> P1),
-P1 = (select -> P2),
-P2 = (vote -> P3 | back -> P1),
-P3 = (confirm -> EM | back -> P2).
+P1 = (select -> P2 | reset -> EM),
+P2 = (vote -> P3 | back -> P1 | reset -> EM),
+P3 = (confirm -> EM | back -> P2 | reset -> EM).
 '''
 
 
@@ -22,7 +22,7 @@ VOTER[i:N_VOTER] = (password -> VOTER1[i]),
 VOTER1[i:N_VOTER] = (select -> VOTER2[i]),
 VOTER2[i:N_VOTER] = (vote -> VOTER3[i] | back -> VOTER1[i]),
 VOTER3[i:N_VOTER] = (confirm -> v[i].exit -> ENV | back -> VOTER2[i]),
-EO[j:N_EO] = (select -> EO[j] | vote -> EO[j] | confirm -> eo[j].exit -> ENV | back -> EO[j] | eo[j].exit -> ENV).
+EO[j:N_EO] = (select -> EO[j] | vote -> EO[j] | confirm -> eo[j].exit -> ENV | back -> EO[j] | reset -> eo[j].exit -> ENV | eo[j].exit -> ENV).
 '''
 
 
@@ -56,7 +56,7 @@ VOTER[i:N_VOTER] = (password -> VOTER1[i]),
 VOTER1[i:N_VOTER] = (select -> VOTER2[i]),
 VOTER2[i:N_VOTER] = (vote -> VOTER3[i] | back -> VOTER1[i]),
 VOTER3[i:N_VOTER] = (confirm -> v[i].exit -> ENV | omit_confirm -> v[i].exit -> ENV | back -> VOTER2[i]),
-EO[j:N_EO] = (select -> EO[j] | vote -> EO[j] | confirm -> eo[j].exit -> ENV | back -> EO[j] | eo[j].exit -> ENV).
+EO[j:N_EO] = (select -> EO[j] | vote -> EO[j] | confirm -> eo[j].exit -> ENV | back -> EO[j] | reset -> eo[j].exit -> ENV | eo[j].exit -> ENV).
 '''
 
 

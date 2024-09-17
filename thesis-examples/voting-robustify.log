@@ -1,0 +1,1572 @@
+
+
+run voting...
+
+run with pareto search...
+2024-09-16 22:17:19.478 [INFO] SupervisoryRobustifier - Number of states of the system: 5
+2024-09-16 22:17:19.479 [INFO] SupervisoryRobustifier - Number of states of the environment: 4
+2024-09-16 22:17:19.479 [INFO] SupervisoryRobustifier - Number of states of the plant (S || E): 12
+2024-09-16 22:17:19.480 [INFO] SupervisoryRobustifier - Number of transitions of the plant: 30
+2024-09-16 22:17:19.481 [INFO] SolutionIterator - ==============================>
+2024-09-16 22:17:19.481 [INFO] SolutionIterator - Initializing search by using Pareto search...
+2024-09-16 22:17:19.482 [INFO] SolutionIterator - Number of preferred behaviors: 3
+2024-09-16 22:17:19.483 [INFO] SolutionIterator - Number of controllable events with cost: 10
+2024-09-16 22:17:19.483 [INFO] SolutionIterator - Number of observable events with cost: 4
+2024-09-16 22:17:19.569 [INFO] SolutionIterator - Maximum fulfilled preferred behavior:
+2024-09-16 22:17:19.569 [INFO] SolutionIterator - 	select,vote,confirm
+2024-09-16 22:17:19.569 [INFO] SolutionIterator - 	select,back,select,vote,confirm
+2024-09-16 22:17:19.569 [INFO] SolutionIterator - 	select,vote,back,back,select,vote,confirm
+2024-09-16 22:17:19.576 [INFO] SolutionIterator - Initialization completes, time: 00:00:00:094
+2024-09-16 22:17:19.576 [INFO] SolutionIterator - Start search from events:
+2024-09-16 22:17:19.576 [INFO] SolutionIterator - Controllable: [back, confirm, password, reset, select, vote]
+2024-09-16 22:17:19.576 [INFO] SolutionIterator - Observable: [back, confirm, eo.enter, eo.exit, password, reset, select, v.enter, v.exit, vote]
+2024-09-16 22:17:19.576 [INFO] SolutionIterator - ==============================>
+2024-09-16 22:17:19.576 [INFO] SolutionIterator - Start iteration 1...
+2024-09-16 22:17:19.576 [INFO] SolutionIterator - Try to weaken the preferred behavior by one of the 0 behavior sets:
+2024-09-16 22:17:20.541 [INFO] SolutionIterator - This iteration completes, time: 00:00:00:965
+2024-09-16 22:17:20.542 [INFO] SolutionIterator - Number of controller synthesis process invoked: 139
+2024-09-16 22:17:20.542 [INFO] SolutionIterator - New pareto-optimal found:
+2024-09-16 22:17:20.542 [INFO] SolutionIterator - 	Size of the controller: 59 states and 156 transitions
+2024-09-16 22:17:20.542 [INFO] SolutionIterator - 	Number of controllable events: 1
+2024-09-16 22:17:20.542 [INFO] SolutionIterator - 	Controllable: [vote]
+2024-09-16 22:17:20.542 [INFO] SolutionIterator - 	Number of observable events: 7
+2024-09-16 22:17:20.542 [INFO] SolutionIterator - 	Observable: [back, confirm, password, reset, select, v.exit, vote]
+2024-09-16 22:17:20.542 [INFO] SolutionIterator - 	Number of preferred behavior: 3
+2024-09-16 22:17:20.542 [INFO] SolutionIterator - 	Preferred Behavior:
+2024-09-16 22:17:20.542 [INFO] SolutionIterator - 		select,vote,confirm
+2024-09-16 22:17:20.542 [INFO] SolutionIterator - 		select,back,select,vote,confirm
+2024-09-16 22:17:20.542 [INFO] SolutionIterator - 		select,vote,back,back,select,vote,confirm
+2024-09-16 22:17:20.542 [INFO] SolutionIterator - Utility Preferred Behavior: 91
+2024-09-16 22:17:20.542 [INFO] SolutionIterator - Utility Cost: -8
+2024-09-16 22:17:20.542 [INFO] SolutionIterator - New pareto-optimal found:
+2024-09-16 22:17:20.543 [INFO] SolutionIterator - 	Size of the controller: 35 states and 90 transitions
+2024-09-16 22:17:20.543 [INFO] SolutionIterator - 	Number of controllable events: 1
+2024-09-16 22:17:20.543 [INFO] SolutionIterator - 	Controllable: [select]
+2024-09-16 22:17:20.543 [INFO] SolutionIterator - 	Number of observable events: 7
+2024-09-16 22:17:20.543 [INFO] SolutionIterator - 	Observable: [back, confirm, password, reset, select, v.exit, vote]
+2024-09-16 22:17:20.543 [INFO] SolutionIterator - 	Number of preferred behavior: 3
+2024-09-16 22:17:20.543 [INFO] SolutionIterator - 	Preferred Behavior:
+2024-09-16 22:17:20.543 [INFO] SolutionIterator - 		select,vote,confirm
+2024-09-16 22:17:20.543 [INFO] SolutionIterator - 		select,back,select,vote,confirm
+2024-09-16 22:17:20.543 [INFO] SolutionIterator - 		select,vote,back,back,select,vote,confirm
+2024-09-16 22:17:20.543 [INFO] SolutionIterator - Utility Preferred Behavior: 91
+2024-09-16 22:17:20.543 [INFO] SolutionIterator - Utility Cost: -8
+2024-09-16 22:17:20.543 [INFO] SolutionIterator - New pareto-optimal found:
+2024-09-16 22:17:20.543 [INFO] SolutionIterator - 	Size of the controller: 67 states and 186 transitions
+2024-09-16 22:17:20.543 [INFO] SolutionIterator - 	Number of controllable events: 1
+2024-09-16 22:17:20.543 [INFO] SolutionIterator - 	Controllable: [confirm]
+2024-09-16 22:17:20.543 [INFO] SolutionIterator - 	Number of observable events: 7
+2024-09-16 22:17:20.543 [INFO] SolutionIterator - 	Observable: [back, confirm, password, reset, select, v.exit, vote]
+2024-09-16 22:17:20.543 [INFO] SolutionIterator - 	Number of preferred behavior: 3
+2024-09-16 22:17:20.543 [INFO] SolutionIterator - 	Preferred Behavior:
+2024-09-16 22:17:20.543 [INFO] SolutionIterator - 		select,vote,confirm
+2024-09-16 22:17:20.543 [INFO] SolutionIterator - 		select,back,select,vote,confirm
+2024-09-16 22:17:20.543 [INFO] SolutionIterator - 		select,vote,back,back,select,vote,confirm
+2024-09-16 22:17:20.543 [INFO] SolutionIterator - Utility Preferred Behavior: 91
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - Utility Cost: -8
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - New pareto-optimal found:
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - 	Size of the controller: 42 states and 110 transitions
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - 	Number of controllable events: 1
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - 	Controllable: [vote]
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - 	Number of observable events: 7
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - 	Observable: [back, confirm, eo.enter, password, reset, select, vote]
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - 	Number of preferred behavior: 3
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - 	Preferred Behavior:
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - 		select,vote,confirm
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - 		select,back,select,vote,confirm
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - 		select,vote,back,back,select,vote,confirm
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - Utility Preferred Behavior: 91
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - Utility Cost: -8
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - New pareto-optimal found:
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - 	Size of the controller: 24 states and 60 transitions
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - 	Number of controllable events: 1
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - 	Controllable: [select]
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - 	Number of observable events: 7
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - 	Observable: [back, confirm, eo.enter, password, reset, select, vote]
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - 	Number of preferred behavior: 3
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - 	Preferred Behavior:
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - 		select,vote,confirm
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - 		select,back,select,vote,confirm
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - 		select,vote,back,back,select,vote,confirm
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - Utility Preferred Behavior: 91
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - Utility Cost: -8
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - New pareto-optimal found:
+2024-09-16 22:17:20.544 [INFO] SolutionIterator - 	Size of the controller: 46 states and 126 transitions
+2024-09-16 22:17:20.545 [INFO] SolutionIterator - 	Number of controllable events: 1
+2024-09-16 22:17:20.545 [INFO] SolutionIterator - 	Controllable: [confirm]
+2024-09-16 22:17:20.545 [INFO] SolutionIterator - 	Number of observable events: 7
+2024-09-16 22:17:20.545 [INFO] SolutionIterator - 	Observable: [back, confirm, eo.enter, password, reset, select, vote]
+2024-09-16 22:17:20.545 [INFO] SolutionIterator - 	Number of preferred behavior: 3
+2024-09-16 22:17:20.545 [INFO] SolutionIterator - 	Preferred Behavior:
+2024-09-16 22:17:20.545 [INFO] SolutionIterator - 		select,vote,confirm
+2024-09-16 22:17:20.545 [INFO] SolutionIterator - 		select,back,select,vote,confirm
+2024-09-16 22:17:20.545 [INFO] SolutionIterator - 		select,vote,back,back,select,vote,confirm
+2024-09-16 22:17:20.545 [INFO] SolutionIterator - Utility Preferred Behavior: 91
+2024-09-16 22:17:20.545 [INFO] SolutionIterator - Utility Cost: -8
+2024-09-16 22:17:20.545 [INFO] Robustify - Total number of controller synthesis invoked: 140
+2024-09-16 22:17:20.545 [INFO] Robustify - Total number of solutions: 6
+2024-09-16 22:17:20.563 [INFO] Robustify - Robustification completes, total time: 00:00:01:248
+
+run with pareto-non-opt search...
+2024-09-16 22:17:21.622 [INFO] SupervisoryRobustifier - Number of states of the system: 5
+2024-09-16 22:17:21.623 [INFO] SupervisoryRobustifier - Number of states of the environment: 4
+2024-09-16 22:17:21.623 [INFO] SupervisoryRobustifier - Number of states of the plant (S || E): 12
+2024-09-16 22:17:21.623 [INFO] SupervisoryRobustifier - Number of transitions of the plant: 30
+2024-09-16 22:17:21.624 [INFO] SolutionIterator - ==============================>
+2024-09-16 22:17:21.624 [INFO] SolutionIterator - Initializing search by using Pareto search...
+2024-09-16 22:17:21.624 [INFO] SolutionIterator - Number of preferred behaviors: 3
+2024-09-16 22:17:21.624 [INFO] SolutionIterator - Number of controllable events with cost: 10
+2024-09-16 22:17:21.624 [INFO] SolutionIterator - Number of observable events with cost: 4
+2024-09-16 22:17:21.723 [INFO] SolutionIterator - Maximum fulfilled preferred behavior:
+2024-09-16 22:17:21.723 [INFO] SolutionIterator - 	select,vote,confirm
+2024-09-16 22:17:21.723 [INFO] SolutionIterator - 	select,back,select,vote,confirm
+2024-09-16 22:17:21.723 [INFO] SolutionIterator - 	select,vote,back,back,select,vote,confirm
+2024-09-16 22:17:21.724 [INFO] SolutionIterator - Initialization completes, time: 00:00:00:100
+2024-09-16 22:17:21.725 [INFO] SolutionIterator - Start search from events:
+2024-09-16 22:17:21.725 [INFO] SolutionIterator - Controllable: [back, confirm, eo.enter, eo.exit, password, reset, select, v.enter, v.exit, vote]
+2024-09-16 22:17:21.725 [INFO] SolutionIterator - Observable: [back, confirm, eo.enter, eo.exit, password, reset, select, v.enter, v.exit, vote]
+2024-09-16 22:17:21.725 [INFO] SolutionIterator - ==============================>
+2024-09-16 22:17:21.725 [INFO] SolutionIterator - Start iteration 1...
+2024-09-16 22:17:21.725 [INFO] SolutionIterator - Try to weaken the preferred behavior by one of the 0 behavior sets:
+2024-09-16 22:17:37.156 [INFO] SolutionIterator - This iteration completes, time: 00:00:15:431
+2024-09-16 22:17:37.156 [INFO] SolutionIterator - Number of controller synthesis process invoked: 5167
+2024-09-16 22:17:37.156 [INFO] SolutionIterator - New pareto-optimal found:
+2024-09-16 22:17:37.156 [INFO] SolutionIterator - 	Size of the controller: 59 states and 156 transitions
+2024-09-16 22:17:37.156 [INFO] SolutionIterator - 	Number of controllable events: 1
+2024-09-16 22:17:37.156 [INFO] SolutionIterator - 	Controllable: [vote]
+2024-09-16 22:17:37.156 [INFO] SolutionIterator - 	Number of observable events: 7
+2024-09-16 22:17:37.156 [INFO] SolutionIterator - 	Observable: [back, confirm, password, reset, select, v.exit, vote]
+2024-09-16 22:17:37.156 [INFO] SolutionIterator - 	Number of preferred behavior: 3
+2024-09-16 22:17:37.156 [INFO] SolutionIterator - 	Preferred Behavior:
+2024-09-16 22:17:37.156 [INFO] SolutionIterator - 		select,vote,confirm
+2024-09-16 22:17:37.157 [INFO] SolutionIterator - 		select,back,select,vote,confirm
+2024-09-16 22:17:37.157 [INFO] SolutionIterator - 		select,vote,back,back,select,vote,confirm
+2024-09-16 22:17:37.157 [INFO] SolutionIterator - Utility Preferred Behavior: 91
+2024-09-16 22:17:37.157 [INFO] SolutionIterator - Utility Cost: -8
+2024-09-16 22:17:37.157 [INFO] SolutionIterator - New pareto-optimal found:
+2024-09-16 22:17:37.157 [INFO] SolutionIterator - 	Size of the controller: 42 states and 110 transitions
+2024-09-16 22:17:37.157 [INFO] SolutionIterator - 	Number of controllable events: 1
+2024-09-16 22:17:37.157 [INFO] SolutionIterator - 	Controllable: [vote]
+2024-09-16 22:17:37.157 [INFO] SolutionIterator - 	Number of observable events: 7
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 	Observable: [back, confirm, eo.enter, password, reset, select, vote]
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 	Number of preferred behavior: 3
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 	Preferred Behavior:
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 		select,vote,confirm
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 		select,back,select,vote,confirm
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 		select,vote,back,back,select,vote,confirm
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - Utility Preferred Behavior: 91
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - Utility Cost: -8
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - New pareto-optimal found:
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 	Size of the controller: 35 states and 90 transitions
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 	Number of controllable events: 1
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 	Controllable: [select]
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 	Number of observable events: 7
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 	Observable: [back, confirm, password, reset, select, v.exit, vote]
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 	Number of preferred behavior: 3
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 	Preferred Behavior:
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 		select,vote,confirm
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 		select,back,select,vote,confirm
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 		select,vote,back,back,select,vote,confirm
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - Utility Preferred Behavior: 91
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - Utility Cost: -8
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - New pareto-optimal found:
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 	Size of the controller: 24 states and 60 transitions
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 	Number of controllable events: 1
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 	Controllable: [select]
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 	Number of observable events: 7
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 	Observable: [back, confirm, eo.enter, password, reset, select, vote]
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 	Number of preferred behavior: 3
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 	Preferred Behavior:
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 		select,vote,confirm
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 		select,back,select,vote,confirm
+2024-09-16 22:17:37.158 [INFO] SolutionIterator - 		select,vote,back,back,select,vote,confirm
+2024-09-16 22:17:37.159 [INFO] SolutionIterator - Utility Preferred Behavior: 91
+2024-09-16 22:17:37.159 [INFO] SolutionIterator - Utility Cost: -8
+2024-09-16 22:17:37.159 [INFO] SolutionIterator - New pareto-optimal found:
+2024-09-16 22:17:37.159 [INFO] SolutionIterator - 	Size of the controller: 67 states and 186 transitions
+2024-09-16 22:17:37.159 [INFO] SolutionIterator - 	Number of controllable events: 1
+2024-09-16 22:17:37.159 [INFO] SolutionIterator - 	Controllable: [confirm]
+2024-09-16 22:17:37.159 [INFO] SolutionIterator - 	Number of observable events: 7
+2024-09-16 22:17:37.159 [INFO] SolutionIterator - 	Observable: [back, confirm, password, reset, select, v.exit, vote]
+2024-09-16 22:17:37.159 [INFO] SolutionIterator - 	Number of preferred behavior: 3
+2024-09-16 22:17:37.159 [INFO] SolutionIterator - 	Preferred Behavior:
+2024-09-16 22:17:37.159 [INFO] SolutionIterator - 		select,vote,confirm
+2024-09-16 22:17:37.159 [INFO] SolutionIterator - 		select,back,select,vote,confirm
+2024-09-16 22:17:37.159 [INFO] SolutionIterator - 		select,vote,back,back,select,vote,confirm
+2024-09-16 22:17:37.159 [INFO] SolutionIterator - Utility Preferred Behavior: 91
+2024-09-16 22:17:37.159 [INFO] SolutionIterator - Utility Cost: -8
+2024-09-16 22:17:37.159 [INFO] SolutionIterator - New pareto-optimal found:
+2024-09-16 22:17:37.159 [INFO] SolutionIterator - 	Size of the controller: 46 states and 126 transitions
+2024-09-16 22:17:37.159 [INFO] SolutionIterator - 	Number of controllable events: 1
+2024-09-16 22:17:37.159 [INFO] SolutionIterator - 	Controllable: [confirm]
+2024-09-16 22:17:37.159 [INFO] SolutionIterator - 	Number of observable events: 7
+2024-09-16 22:17:37.159 [INFO] SolutionIterator - 	Observable: [back, confirm, eo.enter, password, reset, select, vote]
+2024-09-16 22:17:37.159 [INFO] SolutionIterator - 	Number of preferred behavior: 3
+2024-09-16 22:17:37.159 [INFO] SolutionIterator - 	Preferred Behavior:
+2024-09-16 22:17:37.160 [INFO] SolutionIterator - 		select,vote,confirm
+2024-09-16 22:17:37.160 [INFO] SolutionIterator - 		select,back,select,vote,confirm
+2024-09-16 22:17:37.160 [INFO] SolutionIterator - 		select,vote,back,back,select,vote,confirm
+2024-09-16 22:17:37.160 [INFO] SolutionIterator - Utility Preferred Behavior: 91
+2024-09-16 22:17:37.160 [INFO] SolutionIterator - Utility Cost: -8
+2024-09-16 22:17:37.160 [INFO] Robustify - Total number of controller synthesis invoked: 5168
+2024-09-16 22:17:37.160 [INFO] Robustify - Total number of solutions: 6
+2024-09-16 22:17:37.170 [INFO] Robustify - Robustification completes, total time: 00:00:15:717
+
+run with fast search...
+2024-09-16 22:17:38.358 [INFO] SupervisoryRobustifier - Number of states of the system: 5
+2024-09-16 22:17:38.359 [INFO] SupervisoryRobustifier - Number of states of the environment: 4
+2024-09-16 22:17:38.359 [INFO] SupervisoryRobustifier - Number of states of the plant (S || E): 12
+2024-09-16 22:17:38.360 [INFO] SupervisoryRobustifier - Number of transitions of the plant: 30
+2024-09-16 22:17:38.361 [INFO] SolutionIterator - ==============================>
+2024-09-16 22:17:38.361 [INFO] SolutionIterator - Initializing search by using Fast search...
+2024-09-16 22:17:38.361 [INFO] SolutionIterator - Number of preferred behaviors: 3
+2024-09-16 22:17:38.361 [INFO] SolutionIterator - Number of controllable events with cost: 10
+2024-09-16 22:17:38.362 [INFO] SolutionIterator - Number of observable events with cost: 4
+2024-09-16 22:17:38.456 [INFO] SolutionIterator - Maximum fulfilled preferred behavior:
+2024-09-16 22:17:38.456 [INFO] SolutionIterator - 	select,vote,confirm
+2024-09-16 22:17:38.456 [INFO] SolutionIterator - 	select,back,select,vote,confirm
+2024-09-16 22:17:38.456 [INFO] SolutionIterator - 	select,vote,back,back,select,vote,confirm
+2024-09-16 22:17:38.463 [INFO] SolutionIterator - Initialization completes, time: 00:00:00:101
+2024-09-16 22:17:38.463 [INFO] SolutionIterator - Start search from events:
+2024-09-16 22:17:38.463 [INFO] SolutionIterator - Controllable: [back, confirm, password, reset, select, vote]
+2024-09-16 22:17:38.463 [INFO] SolutionIterator - Observable: [back, confirm, eo.enter, eo.exit, password, reset, select, v.enter, v.exit, vote]
+2024-09-16 22:17:38.463 [INFO] SolutionIterator - ==============================>
+2024-09-16 22:17:38.463 [INFO] SolutionIterator - Start iteration 1...
+2024-09-16 22:17:38.463 [INFO] SolutionIterator - Try to weaken the preferred behavior by one of the 0 behavior sets:
+2024-09-16 22:17:38.596 [INFO] SolutionIterator - This iteration completes, time: 00:00:00:133
+2024-09-16 22:17:38.596 [INFO] SolutionIterator - Number of controller synthesis process invoked: 9
+2024-09-16 22:17:38.596 [INFO] SolutionIterator - New solution found:
+2024-09-16 22:17:38.596 [INFO] SolutionIterator - 	Size of the controller: 59 states and 156 transitions
+2024-09-16 22:17:38.596 [INFO] SolutionIterator - 	Number of controllable events: 1
+2024-09-16 22:17:38.597 [INFO] SolutionIterator - 	Controllable: [vote]
+2024-09-16 22:17:38.597 [INFO] SolutionIterator - 	Number of observable events: 7
+2024-09-16 22:17:38.597 [INFO] SolutionIterator - 	Observable: [back, confirm, password, reset, select, v.exit, vote]
+2024-09-16 22:17:38.597 [INFO] SolutionIterator - 	Number of preferred behavior: 3
+2024-09-16 22:17:38.597 [INFO] SolutionIterator - 	Preferred Behavior:
+2024-09-16 22:17:38.597 [INFO] SolutionIterator - 		select,vote,confirm
+2024-09-16 22:17:38.597 [INFO] SolutionIterator - 		select,back,select,vote,confirm
+2024-09-16 22:17:38.597 [INFO] SolutionIterator - 		select,vote,back,back,select,vote,confirm
+2024-09-16 22:17:38.597 [INFO] SolutionIterator - Utility Preferred Behavior: 91
+2024-09-16 22:17:38.597 [INFO] SolutionIterator - Utility Cost: -8
+2024-09-16 22:17:38.598 [INFO] Robustify - Total number of controller synthesis invoked: 10
+2024-09-16 22:17:38.598 [INFO] Robustify - Total number of solutions: 1
+2024-09-16 22:17:38.609 [INFO] Robustify - Robustification completes, total time: 00:00:00:416
+
+run with oasis search...
+2024-09-16 22:17:39.637 [INFO] OASISRobustifier - Number of controllable events: 6
+2024-09-16 22:17:39.639 [INFO] OASISRobustifier - Controllable: [password, select, reset, vote, back, confirm]
+2024-09-16 22:17:39.639 [INFO] OASISRobustifier - Number of observable events: 6
+2024-09-16 22:17:39.639 [INFO] OASISRobustifier - Observable: [password, select, reset, vote, back, confirm]
+2024-09-16 22:17:39.640 [INFO] OASISRobustifier - Abstract the system by []
+2024-09-16 22:17:39.721 [INFO] OASISRobustifier - Abstract the system by [password]
+2024-09-16 22:17:39.739 [INFO] OASISRobustifier - Abstract the system by [select]
+2024-09-16 22:17:39.750 [INFO] OASISRobustifier - Abstract the system by [reset]
+2024-09-16 22:17:39.758 [INFO] OASISRobustifier - Abstract the system by [vote]
+2024-09-16 22:17:39.771 [INFO] OASISRobustifier - Abstract the system by [back]
+2024-09-16 22:17:39.782 [INFO] OASISRobustifier - Abstract the system by [confirm]
+2024-09-16 22:17:39.796 [INFO] OASISRobustifier - Found solution!
+2024-09-16 22:17:39.797 [INFO] OASISRobustifier - Controlled events: [password]
+2024-09-16 22:17:39.798 [INFO] OASISRobustifier - No preferred behaviors are satisfied!
+2024-09-16 22:17:39.798 [INFO] OASISRobustifier - Termination time: 00:00:00:159
+2024-09-16 22:17:39.798 [INFO] Robustify - Total number of controller synthesis invoked: 7
+2024-09-16 22:17:39.798 [INFO] Robustify - Total number of solutions: 1
+2024-09-16 22:17:39.803 [INFO] Robustify - Robustification completes, total time: 00:00:00:322
+
+run with simple search...
+2024-09-16 22:17:40.797 [INFO] SimpleRobustifier - Number of controllable events: 6
+2024-09-16 22:17:40.798 [INFO] SimpleRobustifier - Controllable: [password, select, reset, vote, back, confirm]
+2024-09-16 22:17:40.798 [INFO] SimpleRobustifier - Number of observable events: 6
+2024-09-16 22:17:40.798 [INFO] SimpleRobustifier - Observable: [password, select, reset, vote, back, confirm]
+2024-09-16 22:17:40.868 [INFO] SimpleRobustifier - No solution found!
+2024-09-16 22:17:40.869 [INFO] SimpleRobustifier - Termination time: 00:00:00:070
+2024-09-16 22:17:40.869 [INFO] Robustify - Total number of controller synthesis invoked: 1
+2024-09-16 22:17:40.869 [WARN] Robustify - Failed to find a solution.
+2024-09-16 22:17:40.869 [INFO] Robustify - Robustification completes, total time: 00:00:00:231
+
+
+run voting-2...
+
+run with pareto search...
+2024-09-16 22:17:41.933 [INFO] SupervisoryRobustifier - Number of states of the system: 6
+2024-09-16 22:17:41.936 [INFO] SupervisoryRobustifier - Number of states of the environment: 14
+2024-09-16 22:17:41.936 [INFO] SupervisoryRobustifier - Number of states of the plant (S || E): 33
+2024-09-16 22:17:41.937 [INFO] SupervisoryRobustifier - Number of transitions of the plant: 76
+2024-09-16 22:17:41.938 [INFO] SolutionIterator - ==============================>
+2024-09-16 22:17:41.938 [INFO] SolutionIterator - Initializing search by using Pareto search...
+2024-09-16 22:17:41.939 [INFO] SolutionIterator - Number of preferred behaviors: 3
+2024-09-16 22:17:41.940 [INFO] SolutionIterator - Number of controllable events with cost: 16
+2024-09-16 22:17:41.940 [INFO] SolutionIterator - Number of observable events with cost: 8
+2024-09-16 22:17:42.175 [INFO] SolutionIterator - Maximum fulfilled preferred behavior:
+2024-09-16 22:17:42.175 [INFO] SolutionIterator - 	select,vote,confirm
+2024-09-16 22:17:42.175 [INFO] SolutionIterator - 	select,back,select,vote,confirm
+2024-09-16 22:17:42.175 [INFO] SolutionIterator - 	select,vote,back,back,select,vote,confirm
+2024-09-16 22:17:42.220 [INFO] SolutionIterator - Initialization completes, time: 00:00:00:281
+2024-09-16 22:17:42.220 [INFO] SolutionIterator - Start search from events:
+2024-09-16 22:17:42.220 [INFO] SolutionIterator - Controllable: [back, confirm, password, reset, select, v.1.done, v.2.done, vote]
+2024-09-16 22:17:42.220 [INFO] SolutionIterator - Observable: [back, confirm, eo.1.enter, eo.1.exit, eo.2.enter, eo.2.exit, password, reset, select, v.1.done, v.1.enter, v.1.exit, v.2.done, v.2.enter, v.2.exit, vote]
+2024-09-16 22:17:42.220 [INFO] SolutionIterator - ==============================>
+2024-09-16 22:17:42.220 [INFO] SolutionIterator - Start iteration 1...
+2024-09-16 22:17:42.220 [INFO] SolutionIterator - Try to weaken the preferred behavior by one of the 0 behavior sets:
+2024-09-16 22:17:57.124 [INFO] SolutionIterator - This iteration completes, time: 00:00:14:904
+2024-09-16 22:17:57.124 [INFO] SolutionIterator - Number of controller synthesis process invoked: 465
+2024-09-16 22:17:57.124 [INFO] SolutionIterator - New pareto-optimal found:
+2024-09-16 22:17:57.126 [INFO] SolutionIterator - 	Size of the controller: 485 states and 1819 transitions
+2024-09-16 22:17:57.126 [INFO] SolutionIterator - 	Number of controllable events: 1
+2024-09-16 22:17:57.127 [INFO] SolutionIterator - 	Controllable: [confirm]
+2024-09-16 22:17:57.127 [INFO] SolutionIterator - 	Number of observable events: 10
+2024-09-16 22:17:57.127 [INFO] SolutionIterator - 	Observable: [back, confirm, password, reset, select, v.1.done, v.1.exit, v.2.done, v.2.exit, vote]
+2024-09-16 22:17:57.127 [INFO] SolutionIterator - 	Number of preferred behavior: 3
+2024-09-16 22:17:57.127 [INFO] SolutionIterator - 	Preferred Behavior:
+2024-09-16 22:17:57.127 [INFO] SolutionIterator - 		select,vote,confirm
+2024-09-16 22:17:57.127 [INFO] SolutionIterator - 		select,back,select,vote,confirm
+2024-09-16 22:17:57.127 [INFO] SolutionIterator - 		select,vote,back,back,select,vote,confirm
+2024-09-16 22:17:57.127 [INFO] SolutionIterator - Utility Preferred Behavior: 189
+2024-09-16 22:17:57.127 [INFO] SolutionIterator - Utility Cost: -19
+2024-09-16 22:17:57.127 [INFO] Robustify - Total number of controller synthesis invoked: 466
+2024-09-16 22:17:57.127 [INFO] Robustify - Total number of solutions: 1
+2024-09-16 22:17:57.152 [INFO] Robustify - Robustification completes, total time: 00:00:15:414
+
+run with pareto-non-opt search...
+2024-09-16 22:17:58.259 [INFO] SupervisoryRobustifier - Number of states of the system: 6
+2024-09-16 22:17:58.261 [INFO] SupervisoryRobustifier - Number of states of the environment: 14
+2024-09-16 22:17:58.261 [INFO] SupervisoryRobustifier - Number of states of the plant (S || E): 33
+2024-09-16 22:17:58.262 [INFO] SupervisoryRobustifier - Number of transitions of the plant: 76
+2024-09-16 22:17:58.264 [INFO] SolutionIterator - ==============================>
+2024-09-16 22:17:58.264 [INFO] SolutionIterator - Initializing search by using Pareto search...
+2024-09-16 22:17:58.264 [INFO] SolutionIterator - Number of preferred behaviors: 3
+2024-09-16 22:17:58.265 [INFO] SolutionIterator - Number of controllable events with cost: 16
+2024-09-16 22:17:58.265 [INFO] SolutionIterator - Number of observable events with cost: 8
+2024-09-16 22:17:58.487 [INFO] SolutionIterator - Maximum fulfilled preferred behavior:
+2024-09-16 22:17:58.487 [INFO] SolutionIterator - 	select,vote,confirm
+2024-09-16 22:17:58.487 [INFO] SolutionIterator - 	select,back,select,vote,confirm
+2024-09-16 22:17:58.487 [INFO] SolutionIterator - 	select,vote,back,back,select,vote,confirm
+2024-09-16 22:17:58.488 [INFO] SolutionIterator - Initialization completes, time: 00:00:00:223
+2024-09-16 22:17:58.488 [INFO] SolutionIterator - Start search from events:
+2024-09-16 22:17:58.488 [INFO] SolutionIterator - Controllable: [back, confirm, eo.1.enter, eo.1.exit, eo.2.enter, eo.2.exit, password, reset, select, v.1.done, v.1.enter, v.1.exit, v.2.done, v.2.enter, v.2.exit, vote]
+2024-09-16 22:17:58.489 [INFO] SolutionIterator - Observable: [back, confirm, eo.1.enter, eo.1.exit, eo.2.enter, eo.2.exit, password, reset, select, v.1.done, v.1.enter, v.1.exit, v.2.done, v.2.enter, v.2.exit, vote]
+2024-09-16 22:17:58.489 [INFO] SolutionIterator - ==============================>
+2024-09-16 22:17:58.489 [INFO] SolutionIterator - Start iteration 1...
+2024-09-16 22:17:58.489 [INFO] SolutionIterator - Try to weaken the preferred behavior by one of the 0 behavior sets:
+
+run with fast search...
+2024-09-16 22:27:58.768 [INFO] SupervisoryRobustifier - Number of states of the system: 6
+2024-09-16 22:27:58.769 [INFO] SupervisoryRobustifier - Number of states of the environment: 14
+2024-09-16 22:27:58.769 [INFO] SupervisoryRobustifier - Number of states of the plant (S || E): 33
+2024-09-16 22:27:58.770 [INFO] SupervisoryRobustifier - Number of transitions of the plant: 76
+2024-09-16 22:27:58.771 [INFO] SolutionIterator - ==============================>
+2024-09-16 22:27:58.772 [INFO] SolutionIterator - Initializing search by using Fast search...
+2024-09-16 22:27:58.772 [INFO] SolutionIterator - Number of preferred behaviors: 3
+2024-09-16 22:27:58.773 [INFO] SolutionIterator - Number of controllable events with cost: 16
+2024-09-16 22:27:58.773 [INFO] SolutionIterator - Number of observable events with cost: 8
+2024-09-16 22:27:59.017 [INFO] SolutionIterator - Maximum fulfilled preferred behavior:
+2024-09-16 22:27:59.017 [INFO] SolutionIterator - 	select,vote,confirm
+2024-09-16 22:27:59.018 [INFO] SolutionIterator - 	select,back,select,vote,confirm
+2024-09-16 22:27:59.018 [INFO] SolutionIterator - 	select,vote,back,back,select,vote,confirm
+2024-09-16 22:27:59.072 [INFO] SolutionIterator - Initialization completes, time: 00:00:00:300
+2024-09-16 22:27:59.072 [INFO] SolutionIterator - Start search from events:
+2024-09-16 22:27:59.072 [INFO] SolutionIterator - Controllable: [back, confirm, password, reset, select, v.1.done, v.2.done, vote]
+2024-09-16 22:27:59.072 [INFO] SolutionIterator - Observable: [back, confirm, eo.1.enter, eo.1.exit, eo.2.enter, eo.2.exit, password, reset, select, v.1.done, v.1.enter, v.1.exit, v.2.done, v.2.enter, v.2.exit, vote]
+2024-09-16 22:27:59.072 [INFO] SolutionIterator - ==============================>
+2024-09-16 22:27:59.072 [INFO] SolutionIterator - Start iteration 1...
+2024-09-16 22:27:59.072 [INFO] SolutionIterator - Try to weaken the preferred behavior by one of the 0 behavior sets:
+2024-09-16 22:28:00.183 [INFO] SolutionIterator - This iteration completes, time: 00:00:01:111
+2024-09-16 22:28:00.183 [INFO] SolutionIterator - Number of controller synthesis process invoked: 16
+2024-09-16 22:28:00.183 [INFO] SolutionIterator - New solution found:
+2024-09-16 22:28:00.184 [INFO] SolutionIterator - 	Size of the controller: 485 states and 1819 transitions
+2024-09-16 22:28:00.184 [INFO] SolutionIterator - 	Number of controllable events: 1
+2024-09-16 22:28:00.184 [INFO] SolutionIterator - 	Controllable: [confirm]
+2024-09-16 22:28:00.185 [INFO] SolutionIterator - 	Number of observable events: 10
+2024-09-16 22:28:00.185 [INFO] SolutionIterator - 	Observable: [back, confirm, password, reset, select, v.1.done, v.1.exit, v.2.done, v.2.exit, vote]
+2024-09-16 22:28:00.185 [INFO] SolutionIterator - 	Number of preferred behavior: 3
+2024-09-16 22:28:00.185 [INFO] SolutionIterator - 	Preferred Behavior:
+2024-09-16 22:28:00.185 [INFO] SolutionIterator - 		select,vote,confirm
+2024-09-16 22:28:00.185 [INFO] SolutionIterator - 		select,back,select,vote,confirm
+2024-09-16 22:28:00.185 [INFO] SolutionIterator - 		select,vote,back,back,select,vote,confirm
+2024-09-16 22:28:00.185 [INFO] SolutionIterator - Utility Preferred Behavior: 189
+2024-09-16 22:28:00.185 [INFO] SolutionIterator - Utility Cost: -19
+2024-09-16 22:28:00.185 [INFO] Robustify - Total number of controller synthesis invoked: 17
+2024-09-16 22:28:00.185 [INFO] Robustify - Total number of solutions: 1
+2024-09-16 22:28:00.193 [INFO] Robustify - Robustification completes, total time: 00:00:01:609
+
+run with oasis search...
+2024-09-16 22:28:01.375 [INFO] OASISRobustifier - Number of controllable events: 8
+2024-09-16 22:28:01.376 [INFO] OASISRobustifier - Controllable: [password, select, reset, vote, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:01.376 [INFO] OASISRobustifier - Number of observable events: 8
+2024-09-16 22:28:01.376 [INFO] OASISRobustifier - Observable: [password, select, reset, vote, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:01.378 [INFO] OASISRobustifier - Abstract the system by []
+2024-09-16 22:28:01.563 [INFO] OASISRobustifier - Abstract the system by [password]
+2024-09-16 22:28:01.651 [INFO] OASISRobustifier - Abstract the system by [select]
+2024-09-16 22:28:01.714 [INFO] OASISRobustifier - Abstract the system by [reset]
+2024-09-16 22:28:01.765 [INFO] OASISRobustifier - Abstract the system by [vote]
+2024-09-16 22:28:01.853 [INFO] OASISRobustifier - Abstract the system by [back]
+2024-09-16 22:28:01.906 [INFO] OASISRobustifier - Abstract the system by [confirm]
+2024-09-16 22:28:01.983 [INFO] OASISRobustifier - Abstract the system by [v.1.done]
+2024-09-16 22:28:02.010 [INFO] OASISRobustifier - Abstract the system by [v.2.done]
+2024-09-16 22:28:02.046 [INFO] OASISRobustifier - Abstract the system by [password, select]
+2024-09-16 22:28:02.127 [INFO] OASISRobustifier - Abstract the system by [password, reset]
+2024-09-16 22:28:02.188 [INFO] OASISRobustifier - Abstract the system by [password, vote]
+2024-09-16 22:28:02.241 [INFO] OASISRobustifier - Abstract the system by [password, back]
+2024-09-16 22:28:02.283 [INFO] OASISRobustifier - Abstract the system by [password, confirm]
+2024-09-16 22:28:02.333 [INFO] OASISRobustifier - Abstract the system by [password, v.1.done]
+2024-09-16 22:28:02.376 [INFO] OASISRobustifier - Abstract the system by [password, v.2.done]
+2024-09-16 22:28:02.408 [INFO] OASISRobustifier - Abstract the system by [select, reset]
+2024-09-16 22:28:02.441 [INFO] OASISRobustifier - Abstract the system by [select, vote]
+2024-09-16 22:28:02.473 [INFO] OASISRobustifier - Abstract the system by [select, back]
+2024-09-16 22:28:02.505 [INFO] OASISRobustifier - Abstract the system by [select, confirm]
+2024-09-16 22:28:02.542 [INFO] OASISRobustifier - Abstract the system by [select, v.1.done]
+2024-09-16 22:28:02.567 [INFO] OASISRobustifier - Abstract the system by [select, v.2.done]
+2024-09-16 22:28:02.590 [INFO] OASISRobustifier - Abstract the system by [reset, vote]
+2024-09-16 22:28:02.624 [INFO] OASISRobustifier - Abstract the system by [reset, back]
+2024-09-16 22:28:02.649 [INFO] OASISRobustifier - Abstract the system by [reset, confirm]
+2024-09-16 22:28:02.696 [INFO] OASISRobustifier - Abstract the system by [reset, v.1.done]
+2024-09-16 22:28:02.713 [INFO] OASISRobustifier - Abstract the system by [reset, v.2.done]
+2024-09-16 22:28:02.728 [INFO] OASISRobustifier - Abstract the system by [vote, back]
+2024-09-16 22:28:02.756 [INFO] OASISRobustifier - Abstract the system by [vote, confirm]
+2024-09-16 22:28:02.801 [INFO] OASISRobustifier - Abstract the system by [vote, v.1.done]
+2024-09-16 22:28:02.830 [INFO] OASISRobustifier - Abstract the system by [vote, v.2.done]
+2024-09-16 22:28:02.862 [INFO] OASISRobustifier - Abstract the system by [back, confirm]
+2024-09-16 22:28:02.910 [INFO] OASISRobustifier - Abstract the system by [back, v.1.done]
+2024-09-16 22:28:02.931 [INFO] OASISRobustifier - Abstract the system by [back, v.2.done]
+2024-09-16 22:28:02.951 [INFO] OASISRobustifier - Abstract the system by [confirm, v.1.done]
+2024-09-16 22:28:02.989 [INFO] OASISRobustifier - Abstract the system by [confirm, v.2.done]
+2024-09-16 22:28:03.024 [INFO] OASISRobustifier - Abstract the system by [v.1.done, v.2.done]
+2024-09-16 22:28:03.041 [INFO] OASISRobustifier - Abstract the system by [password, select, reset]
+2024-09-16 22:28:03.081 [INFO] OASISRobustifier - Abstract the system by [password, select, vote]
+2024-09-16 22:28:03.124 [INFO] OASISRobustifier - Abstract the system by [password, select, back]
+2024-09-16 22:28:03.171 [INFO] OASISRobustifier - Abstract the system by [password, select, confirm]
+2024-09-16 22:28:03.212 [INFO] OASISRobustifier - Abstract the system by [password, select, v.1.done]
+2024-09-16 22:28:03.266 [INFO] OASISRobustifier - Abstract the system by [password, select, v.2.done]
+2024-09-16 22:28:03.326 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote]
+2024-09-16 22:28:03.363 [INFO] OASISRobustifier - Abstract the system by [password, reset, back]
+2024-09-16 22:28:03.391 [INFO] OASISRobustifier - Abstract the system by [password, reset, confirm]
+2024-09-16 22:28:03.425 [INFO] OASISRobustifier - Abstract the system by [password, reset, v.1.done]
+2024-09-16 22:28:03.464 [INFO] OASISRobustifier - Abstract the system by [password, reset, v.2.done]
+2024-09-16 22:28:03.499 [INFO] OASISRobustifier - Abstract the system by [password, vote, back]
+2024-09-16 22:28:03.543 [INFO] OASISRobustifier - Abstract the system by [password, vote, confirm]
+2024-09-16 22:28:03.579 [INFO] OASISRobustifier - Abstract the system by [password, vote, v.1.done]
+2024-09-16 22:28:03.614 [INFO] OASISRobustifier - Abstract the system by [password, vote, v.2.done]
+2024-09-16 22:28:03.648 [INFO] OASISRobustifier - Abstract the system by [password, back, confirm]
+2024-09-16 22:28:03.668 [INFO] OASISRobustifier - Abstract the system by [password, back, v.1.done]
+2024-09-16 22:28:03.687 [INFO] OASISRobustifier - Abstract the system by [password, back, v.2.done]
+2024-09-16 22:28:03.707 [INFO] OASISRobustifier - Abstract the system by [password, confirm, v.1.done]
+2024-09-16 22:28:03.734 [INFO] OASISRobustifier - Abstract the system by [password, confirm, v.2.done]
+2024-09-16 22:28:03.762 [INFO] OASISRobustifier - Abstract the system by [password, v.1.done, v.2.done]
+2024-09-16 22:28:03.787 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote]
+2024-09-16 22:28:03.807 [INFO] OASISRobustifier - Abstract the system by [select, reset, back]
+2024-09-16 22:28:03.831 [INFO] OASISRobustifier - Abstract the system by [select, reset, confirm]
+2024-09-16 22:28:03.870 [INFO] OASISRobustifier - Abstract the system by [select, reset, v.1.done]
+2024-09-16 22:28:03.890 [INFO] OASISRobustifier - Abstract the system by [select, reset, v.2.done]
+2024-09-16 22:28:03.913 [INFO] OASISRobustifier - Abstract the system by [select, vote, back]
+2024-09-16 22:28:03.946 [INFO] OASISRobustifier - Abstract the system by [select, vote, confirm]
+2024-09-16 22:28:03.968 [INFO] OASISRobustifier - Abstract the system by [select, vote, v.1.done]
+2024-09-16 22:28:03.990 [INFO] OASISRobustifier - Abstract the system by [select, vote, v.2.done]
+2024-09-16 22:28:04.014 [INFO] OASISRobustifier - Abstract the system by [select, back, confirm]
+2024-09-16 22:28:04.034 [INFO] OASISRobustifier - Abstract the system by [select, back, v.1.done]
+2024-09-16 22:28:04.055 [INFO] OASISRobustifier - Abstract the system by [select, back, v.2.done]
+2024-09-16 22:28:04.077 [INFO] OASISRobustifier - Abstract the system by [select, confirm, v.1.done]
+2024-09-16 22:28:04.108 [INFO] OASISRobustifier - Abstract the system by [select, confirm, v.2.done]
+2024-09-16 22:28:04.141 [INFO] OASISRobustifier - Abstract the system by [select, v.1.done, v.2.done]
+2024-09-16 22:28:04.175 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back]
+2024-09-16 22:28:04.199 [INFO] OASISRobustifier - Abstract the system by [reset, vote, confirm]
+2024-09-16 22:28:04.243 [INFO] OASISRobustifier - Abstract the system by [reset, vote, v.1.done]
+2024-09-16 22:28:04.266 [INFO] OASISRobustifier - Abstract the system by [reset, vote, v.2.done]
+2024-09-16 22:28:04.290 [INFO] OASISRobustifier - Abstract the system by [reset, back, confirm]
+2024-09-16 22:28:04.331 [INFO] OASISRobustifier - Abstract the system by [reset, back, v.1.done]
+2024-09-16 22:28:04.343 [INFO] OASISRobustifier - Abstract the system by [reset, back, v.2.done]
+2024-09-16 22:28:04.356 [INFO] OASISRobustifier - Abstract the system by [reset, confirm, v.1.done]
+2024-09-16 22:28:04.392 [INFO] OASISRobustifier - Abstract the system by [reset, confirm, v.2.done]
+2024-09-16 22:28:04.427 [INFO] OASISRobustifier - Abstract the system by [reset, v.1.done, v.2.done]
+2024-09-16 22:28:04.439 [INFO] OASISRobustifier - Abstract the system by [vote, back, confirm]
+2024-09-16 22:28:04.480 [INFO] OASISRobustifier - Abstract the system by [vote, back, v.1.done]
+2024-09-16 22:28:04.504 [INFO] OASISRobustifier - Abstract the system by [vote, back, v.2.done]
+2024-09-16 22:28:04.525 [INFO] OASISRobustifier - Abstract the system by [vote, confirm, v.1.done]
+2024-09-16 22:28:04.576 [INFO] OASISRobustifier - Abstract the system by [vote, confirm, v.2.done]
+2024-09-16 22:28:04.623 [INFO] OASISRobustifier - Abstract the system by [vote, v.1.done, v.2.done]
+2024-09-16 22:28:04.661 [INFO] OASISRobustifier - Abstract the system by [back, confirm, v.1.done]
+2024-09-16 22:28:04.699 [INFO] OASISRobustifier - Abstract the system by [back, confirm, v.2.done]
+2024-09-16 22:28:04.735 [INFO] OASISRobustifier - Abstract the system by [back, v.1.done, v.2.done]
+2024-09-16 22:28:04.751 [INFO] OASISRobustifier - Abstract the system by [confirm, v.1.done, v.2.done]
+2024-09-16 22:28:04.774 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote]
+2024-09-16 22:28:04.798 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back]
+2024-09-16 22:28:04.838 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, confirm]
+2024-09-16 22:28:04.864 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, v.1.done]
+2024-09-16 22:28:04.906 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, v.2.done]
+2024-09-16 22:28:04.949 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, back]
+2024-09-16 22:28:04.978 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, confirm]
+2024-09-16 22:28:04.997 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, v.1.done]
+2024-09-16 22:28:05.038 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, v.2.done]
+2024-09-16 22:28:05.081 [INFO] OASISRobustifier - Abstract the system by [password, select, back, confirm]
+2024-09-16 22:28:05.105 [INFO] OASISRobustifier - Abstract the system by [password, select, back, v.1.done]
+2024-09-16 22:28:05.148 [INFO] OASISRobustifier - Abstract the system by [password, select, back, v.2.done]
+2024-09-16 22:28:05.197 [INFO] OASISRobustifier - Abstract the system by [password, select, confirm, v.1.done]
+2024-09-16 22:28:05.231 [INFO] OASISRobustifier - Abstract the system by [password, select, confirm, v.2.done]
+2024-09-16 22:28:05.267 [INFO] OASISRobustifier - Abstract the system by [password, select, v.1.done, v.2.done]
+2024-09-16 22:28:05.328 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, back]
+2024-09-16 22:28:05.352 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, confirm]
+2024-09-16 22:28:05.370 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, v.1.done]
+2024-09-16 22:28:05.389 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, v.2.done]
+2024-09-16 22:28:05.409 [INFO] OASISRobustifier - Abstract the system by [password, reset, back, confirm]
+2024-09-16 22:28:05.431 [INFO] OASISRobustifier - Abstract the system by [password, reset, back, v.1.done]
+2024-09-16 22:28:05.456 [INFO] OASISRobustifier - Abstract the system by [password, reset, back, v.2.done]
+2024-09-16 22:28:05.479 [INFO] OASISRobustifier - Abstract the system by [password, reset, confirm, v.1.done]
+2024-09-16 22:28:05.511 [INFO] OASISRobustifier - Abstract the system by [password, reset, confirm, v.2.done]
+2024-09-16 22:28:05.543 [INFO] OASISRobustifier - Abstract the system by [password, reset, v.1.done, v.2.done]
+2024-09-16 22:28:05.573 [INFO] OASISRobustifier - Abstract the system by [password, vote, back, confirm]
+2024-09-16 22:28:05.593 [INFO] OASISRobustifier - Abstract the system by [password, vote, back, v.1.done]
+2024-09-16 22:28:05.629 [INFO] OASISRobustifier - Abstract the system by [password, vote, back, v.2.done]
+2024-09-16 22:28:05.664 [INFO] OASISRobustifier - Abstract the system by [password, vote, confirm, v.1.done]
+2024-09-16 22:28:05.685 [INFO] OASISRobustifier - Abstract the system by [password, vote, confirm, v.2.done]
+2024-09-16 22:28:05.705 [INFO] OASISRobustifier - Abstract the system by [password, vote, v.1.done, v.2.done]
+2024-09-16 22:28:05.735 [INFO] OASISRobustifier - Abstract the system by [password, back, confirm, v.1.done]
+2024-09-16 22:28:05.752 [INFO] OASISRobustifier - Abstract the system by [password, back, confirm, v.2.done]
+2024-09-16 22:28:05.771 [INFO] OASISRobustifier - Abstract the system by [password, back, v.1.done, v.2.done]
+2024-09-16 22:28:05.791 [INFO] OASISRobustifier - Abstract the system by [password, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:05.815 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, back]
+2024-09-16 22:28:05.838 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, confirm]
+2024-09-16 22:28:05.861 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, v.1.done]
+2024-09-16 22:28:05.888 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, v.2.done]
+2024-09-16 22:28:05.920 [INFO] OASISRobustifier - Abstract the system by [select, reset, back, confirm]
+2024-09-16 22:28:05.952 [INFO] OASISRobustifier - Abstract the system by [select, reset, back, v.1.done]
+2024-09-16 22:28:05.976 [INFO] OASISRobustifier - Abstract the system by [select, reset, back, v.2.done]
+2024-09-16 22:28:05.998 [INFO] OASISRobustifier - Abstract the system by [select, reset, confirm, v.1.done]
+2024-09-16 22:28:06.033 [INFO] OASISRobustifier - Abstract the system by [select, reset, confirm, v.2.done]
+2024-09-16 22:28:06.067 [INFO] OASISRobustifier - Abstract the system by [select, reset, v.1.done, v.2.done]
+2024-09-16 22:28:06.087 [INFO] OASISRobustifier - Abstract the system by [select, vote, back, confirm]
+2024-09-16 22:28:06.117 [INFO] OASISRobustifier - Abstract the system by [select, vote, back, v.1.done]
+2024-09-16 22:28:06.145 [INFO] OASISRobustifier - Abstract the system by [select, vote, back, v.2.done]
+2024-09-16 22:28:06.177 [INFO] OASISRobustifier - Abstract the system by [select, vote, confirm, v.1.done]
+2024-09-16 22:28:06.198 [INFO] OASISRobustifier - Abstract the system by [select, vote, confirm, v.2.done]
+2024-09-16 22:28:06.221 [INFO] OASISRobustifier - Abstract the system by [select, vote, v.1.done, v.2.done]
+2024-09-16 22:28:06.242 [INFO] OASISRobustifier - Abstract the system by [select, back, confirm, v.1.done]
+2024-09-16 22:28:06.260 [INFO] OASISRobustifier - Abstract the system by [select, back, confirm, v.2.done]
+2024-09-16 22:28:06.279 [INFO] OASISRobustifier - Abstract the system by [select, back, v.1.done, v.2.done]
+2024-09-16 22:28:06.293 [INFO] OASISRobustifier - Abstract the system by [select, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:06.314 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back, confirm]
+2024-09-16 22:28:06.353 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back, v.1.done]
+2024-09-16 22:28:06.375 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back, v.2.done]
+2024-09-16 22:28:06.398 [INFO] OASISRobustifier - Abstract the system by [reset, vote, confirm, v.1.done]
+2024-09-16 22:28:06.435 [INFO] OASISRobustifier - Abstract the system by [reset, vote, confirm, v.2.done]
+2024-09-16 22:28:06.474 [INFO] OASISRobustifier - Abstract the system by [reset, vote, v.1.done, v.2.done]
+2024-09-16 22:28:06.497 [INFO] OASISRobustifier - Abstract the system by [reset, back, confirm, v.1.done]
+2024-09-16 22:28:06.539 [INFO] OASISRobustifier - Abstract the system by [reset, back, confirm, v.2.done]
+2024-09-16 22:28:06.586 [INFO] OASISRobustifier - Abstract the system by [reset, back, v.1.done, v.2.done]
+2024-09-16 22:28:06.605 [INFO] OASISRobustifier - Abstract the system by [reset, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:06.628 [INFO] OASISRobustifier - Abstract the system by [vote, back, confirm, v.1.done]
+2024-09-16 22:28:06.666 [INFO] OASISRobustifier - Abstract the system by [vote, back, confirm, v.2.done]
+2024-09-16 22:28:06.704 [INFO] OASISRobustifier - Abstract the system by [vote, back, v.1.done, v.2.done]
+2024-09-16 22:28:06.725 [INFO] OASISRobustifier - Abstract the system by [vote, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:06.758 [INFO] OASISRobustifier - Abstract the system by [back, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:06.779 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, back]
+2024-09-16 22:28:06.799 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, confirm]
+2024-09-16 22:28:06.814 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, v.1.done]
+2024-09-16 22:28:06.847 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, v.2.done]
+2024-09-16 22:28:06.882 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back, confirm]
+2024-09-16 22:28:06.905 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back, v.1.done]
+2024-09-16 22:28:06.946 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back, v.2.done]
+2024-09-16 22:28:06.987 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, confirm, v.1.done]
+2024-09-16 22:28:07.010 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, confirm, v.2.done]
+2024-09-16 22:28:07.031 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, v.1.done, v.2.done]
+2024-09-16 22:28:07.067 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, back, confirm]
+2024-09-16 22:28:07.078 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, back, v.1.done]
+2024-09-16 22:28:07.111 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, back, v.2.done]
+2024-09-16 22:28:07.142 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, confirm, v.1.done]
+2024-09-16 22:28:07.154 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, confirm, v.2.done]
+2024-09-16 22:28:07.166 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, v.1.done, v.2.done]
+2024-09-16 22:28:07.205 [INFO] OASISRobustifier - Abstract the system by [password, select, back, confirm, v.1.done]
+2024-09-16 22:28:07.228 [INFO] OASISRobustifier - Abstract the system by [password, select, back, confirm, v.2.done]
+2024-09-16 22:28:07.251 [INFO] OASISRobustifier - Abstract the system by [password, select, back, v.1.done, v.2.done]
+2024-09-16 22:28:07.293 [INFO] OASISRobustifier - Abstract the system by [password, select, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:07.316 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, back, confirm]
+2024-09-16 22:28:07.334 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, back, v.1.done]
+2024-09-16 22:28:07.355 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, back, v.2.done]
+2024-09-16 22:28:07.378 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, confirm, v.1.done]
+2024-09-16 22:28:07.392 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, confirm, v.2.done]
+2024-09-16 22:28:07.407 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, v.1.done, v.2.done]
+2024-09-16 22:28:07.423 [INFO] OASISRobustifier - Abstract the system by [password, reset, back, confirm, v.1.done]
+2024-09-16 22:28:07.444 [INFO] OASISRobustifier - Abstract the system by [password, reset, back, confirm, v.2.done]
+2024-09-16 22:28:07.466 [INFO] OASISRobustifier - Abstract the system by [password, reset, back, v.1.done, v.2.done]
+2024-09-16 22:28:07.487 [INFO] OASISRobustifier - Abstract the system by [password, reset, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:07.516 [INFO] OASISRobustifier - Abstract the system by [password, vote, back, confirm, v.1.done]
+2024-09-16 22:28:07.537 [INFO] OASISRobustifier - Abstract the system by [password, vote, back, confirm, v.2.done]
+2024-09-16 22:28:07.558 [INFO] OASISRobustifier - Abstract the system by [password, vote, back, v.1.done, v.2.done]
+2024-09-16 22:28:07.593 [INFO] OASISRobustifier - Abstract the system by [password, vote, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:07.613 [INFO] OASISRobustifier - Abstract the system by [password, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:07.631 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, back, confirm]
+2024-09-16 22:28:07.652 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, back, v.1.done]
+2024-09-16 22:28:07.677 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, back, v.2.done]
+2024-09-16 22:28:07.699 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, confirm, v.1.done]
+2024-09-16 22:28:07.717 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, confirm, v.2.done]
+2024-09-16 22:28:07.735 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, v.1.done, v.2.done]
+2024-09-16 22:28:07.753 [INFO] OASISRobustifier - Abstract the system by [select, reset, back, confirm, v.1.done]
+2024-09-16 22:28:07.787 [INFO] OASISRobustifier - Abstract the system by [select, reset, back, confirm, v.2.done]
+2024-09-16 22:28:07.818 [INFO] OASISRobustifier - Abstract the system by [select, reset, back, v.1.done, v.2.done]
+2024-09-16 22:28:07.843 [INFO] OASISRobustifier - Abstract the system by [select, reset, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:07.873 [INFO] OASISRobustifier - Abstract the system by [select, vote, back, confirm, v.1.done]
+2024-09-16 22:28:07.909 [INFO] OASISRobustifier - Abstract the system by [select, vote, back, confirm, v.2.done]
+2024-09-16 22:28:07.943 [INFO] OASISRobustifier - Abstract the system by [select, vote, back, v.1.done, v.2.done]
+2024-09-16 22:28:07.980 [INFO] OASISRobustifier - Abstract the system by [select, vote, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:08.008 [INFO] OASISRobustifier - Abstract the system by [select, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:08.029 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back, confirm, v.1.done]
+2024-09-16 22:28:08.069 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back, confirm, v.2.done]
+2024-09-16 22:28:08.107 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back, v.1.done, v.2.done]
+2024-09-16 22:28:08.137 [INFO] OASISRobustifier - Abstract the system by [reset, vote, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:08.171 [INFO] OASISRobustifier - Abstract the system by [reset, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:08.204 [INFO] OASISRobustifier - Abstract the system by [vote, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:08.238 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, back, confirm]
+2024-09-16 22:28:08.262 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, back, v.1.done]
+2024-09-16 22:28:08.298 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, back, v.2.done]
+2024-09-16 22:28:08.328 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, confirm, v.1.done]
+2024-09-16 22:28:08.342 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, confirm, v.2.done]
+2024-09-16 22:28:08.355 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, v.1.done, v.2.done]
+2024-09-16 22:28:08.388 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back, confirm, v.1.done]
+2024-09-16 22:28:08.412 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back, confirm, v.2.done]
+2024-09-16 22:28:08.436 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back, v.1.done, v.2.done]
+2024-09-16 22:28:08.471 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:08.494 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, back, confirm, v.1.done]
+2024-09-16 22:28:08.505 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, back, confirm, v.2.done]
+2024-09-16 22:28:08.516 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, back, v.1.done, v.2.done]
+2024-09-16 22:28:08.546 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:08.557 [INFO] OASISRobustifier - Abstract the system by [password, select, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:08.580 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, back, confirm, v.1.done]
+2024-09-16 22:28:08.599 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, back, confirm, v.2.done]
+2024-09-16 22:28:08.618 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, back, v.1.done, v.2.done]
+2024-09-16 22:28:08.639 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:08.655 [INFO] OASISRobustifier - Abstract the system by [password, reset, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:08.676 [INFO] OASISRobustifier - Abstract the system by [password, vote, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:08.697 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, back, confirm, v.1.done]
+2024-09-16 22:28:08.719 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, back, confirm, v.2.done]
+2024-09-16 22:28:08.741 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, back, v.1.done, v.2.done]
+2024-09-16 22:28:08.761 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:08.778 [INFO] OASISRobustifier - Abstract the system by [select, reset, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:08.809 [INFO] OASISRobustifier - Abstract the system by [select, vote, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:08.845 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:08.878 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, back, confirm, v.1.done]
+2024-09-16 22:28:08.890 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, back, confirm, v.2.done]
+2024-09-16 22:28:08.903 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, back, v.1.done, v.2.done]
+2024-09-16 22:28:08.923 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:08.938 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:08.961 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:08.973 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:08.989 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:09.007 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:09.020 [INFO] OASISRobustifier - Termination time: 00:00:07:643
+2024-09-16 22:28:09.020 [INFO] Robustify - Total number of controller synthesis invoked: 256
+2024-09-16 22:28:09.020 [WARN] Robustify - Failed to find a solution.
+2024-09-16 22:28:09.020 [INFO] Robustify - Robustification completes, total time: 00:00:07:846
+
+run with simple search...
+2024-09-16 22:28:10.071 [INFO] SimpleRobustifier - Number of controllable events: 8
+2024-09-16 22:28:10.073 [INFO] SimpleRobustifier - Controllable: [password, select, reset, vote, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:10.073 [INFO] SimpleRobustifier - Number of observable events: 8
+2024-09-16 22:28:10.073 [INFO] SimpleRobustifier - Observable: [password, select, reset, vote, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:28:10.274 [INFO] SimpleRobustifier - No solution found!
+2024-09-16 22:28:10.275 [INFO] SimpleRobustifier - Termination time: 00:00:00:201
+2024-09-16 22:28:10.275 [INFO] Robustify - Total number of controller synthesis invoked: 1
+2024-09-16 22:28:10.276 [WARN] Robustify - Failed to find a solution.
+2024-09-16 22:28:10.276 [INFO] Robustify - Robustification completes, total time: 00:00:00:378
+
+
+run voting-3...
+
+run with pareto search...
+2024-09-16 22:28:11.534 [INFO] SupervisoryRobustifier - Number of states of the system: 6
+2024-09-16 22:28:11.535 [INFO] SupervisoryRobustifier - Number of states of the environment: 20
+2024-09-16 22:28:11.535 [INFO] SupervisoryRobustifier - Number of states of the plant (S || E): 47
+2024-09-16 22:28:11.536 [INFO] SupervisoryRobustifier - Number of transitions of the plant: 114
+2024-09-16 22:28:11.537 [INFO] SolutionIterator - ==============================>
+2024-09-16 22:28:11.537 [INFO] SolutionIterator - Initializing search by using Pareto search...
+2024-09-16 22:28:11.537 [INFO] SolutionIterator - Number of preferred behaviors: 3
+2024-09-16 22:28:11.538 [INFO] SolutionIterator - Number of controllable events with cost: 21
+2024-09-16 22:28:11.538 [INFO] SolutionIterator - Number of observable events with cost: 12
+2024-09-16 22:28:12.188 [INFO] SolutionIterator - Maximum fulfilled preferred behavior:
+2024-09-16 22:28:12.188 [INFO] SolutionIterator - 	select,vote,confirm
+2024-09-16 22:28:12.188 [INFO] SolutionIterator - 	select,back,select,vote,confirm
+2024-09-16 22:28:12.188 [INFO] SolutionIterator - 	select,vote,back,back,select,vote,confirm
+2024-09-16 22:28:12.351 [INFO] SolutionIterator - Initialization completes, time: 00:00:00:813
+2024-09-16 22:28:12.351 [INFO] SolutionIterator - Start search from events:
+2024-09-16 22:28:12.351 [INFO] SolutionIterator - Controllable: [back, confirm, password, reset, select, v.1.done, v.2.done, v.3.done, vote]
+2024-09-16 22:28:12.351 [INFO] SolutionIterator - Observable: [back, confirm, eo.1.enter, eo.1.exit, eo.2.enter, eo.2.exit, eo.3.enter, eo.3.exit, password, reset, select, v.1.done, v.1.enter, v.1.exit, v.2.done, v.2.enter, v.2.exit, v.3.done, v.3.enter, v.3.exit, vote]
+2024-09-16 22:28:12.351 [INFO] SolutionIterator - ==============================>
+2024-09-16 22:28:12.351 [INFO] SolutionIterator - Start iteration 1...
+2024-09-16 22:28:12.351 [INFO] SolutionIterator - Try to weaken the preferred behavior by one of the 0 behavior sets:
+
+run with pareto-non-opt search...
+2024-09-16 22:38:12.174 [INFO] SupervisoryRobustifier - Number of states of the system: 6
+2024-09-16 22:38:12.176 [INFO] SupervisoryRobustifier - Number of states of the environment: 20
+2024-09-16 22:38:12.176 [INFO] SupervisoryRobustifier - Number of states of the plant (S || E): 47
+2024-09-16 22:38:12.177 [INFO] SupervisoryRobustifier - Number of transitions of the plant: 114
+2024-09-16 22:38:12.180 [INFO] SolutionIterator - ==============================>
+2024-09-16 22:38:12.180 [INFO] SolutionIterator - Initializing search by using Pareto search...
+2024-09-16 22:38:12.180 [INFO] SolutionIterator - Number of preferred behaviors: 3
+2024-09-16 22:38:12.181 [INFO] SolutionIterator - Number of controllable events with cost: 21
+2024-09-16 22:38:12.181 [INFO] SolutionIterator - Number of observable events with cost: 12
+2024-09-16 22:38:12.865 [INFO] SolutionIterator - Maximum fulfilled preferred behavior:
+2024-09-16 22:38:12.865 [INFO] SolutionIterator - 	select,vote,confirm
+2024-09-16 22:38:12.865 [INFO] SolutionIterator - 	select,back,select,vote,confirm
+2024-09-16 22:38:12.866 [INFO] SolutionIterator - 	select,vote,back,back,select,vote,confirm
+2024-09-16 22:38:12.867 [INFO] SolutionIterator - Initialization completes, time: 00:00:00:686
+2024-09-16 22:38:12.867 [INFO] SolutionIterator - Start search from events:
+2024-09-16 22:38:12.867 [INFO] SolutionIterator - Controllable: [back, confirm, eo.1.enter, eo.1.exit, eo.2.enter, eo.2.exit, eo.3.enter, eo.3.exit, password, reset, select, v.1.done, v.1.enter, v.1.exit, v.2.done, v.2.enter, v.2.exit, v.3.done, v.3.enter, v.3.exit, vote]
+2024-09-16 22:38:12.867 [INFO] SolutionIterator - Observable: [back, confirm, eo.1.enter, eo.1.exit, eo.2.enter, eo.2.exit, eo.3.enter, eo.3.exit, password, reset, select, v.1.done, v.1.enter, v.1.exit, v.2.done, v.2.enter, v.2.exit, v.3.done, v.3.enter, v.3.exit, vote]
+2024-09-16 22:38:12.867 [INFO] SolutionIterator - ==============================>
+2024-09-16 22:38:12.867 [INFO] SolutionIterator - Start iteration 1...
+2024-09-16 22:38:12.867 [INFO] SolutionIterator - Try to weaken the preferred behavior by one of the 0 behavior sets:
+
+run with fast search...
+2024-09-16 22:48:12.610 [INFO] SupervisoryRobustifier - Number of states of the system: 6
+2024-09-16 22:48:12.613 [INFO] SupervisoryRobustifier - Number of states of the environment: 20
+2024-09-16 22:48:12.613 [INFO] SupervisoryRobustifier - Number of states of the plant (S || E): 47
+2024-09-16 22:48:12.614 [INFO] SupervisoryRobustifier - Number of transitions of the plant: 114
+2024-09-16 22:48:12.615 [INFO] SolutionIterator - ==============================>
+2024-09-16 22:48:12.616 [INFO] SolutionIterator - Initializing search by using Fast search...
+2024-09-16 22:48:12.616 [INFO] SolutionIterator - Number of preferred behaviors: 3
+2024-09-16 22:48:12.616 [INFO] SolutionIterator - Number of controllable events with cost: 21
+2024-09-16 22:48:12.616 [INFO] SolutionIterator - Number of observable events with cost: 12
+2024-09-16 22:48:13.271 [INFO] SolutionIterator - Maximum fulfilled preferred behavior:
+2024-09-16 22:48:13.271 [INFO] SolutionIterator - 	select,vote,confirm
+2024-09-16 22:48:13.271 [INFO] SolutionIterator - 	select,back,select,vote,confirm
+2024-09-16 22:48:13.271 [INFO] SolutionIterator - 	select,vote,back,back,select,vote,confirm
+2024-09-16 22:48:13.427 [INFO] SolutionIterator - Initialization completes, time: 00:00:00:811
+2024-09-16 22:48:13.427 [INFO] SolutionIterator - Start search from events:
+2024-09-16 22:48:13.427 [INFO] SolutionIterator - Controllable: [back, confirm, password, reset, select, v.1.done, v.2.done, v.3.done, vote]
+2024-09-16 22:48:13.427 [INFO] SolutionIterator - Observable: [back, confirm, eo.1.enter, eo.1.exit, eo.2.enter, eo.2.exit, eo.3.enter, eo.3.exit, password, reset, select, v.1.done, v.1.enter, v.1.exit, v.2.done, v.2.enter, v.2.exit, v.3.done, v.3.enter, v.3.exit, vote]
+2024-09-16 22:48:13.427 [INFO] SolutionIterator - ==============================>
+2024-09-16 22:48:13.427 [INFO] SolutionIterator - Start iteration 1...
+2024-09-16 22:48:13.427 [INFO] SolutionIterator - Try to weaken the preferred behavior by one of the 0 behavior sets:
+2024-09-16 22:48:21.137 [INFO] SolutionIterator - This iteration completes, time: 00:00:07:710
+2024-09-16 22:48:21.137 [INFO] SolutionIterator - Number of controller synthesis process invoked: 21
+2024-09-16 22:48:21.137 [INFO] SolutionIterator - New solution found:
+2024-09-16 22:48:21.144 [INFO] SolutionIterator - 	Size of the controller: 2413 states and 11544 transitions
+2024-09-16 22:48:21.144 [INFO] SolutionIterator - 	Number of controllable events: 1
+2024-09-16 22:48:21.144 [INFO] SolutionIterator - 	Controllable: [confirm]
+2024-09-16 22:48:21.144 [INFO] SolutionIterator - 	Number of observable events: 12
+2024-09-16 22:48:21.144 [INFO] SolutionIterator - 	Observable: [back, confirm, password, reset, select, v.1.done, v.1.exit, v.2.done, v.2.exit, v.3.done, v.3.exit, vote]
+2024-09-16 22:48:21.144 [INFO] SolutionIterator - 	Number of preferred behavior: 3
+2024-09-16 22:48:21.144 [INFO] SolutionIterator - 	Preferred Behavior:
+2024-09-16 22:48:21.144 [INFO] SolutionIterator - 		select,vote,confirm
+2024-09-16 22:48:21.144 [INFO] SolutionIterator - 		select,back,select,vote,confirm
+2024-09-16 22:48:21.144 [INFO] SolutionIterator - 		select,vote,back,back,select,vote,confirm
+2024-09-16 22:48:21.144 [INFO] SolutionIterator - Utility Preferred Behavior: 290
+2024-09-16 22:48:21.144 [INFO] SolutionIterator - Utility Cost: -31
+2024-09-16 22:48:21.145 [INFO] Robustify - Total number of controller synthesis invoked: 22
+2024-09-16 22:48:21.145 [INFO] Robustify - Total number of solutions: 1
+2024-09-16 22:48:21.166 [INFO] Robustify - Robustification completes, total time: 00:00:08:820
+
+run with oasis search...
+2024-09-16 22:48:22.316 [INFO] OASISRobustifier - Number of controllable events: 9
+2024-09-16 22:48:22.318 [INFO] OASISRobustifier - Controllable: [password, select, reset, vote, back, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:48:22.318 [INFO] OASISRobustifier - Number of observable events: 9
+2024-09-16 22:48:22.318 [INFO] OASISRobustifier - Observable: [password, select, reset, vote, back, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:48:22.320 [INFO] OASISRobustifier - Abstract the system by []
+2024-09-16 22:48:22.962 [INFO] OASISRobustifier - Abstract the system by [password]
+2024-09-16 22:48:23.514 [INFO] OASISRobustifier - Abstract the system by [select]
+2024-09-16 22:48:23.797 [INFO] OASISRobustifier - Abstract the system by [reset]
+2024-09-16 22:48:24.086 [INFO] OASISRobustifier - Abstract the system by [vote]
+2024-09-16 22:48:24.444 [INFO] OASISRobustifier - Abstract the system by [back]
+2024-09-16 22:48:24.650 [INFO] OASISRobustifier - Abstract the system by [confirm]
+2024-09-16 22:48:24.879 [INFO] OASISRobustifier - Abstract the system by [v.1.done]
+2024-09-16 22:48:25.027 [INFO] OASISRobustifier - Abstract the system by [v.2.done]
+2024-09-16 22:48:25.174 [INFO] OASISRobustifier - Abstract the system by [v.3.done]
+2024-09-16 22:48:25.338 [INFO] OASISRobustifier - Abstract the system by [password, select]
+2024-09-16 22:48:25.782 [INFO] OASISRobustifier - Abstract the system by [password, reset]
+2024-09-16 22:48:26.221 [INFO] OASISRobustifier - Abstract the system by [password, vote]
+2024-09-16 22:48:26.595 [INFO] OASISRobustifier - Abstract the system by [password, back]
+2024-09-16 22:48:26.791 [INFO] OASISRobustifier - Abstract the system by [password, confirm]
+2024-09-16 22:48:26.994 [INFO] OASISRobustifier - Abstract the system by [password, v.1.done]
+2024-09-16 22:48:27.202 [INFO] OASISRobustifier - Abstract the system by [password, v.2.done]
+2024-09-16 22:48:27.432 [INFO] OASISRobustifier - Abstract the system by [password, v.3.done]
+2024-09-16 22:48:27.643 [INFO] OASISRobustifier - Abstract the system by [select, reset]
+2024-09-16 22:48:28.002 [INFO] OASISRobustifier - Abstract the system by [select, vote]
+2024-09-16 22:48:28.237 [INFO] OASISRobustifier - Abstract the system by [select, back]
+2024-09-16 22:48:28.401 [INFO] OASISRobustifier - Abstract the system by [select, confirm]
+2024-09-16 22:48:28.610 [INFO] OASISRobustifier - Abstract the system by [select, v.1.done]
+2024-09-16 22:48:28.791 [INFO] OASISRobustifier - Abstract the system by [select, v.2.done]
+2024-09-16 22:48:28.978 [INFO] OASISRobustifier - Abstract the system by [select, v.3.done]
+2024-09-16 22:48:29.181 [INFO] OASISRobustifier - Abstract the system by [reset, vote]
+2024-09-16 22:48:29.501 [INFO] OASISRobustifier - Abstract the system by [reset, back]
+2024-09-16 22:48:29.717 [INFO] OASISRobustifier - Abstract the system by [reset, confirm]
+2024-09-16 22:48:30.093 [INFO] OASISRobustifier - Abstract the system by [reset, v.1.done]
+2024-09-16 22:48:30.301 [INFO] OASISRobustifier - Abstract the system by [reset, v.2.done]
+2024-09-16 22:48:30.509 [INFO] OASISRobustifier - Abstract the system by [reset, v.3.done]
+2024-09-16 22:48:30.709 [INFO] OASISRobustifier - Abstract the system by [vote, back]
+2024-09-16 22:48:30.970 [INFO] OASISRobustifier - Abstract the system by [vote, confirm]
+2024-09-16 22:48:31.405 [INFO] OASISRobustifier - Abstract the system by [vote, v.1.done]
+2024-09-16 22:48:31.711 [INFO] OASISRobustifier - Abstract the system by [vote, v.2.done]
+2024-09-16 22:48:32.020 [INFO] OASISRobustifier - Abstract the system by [vote, v.3.done]
+2024-09-16 22:48:32.319 [INFO] OASISRobustifier - Abstract the system by [back, confirm]
+2024-09-16 22:48:32.683 [INFO] OASISRobustifier - Abstract the system by [back, v.1.done]
+2024-09-16 22:48:32.863 [INFO] OASISRobustifier - Abstract the system by [back, v.2.done]
+2024-09-16 22:48:33.037 [INFO] OASISRobustifier - Abstract the system by [back, v.3.done]
+2024-09-16 22:48:33.209 [INFO] OASISRobustifier - Abstract the system by [confirm, v.1.done]
+2024-09-16 22:48:33.472 [INFO] OASISRobustifier - Abstract the system by [confirm, v.2.done]
+2024-09-16 22:48:33.750 [INFO] OASISRobustifier - Abstract the system by [confirm, v.3.done]
+2024-09-16 22:48:34.058 [INFO] OASISRobustifier - Abstract the system by [v.1.done, v.2.done]
+2024-09-16 22:48:34.193 [INFO] OASISRobustifier - Abstract the system by [v.1.done, v.3.done]
+2024-09-16 22:48:34.329 [INFO] OASISRobustifier - Abstract the system by [v.2.done, v.3.done]
+2024-09-16 22:48:34.465 [INFO] OASISRobustifier - Abstract the system by [password, select, reset]
+2024-09-16 22:48:34.801 [INFO] OASISRobustifier - Abstract the system by [password, select, vote]
+2024-09-16 22:48:35.184 [INFO] OASISRobustifier - Abstract the system by [password, select, back]
+2024-09-16 22:48:35.565 [INFO] OASISRobustifier - Abstract the system by [password, select, confirm]
+2024-09-16 22:48:35.936 [INFO] OASISRobustifier - Abstract the system by [password, select, v.1.done]
+2024-09-16 22:48:36.402 [INFO] OASISRobustifier - Abstract the system by [password, select, v.2.done]
+2024-09-16 22:48:36.874 [INFO] OASISRobustifier - Abstract the system by [password, select, v.3.done]
+2024-09-16 22:48:37.372 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote]
+2024-09-16 22:48:37.546 [INFO] OASISRobustifier - Abstract the system by [password, reset, back]
+2024-09-16 22:48:37.797 [INFO] OASISRobustifier - Abstract the system by [password, reset, confirm]
+2024-09-16 22:48:38.133 [INFO] OASISRobustifier - Abstract the system by [password, reset, v.1.done]
+2024-09-16 22:48:38.500 [INFO] OASISRobustifier - Abstract the system by [password, reset, v.2.done]
+2024-09-16 22:48:38.903 [INFO] OASISRobustifier - Abstract the system by [password, reset, v.3.done]
+2024-09-16 22:48:39.267 [INFO] OASISRobustifier - Abstract the system by [password, vote, back]
+2024-09-16 22:48:39.685 [INFO] OASISRobustifier - Abstract the system by [password, vote, confirm]
+2024-09-16 22:48:40.004 [INFO] OASISRobustifier - Abstract the system by [password, vote, v.1.done]
+2024-09-16 22:48:40.337 [INFO] OASISRobustifier - Abstract the system by [password, vote, v.2.done]
+2024-09-16 22:48:40.704 [INFO] OASISRobustifier - Abstract the system by [password, vote, v.3.done]
+2024-09-16 22:48:41.053 [INFO] OASISRobustifier - Abstract the system by [password, back, confirm]
+2024-09-16 22:48:41.222 [INFO] OASISRobustifier - Abstract the system by [password, back, v.1.done]
+2024-09-16 22:48:41.401 [INFO] OASISRobustifier - Abstract the system by [password, back, v.2.done]
+2024-09-16 22:48:41.582 [INFO] OASISRobustifier - Abstract the system by [password, back, v.3.done]
+2024-09-16 22:48:41.762 [INFO] OASISRobustifier - Abstract the system by [password, confirm, v.1.done]
+2024-09-16 22:48:41.983 [INFO] OASISRobustifier - Abstract the system by [password, confirm, v.2.done]
+2024-09-16 22:48:42.204 [INFO] OASISRobustifier - Abstract the system by [password, confirm, v.3.done]
+2024-09-16 22:48:42.441 [INFO] OASISRobustifier - Abstract the system by [password, v.1.done, v.2.done]
+2024-09-16 22:48:42.653 [INFO] OASISRobustifier - Abstract the system by [password, v.1.done, v.3.done]
+2024-09-16 22:48:42.869 [INFO] OASISRobustifier - Abstract the system by [password, v.2.done, v.3.done]
+2024-09-16 22:48:43.081 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote]
+2024-09-16 22:48:43.257 [INFO] OASISRobustifier - Abstract the system by [select, reset, back]
+2024-09-16 22:48:43.490 [INFO] OASISRobustifier - Abstract the system by [select, reset, confirm]
+2024-09-16 22:48:43.887 [INFO] OASISRobustifier - Abstract the system by [select, reset, v.1.done]
+2024-09-16 22:48:44.256 [INFO] OASISRobustifier - Abstract the system by [select, reset, v.2.done]
+2024-09-16 22:48:44.597 [INFO] OASISRobustifier - Abstract the system by [select, reset, v.3.done]
+2024-09-16 22:48:44.942 [INFO] OASISRobustifier - Abstract the system by [select, vote, back]
+2024-09-16 22:48:45.276 [INFO] OASISRobustifier - Abstract the system by [select, vote, confirm]
+2024-09-16 22:48:45.518 [INFO] OASISRobustifier - Abstract the system by [select, vote, v.1.done]
+2024-09-16 22:48:45.753 [INFO] OASISRobustifier - Abstract the system by [select, vote, v.2.done]
+2024-09-16 22:48:45.989 [INFO] OASISRobustifier - Abstract the system by [select, vote, v.3.done]
+2024-09-16 22:48:46.236 [INFO] OASISRobustifier - Abstract the system by [select, back, confirm]
+2024-09-16 22:48:46.408 [INFO] OASISRobustifier - Abstract the system by [select, back, v.1.done]
+2024-09-16 22:48:46.590 [INFO] OASISRobustifier - Abstract the system by [select, back, v.2.done]
+2024-09-16 22:48:46.768 [INFO] OASISRobustifier - Abstract the system by [select, back, v.3.done]
+2024-09-16 22:48:46.947 [INFO] OASISRobustifier - Abstract the system by [select, confirm, v.1.done]
+2024-09-16 22:48:47.173 [INFO] OASISRobustifier - Abstract the system by [select, confirm, v.2.done]
+2024-09-16 22:48:47.395 [INFO] OASISRobustifier - Abstract the system by [select, confirm, v.3.done]
+2024-09-16 22:48:47.620 [INFO] OASISRobustifier - Abstract the system by [select, v.1.done, v.2.done]
+2024-09-16 22:48:47.812 [INFO] OASISRobustifier - Abstract the system by [select, v.1.done, v.3.done]
+2024-09-16 22:48:47.997 [INFO] OASISRobustifier - Abstract the system by [select, v.2.done, v.3.done]
+2024-09-16 22:48:48.209 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back]
+2024-09-16 22:48:48.485 [INFO] OASISRobustifier - Abstract the system by [reset, vote, confirm]
+2024-09-16 22:48:48.977 [INFO] OASISRobustifier - Abstract the system by [reset, vote, v.1.done]
+2024-09-16 22:48:49.284 [INFO] OASISRobustifier - Abstract the system by [reset, vote, v.2.done]
+2024-09-16 22:48:49.594 [INFO] OASISRobustifier - Abstract the system by [reset, vote, v.3.done]
+2024-09-16 22:48:49.906 [INFO] OASISRobustifier - Abstract the system by [reset, back, confirm]
+2024-09-16 22:48:50.404 [INFO] OASISRobustifier - Abstract the system by [reset, back, v.1.done]
+2024-09-16 22:48:50.609 [INFO] OASISRobustifier - Abstract the system by [reset, back, v.2.done]
+2024-09-16 22:48:50.818 [INFO] OASISRobustifier - Abstract the system by [reset, back, v.3.done]
+2024-09-16 22:48:51.015 [INFO] OASISRobustifier - Abstract the system by [reset, confirm, v.1.done]
+2024-09-16 22:48:51.402 [INFO] OASISRobustifier - Abstract the system by [reset, confirm, v.2.done]
+2024-09-16 22:48:51.782 [INFO] OASISRobustifier - Abstract the system by [reset, confirm, v.3.done]
+2024-09-16 22:48:52.162 [INFO] OASISRobustifier - Abstract the system by [reset, v.1.done, v.2.done]
+2024-09-16 22:48:52.363 [INFO] OASISRobustifier - Abstract the system by [reset, v.1.done, v.3.done]
+2024-09-16 22:48:52.563 [INFO] OASISRobustifier - Abstract the system by [reset, v.2.done, v.3.done]
+2024-09-16 22:48:52.763 [INFO] OASISRobustifier - Abstract the system by [vote, back, confirm]
+2024-09-16 22:48:53.220 [INFO] OASISRobustifier - Abstract the system by [vote, back, v.1.done]
+2024-09-16 22:48:53.481 [INFO] OASISRobustifier - Abstract the system by [vote, back, v.2.done]
+2024-09-16 22:48:53.743 [INFO] OASISRobustifier - Abstract the system by [vote, back, v.3.done]
+2024-09-16 22:48:54.013 [INFO] OASISRobustifier - Abstract the system by [vote, confirm, v.1.done]
+2024-09-16 22:48:54.492 [INFO] OASISRobustifier - Abstract the system by [vote, confirm, v.2.done]
+2024-09-16 22:48:54.981 [INFO] OASISRobustifier - Abstract the system by [vote, confirm, v.3.done]
+2024-09-16 22:48:55.448 [INFO] OASISRobustifier - Abstract the system by [vote, v.1.done, v.2.done]
+2024-09-16 22:48:55.759 [INFO] OASISRobustifier - Abstract the system by [vote, v.1.done, v.3.done]
+2024-09-16 22:48:56.075 [INFO] OASISRobustifier - Abstract the system by [vote, v.2.done, v.3.done]
+2024-09-16 22:48:56.379 [INFO] OASISRobustifier - Abstract the system by [back, confirm, v.1.done]
+2024-09-16 22:48:56.748 [INFO] OASISRobustifier - Abstract the system by [back, confirm, v.2.done]
+2024-09-16 22:48:57.115 [INFO] OASISRobustifier - Abstract the system by [back, confirm, v.3.done]
+2024-09-16 22:48:57.480 [INFO] OASISRobustifier - Abstract the system by [back, v.1.done, v.2.done]
+2024-09-16 22:48:57.669 [INFO] OASISRobustifier - Abstract the system by [back, v.1.done, v.3.done]
+2024-09-16 22:48:57.856 [INFO] OASISRobustifier - Abstract the system by [back, v.2.done, v.3.done]
+2024-09-16 22:48:58.034 [INFO] OASISRobustifier - Abstract the system by [confirm, v.1.done, v.2.done]
+2024-09-16 22:48:58.364 [INFO] OASISRobustifier - Abstract the system by [confirm, v.1.done, v.3.done]
+2024-09-16 22:48:58.689 [INFO] OASISRobustifier - Abstract the system by [confirm, v.2.done, v.3.done]
+2024-09-16 22:48:59.013 [INFO] OASISRobustifier - Abstract the system by [v.1.done, v.2.done, v.3.done]
+2024-09-16 22:48:59.149 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote]
+2024-09-16 22:48:59.375 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back]
+2024-09-16 22:48:59.787 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, confirm]
+2024-09-16 22:49:00.048 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, v.1.done]
+2024-09-16 22:49:00.522 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, v.2.done]
+2024-09-16 22:49:01.000 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, v.3.done]
+2024-09-16 22:49:01.452 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, back]
+2024-09-16 22:49:01.711 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, confirm]
+2024-09-16 22:49:02.009 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, v.1.done]
+2024-09-16 22:49:02.499 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, v.2.done]
+2024-09-16 22:49:03.015 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, v.3.done]
+2024-09-16 22:49:03.526 [INFO] OASISRobustifier - Abstract the system by [password, select, back, confirm]
+2024-09-16 22:49:03.846 [INFO] OASISRobustifier - Abstract the system by [password, select, back, v.1.done]
+2024-09-16 22:49:04.347 [INFO] OASISRobustifier - Abstract the system by [password, select, back, v.2.done]
+2024-09-16 22:49:04.823 [INFO] OASISRobustifier - Abstract the system by [password, select, back, v.3.done]
+2024-09-16 22:49:05.292 [INFO] OASISRobustifier - Abstract the system by [password, select, confirm, v.1.done]
+2024-09-16 22:49:05.564 [INFO] OASISRobustifier - Abstract the system by [password, select, confirm, v.2.done]
+2024-09-16 22:49:05.845 [INFO] OASISRobustifier - Abstract the system by [password, select, confirm, v.3.done]
+2024-09-16 22:49:06.116 [INFO] OASISRobustifier - Abstract the system by [password, select, v.1.done, v.2.done]
+2024-09-16 22:49:06.578 [INFO] OASISRobustifier - Abstract the system by [password, select, v.1.done, v.3.done]
+2024-09-16 22:49:07.055 [INFO] OASISRobustifier - Abstract the system by [password, select, v.2.done, v.3.done]
+2024-09-16 22:49:07.521 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, back]
+2024-09-16 22:49:07.732 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, confirm]
+2024-09-16 22:49:07.901 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, v.1.done]
+2024-09-16 22:49:08.081 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, v.2.done]
+2024-09-16 22:49:08.259 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, v.3.done]
+2024-09-16 22:49:08.440 [INFO] OASISRobustifier - Abstract the system by [password, reset, back, confirm]
+2024-09-16 22:49:08.670 [INFO] OASISRobustifier - Abstract the system by [password, reset, back, v.1.done]
+2024-09-16 22:49:08.907 [INFO] OASISRobustifier - Abstract the system by [password, reset, back, v.2.done]
+2024-09-16 22:49:09.149 [INFO] OASISRobustifier - Abstract the system by [password, reset, back, v.3.done]
+2024-09-16 22:49:09.378 [INFO] OASISRobustifier - Abstract the system by [password, reset, confirm, v.1.done]
+2024-09-16 22:49:09.726 [INFO] OASISRobustifier - Abstract the system by [password, reset, confirm, v.2.done]
+2024-09-16 22:49:10.072 [INFO] OASISRobustifier - Abstract the system by [password, reset, confirm, v.3.done]
+2024-09-16 22:49:10.414 [INFO] OASISRobustifier - Abstract the system by [password, reset, v.1.done, v.2.done]
+2024-09-16 22:49:10.771 [INFO] OASISRobustifier - Abstract the system by [password, reset, v.1.done, v.3.done]
+2024-09-16 22:49:11.127 [INFO] OASISRobustifier - Abstract the system by [password, reset, v.2.done, v.3.done]
+2024-09-16 22:49:11.471 [INFO] OASISRobustifier - Abstract the system by [password, vote, back, confirm]
+2024-09-16 22:49:11.832 [INFO] OASISRobustifier - Abstract the system by [password, vote, back, v.1.done]
+2024-09-16 22:49:12.219 [INFO] OASISRobustifier - Abstract the system by [password, vote, back, v.2.done]
+2024-09-16 22:49:12.617 [INFO] OASISRobustifier - Abstract the system by [password, vote, back, v.3.done]
+2024-09-16 22:49:13.035 [INFO] OASISRobustifier - Abstract the system by [password, vote, confirm, v.1.done]
+2024-09-16 22:49:13.272 [INFO] OASISRobustifier - Abstract the system by [password, vote, confirm, v.2.done]
+2024-09-16 22:49:13.509 [INFO] OASISRobustifier - Abstract the system by [password, vote, confirm, v.3.done]
+2024-09-16 22:49:13.756 [INFO] OASISRobustifier - Abstract the system by [password, vote, v.1.done, v.2.done]
+2024-09-16 22:49:14.128 [INFO] OASISRobustifier - Abstract the system by [password, vote, v.1.done, v.3.done]
+2024-09-16 22:49:14.475 [INFO] OASISRobustifier - Abstract the system by [password, vote, v.2.done, v.3.done]
+2024-09-16 22:49:14.831 [INFO] OASISRobustifier - Abstract the system by [password, back, confirm, v.1.done]
+2024-09-16 22:49:15.017 [INFO] OASISRobustifier - Abstract the system by [password, back, confirm, v.2.done]
+2024-09-16 22:49:15.201 [INFO] OASISRobustifier - Abstract the system by [password, back, confirm, v.3.done]
+2024-09-16 22:49:15.395 [INFO] OASISRobustifier - Abstract the system by [password, back, v.1.done, v.2.done]
+2024-09-16 22:49:15.580 [INFO] OASISRobustifier - Abstract the system by [password, back, v.1.done, v.3.done]
+2024-09-16 22:49:15.764 [INFO] OASISRobustifier - Abstract the system by [password, back, v.2.done, v.3.done]
+2024-09-16 22:49:15.944 [INFO] OASISRobustifier - Abstract the system by [password, confirm, v.1.done, v.2.done]
+2024-09-16 22:49:16.175 [INFO] OASISRobustifier - Abstract the system by [password, confirm, v.1.done, v.3.done]
+2024-09-16 22:49:16.406 [INFO] OASISRobustifier - Abstract the system by [password, confirm, v.2.done, v.3.done]
+2024-09-16 22:49:16.649 [INFO] OASISRobustifier - Abstract the system by [password, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:49:16.870 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, back]
+2024-09-16 22:49:17.077 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, confirm]
+2024-09-16 22:49:17.256 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, v.1.done]
+2024-09-16 22:49:17.439 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, v.2.done]
+2024-09-16 22:49:17.620 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, v.3.done]
+2024-09-16 22:49:17.808 [INFO] OASISRobustifier - Abstract the system by [select, reset, back, confirm]
+2024-09-16 22:49:18.175 [INFO] OASISRobustifier - Abstract the system by [select, reset, back, v.1.done]
+2024-09-16 22:49:18.408 [INFO] OASISRobustifier - Abstract the system by [select, reset, back, v.2.done]
+2024-09-16 22:49:18.650 [INFO] OASISRobustifier - Abstract the system by [select, reset, back, v.3.done]
+2024-09-16 22:49:18.894 [INFO] OASISRobustifier - Abstract the system by [select, reset, confirm, v.1.done]
+2024-09-16 22:49:19.299 [INFO] OASISRobustifier - Abstract the system by [select, reset, confirm, v.2.done]
+2024-09-16 22:49:19.690 [INFO] OASISRobustifier - Abstract the system by [select, reset, confirm, v.3.done]
+2024-09-16 22:49:20.084 [INFO] OASISRobustifier - Abstract the system by [select, reset, v.1.done, v.2.done]
+2024-09-16 22:49:20.419 [INFO] OASISRobustifier - Abstract the system by [select, reset, v.1.done, v.3.done]
+2024-09-16 22:49:20.772 [INFO] OASISRobustifier - Abstract the system by [select, reset, v.2.done, v.3.done]
+2024-09-16 22:49:21.103 [INFO] OASISRobustifier - Abstract the system by [select, vote, back, confirm]
+2024-09-16 22:49:21.441 [INFO] OASISRobustifier - Abstract the system by [select, vote, back, v.1.done]
+2024-09-16 22:49:21.789 [INFO] OASISRobustifier - Abstract the system by [select, vote, back, v.2.done]
+2024-09-16 22:49:22.149 [INFO] OASISRobustifier - Abstract the system by [select, vote, back, v.3.done]
+2024-09-16 22:49:22.496 [INFO] OASISRobustifier - Abstract the system by [select, vote, confirm, v.1.done]
+2024-09-16 22:49:22.735 [INFO] OASISRobustifier - Abstract the system by [select, vote, confirm, v.2.done]
+2024-09-16 22:49:22.971 [INFO] OASISRobustifier - Abstract the system by [select, vote, confirm, v.3.done]
+2024-09-16 22:49:23.203 [INFO] OASISRobustifier - Abstract the system by [select, vote, v.1.done, v.2.done]
+2024-09-16 22:49:23.435 [INFO] OASISRobustifier - Abstract the system by [select, vote, v.1.done, v.3.done]
+2024-09-16 22:49:23.686 [INFO] OASISRobustifier - Abstract the system by [select, vote, v.2.done, v.3.done]
+2024-09-16 22:49:23.926 [INFO] OASISRobustifier - Abstract the system by [select, back, confirm, v.1.done]
+2024-09-16 22:49:24.107 [INFO] OASISRobustifier - Abstract the system by [select, back, confirm, v.2.done]
+2024-09-16 22:49:24.285 [INFO] OASISRobustifier - Abstract the system by [select, back, confirm, v.3.done]
+2024-09-16 22:49:24.465 [INFO] OASISRobustifier - Abstract the system by [select, back, v.1.done, v.2.done]
+2024-09-16 22:49:24.641 [INFO] OASISRobustifier - Abstract the system by [select, back, v.1.done, v.3.done]
+2024-09-16 22:49:24.815 [INFO] OASISRobustifier - Abstract the system by [select, back, v.2.done, v.3.done]
+2024-09-16 22:49:25.001 [INFO] OASISRobustifier - Abstract the system by [select, confirm, v.1.done, v.2.done]
+2024-09-16 22:49:25.240 [INFO] OASISRobustifier - Abstract the system by [select, confirm, v.1.done, v.3.done]
+2024-09-16 22:49:25.465 [INFO] OASISRobustifier - Abstract the system by [select, confirm, v.2.done, v.3.done]
+2024-09-16 22:49:25.688 [INFO] OASISRobustifier - Abstract the system by [select, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:49:25.873 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back, confirm]
+2024-09-16 22:49:26.340 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back, v.1.done]
+2024-09-16 22:49:26.611 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back, v.2.done]
+2024-09-16 22:49:26.905 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back, v.3.done]
+2024-09-16 22:49:27.173 [INFO] OASISRobustifier - Abstract the system by [reset, vote, confirm, v.1.done]
+2024-09-16 22:49:27.651 [INFO] OASISRobustifier - Abstract the system by [reset, vote, confirm, v.2.done]
+2024-09-16 22:49:28.140 [INFO] OASISRobustifier - Abstract the system by [reset, vote, confirm, v.3.done]
+2024-09-16 22:49:28.632 [INFO] OASISRobustifier - Abstract the system by [reset, vote, v.1.done, v.2.done]
+2024-09-16 22:49:28.931 [INFO] OASISRobustifier - Abstract the system by [reset, vote, v.1.done, v.3.done]
+2024-09-16 22:49:29.235 [INFO] OASISRobustifier - Abstract the system by [reset, vote, v.2.done, v.3.done]
+2024-09-16 22:49:29.541 [INFO] OASISRobustifier - Abstract the system by [reset, back, confirm, v.1.done]
+2024-09-16 22:49:30.033 [INFO] OASISRobustifier - Abstract the system by [reset, back, confirm, v.2.done]
+2024-09-16 22:49:30.532 [INFO] OASISRobustifier - Abstract the system by [reset, back, confirm, v.3.done]
+2024-09-16 22:49:31.013 [INFO] OASISRobustifier - Abstract the system by [reset, back, v.1.done, v.2.done]
+2024-09-16 22:49:31.208 [INFO] OASISRobustifier - Abstract the system by [reset, back, v.1.done, v.3.done]
+2024-09-16 22:49:31.406 [INFO] OASISRobustifier - Abstract the system by [reset, back, v.2.done, v.3.done]
+2024-09-16 22:49:31.612 [INFO] OASISRobustifier - Abstract the system by [reset, confirm, v.1.done, v.2.done]
+2024-09-16 22:49:31.989 [INFO] OASISRobustifier - Abstract the system by [reset, confirm, v.1.done, v.3.done]
+2024-09-16 22:49:32.373 [INFO] OASISRobustifier - Abstract the system by [reset, confirm, v.2.done, v.3.done]
+2024-09-16 22:49:32.750 [INFO] OASISRobustifier - Abstract the system by [reset, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:49:32.948 [INFO] OASISRobustifier - Abstract the system by [vote, back, confirm, v.1.done]
+2024-09-16 22:49:33.415 [INFO] OASISRobustifier - Abstract the system by [vote, back, confirm, v.2.done]
+2024-09-16 22:49:33.864 [INFO] OASISRobustifier - Abstract the system by [vote, back, confirm, v.3.done]
+2024-09-16 22:49:34.309 [INFO] OASISRobustifier - Abstract the system by [vote, back, v.1.done, v.2.done]
+2024-09-16 22:49:34.576 [INFO] OASISRobustifier - Abstract the system by [vote, back, v.1.done, v.3.done]
+2024-09-16 22:49:34.832 [INFO] OASISRobustifier - Abstract the system by [vote, back, v.2.done, v.3.done]
+2024-09-16 22:49:35.085 [INFO] OASISRobustifier - Abstract the system by [vote, confirm, v.1.done, v.2.done]
+2024-09-16 22:49:35.590 [INFO] OASISRobustifier - Abstract the system by [vote, confirm, v.1.done, v.3.done]
+2024-09-16 22:49:36.106 [INFO] OASISRobustifier - Abstract the system by [vote, confirm, v.2.done, v.3.done]
+2024-09-16 22:49:36.608 [INFO] OASISRobustifier - Abstract the system by [vote, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:49:36.912 [INFO] OASISRobustifier - Abstract the system by [back, confirm, v.1.done, v.2.done]
+2024-09-16 22:49:37.311 [INFO] OASISRobustifier - Abstract the system by [back, confirm, v.1.done, v.3.done]
+2024-09-16 22:49:37.716 [INFO] OASISRobustifier - Abstract the system by [back, confirm, v.2.done, v.3.done]
+2024-09-16 22:49:38.098 [INFO] OASISRobustifier - Abstract the system by [back, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:49:38.282 [INFO] OASISRobustifier - Abstract the system by [confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:49:38.484 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, back]
+2024-09-16 22:49:38.680 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, confirm]
+2024-09-16 22:49:38.859 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, v.1.done]
+2024-09-16 22:49:39.228 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, v.2.done]
+2024-09-16 22:49:39.604 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, v.3.done]
+2024-09-16 22:49:39.983 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back, confirm]
+2024-09-16 22:49:40.277 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back, v.1.done]
+2024-09-16 22:49:40.808 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back, v.2.done]
+2024-09-16 22:49:41.311 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back, v.3.done]
+2024-09-16 22:49:41.818 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, confirm, v.1.done]
+2024-09-16 22:49:42.073 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, confirm, v.2.done]
+2024-09-16 22:49:42.322 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, confirm, v.3.done]
+2024-09-16 22:49:42.574 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, v.1.done, v.2.done]
+2024-09-16 22:49:43.035 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, v.1.done, v.3.done]
+2024-09-16 22:49:43.484 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, v.2.done, v.3.done]
+2024-09-16 22:49:43.937 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, back, confirm]
+2024-09-16 22:49:44.127 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, back, v.1.done]
+2024-09-16 22:49:44.493 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, back, v.2.done]
+2024-09-16 22:49:44.877 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, back, v.3.done]
+2024-09-16 22:49:45.249 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, confirm, v.1.done]
+2024-09-16 22:49:45.444 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, confirm, v.2.done]
+2024-09-16 22:49:45.638 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, confirm, v.3.done]
+2024-09-16 22:49:45.841 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, v.1.done, v.2.done]
+2024-09-16 22:49:46.317 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, v.1.done, v.3.done]
+2024-09-16 22:49:46.802 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, v.2.done, v.3.done]
+2024-09-16 22:49:47.291 [INFO] OASISRobustifier - Abstract the system by [password, select, back, confirm, v.1.done]
+2024-09-16 22:49:47.591 [INFO] OASISRobustifier - Abstract the system by [password, select, back, confirm, v.2.done]
+2024-09-16 22:49:47.906 [INFO] OASISRobustifier - Abstract the system by [password, select, back, confirm, v.3.done]
+2024-09-16 22:49:48.223 [INFO] OASISRobustifier - Abstract the system by [password, select, back, v.1.done, v.2.done]
+2024-09-16 22:49:48.692 [INFO] OASISRobustifier - Abstract the system by [password, select, back, v.1.done, v.3.done]
+2024-09-16 22:49:49.172 [INFO] OASISRobustifier - Abstract the system by [password, select, back, v.2.done, v.3.done]
+2024-09-16 22:49:49.697 [INFO] OASISRobustifier - Abstract the system by [password, select, confirm, v.1.done, v.2.done]
+2024-09-16 22:49:49.966 [INFO] OASISRobustifier - Abstract the system by [password, select, confirm, v.1.done, v.3.done]
+2024-09-16 22:49:50.251 [INFO] OASISRobustifier - Abstract the system by [password, select, confirm, v.2.done, v.3.done]
+2024-09-16 22:49:50.528 [INFO] OASISRobustifier - Abstract the system by [password, select, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:49:51.016 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, back, confirm]
+2024-09-16 22:49:51.198 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, back, v.1.done]
+2024-09-16 22:49:51.423 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, back, v.2.done]
+2024-09-16 22:49:51.651 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, back, v.3.done]
+2024-09-16 22:49:51.874 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, confirm, v.1.done]
+2024-09-16 22:49:52.043 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, confirm, v.2.done]
+2024-09-16 22:49:52.226 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, confirm, v.3.done]
+2024-09-16 22:49:52.399 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, v.1.done, v.2.done]
+2024-09-16 22:49:52.575 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, v.1.done, v.3.done]
+2024-09-16 22:49:52.765 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, v.2.done, v.3.done]
+2024-09-16 22:49:52.966 [INFO] OASISRobustifier - Abstract the system by [password, reset, back, confirm, v.1.done]
+2024-09-16 22:49:53.211 [INFO] OASISRobustifier - Abstract the system by [password, reset, back, confirm, v.2.done]
+2024-09-16 22:49:53.445 [INFO] OASISRobustifier - Abstract the system by [password, reset, back, confirm, v.3.done]
+2024-09-16 22:49:53.686 [INFO] OASISRobustifier - Abstract the system by [password, reset, back, v.1.done, v.2.done]
+2024-09-16 22:49:53.925 [INFO] OASISRobustifier - Abstract the system by [password, reset, back, v.1.done, v.3.done]
+2024-09-16 22:49:54.155 [INFO] OASISRobustifier - Abstract the system by [password, reset, back, v.2.done, v.3.done]
+2024-09-16 22:49:54.388 [INFO] OASISRobustifier - Abstract the system by [password, reset, confirm, v.1.done, v.2.done]
+2024-09-16 22:49:54.745 [INFO] OASISRobustifier - Abstract the system by [password, reset, confirm, v.1.done, v.3.done]
+2024-09-16 22:49:55.093 [INFO] OASISRobustifier - Abstract the system by [password, reset, confirm, v.2.done, v.3.done]
+2024-09-16 22:49:55.436 [INFO] OASISRobustifier - Abstract the system by [password, reset, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:49:55.779 [INFO] OASISRobustifier - Abstract the system by [password, vote, back, confirm, v.1.done]
+2024-09-16 22:49:56.120 [INFO] OASISRobustifier - Abstract the system by [password, vote, back, confirm, v.2.done]
+2024-09-16 22:49:56.451 [INFO] OASISRobustifier - Abstract the system by [password, vote, back, confirm, v.3.done]
+2024-09-16 22:49:56.783 [INFO] OASISRobustifier - Abstract the system by [password, vote, back, v.1.done, v.2.done]
+2024-09-16 22:49:57.179 [INFO] OASISRobustifier - Abstract the system by [password, vote, back, v.1.done, v.3.done]
+2024-09-16 22:49:57.564 [INFO] OASISRobustifier - Abstract the system by [password, vote, back, v.2.done, v.3.done]
+2024-09-16 22:49:57.979 [INFO] OASISRobustifier - Abstract the system by [password, vote, confirm, v.1.done, v.2.done]
+2024-09-16 22:49:58.230 [INFO] OASISRobustifier - Abstract the system by [password, vote, confirm, v.1.done, v.3.done]
+2024-09-16 22:49:58.470 [INFO] OASISRobustifier - Abstract the system by [password, vote, confirm, v.2.done, v.3.done]
+2024-09-16 22:49:58.716 [INFO] OASISRobustifier - Abstract the system by [password, vote, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:49:59.061 [INFO] OASISRobustifier - Abstract the system by [password, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:49:59.254 [INFO] OASISRobustifier - Abstract the system by [password, back, confirm, v.1.done, v.3.done]
+2024-09-16 22:49:59.439 [INFO] OASISRobustifier - Abstract the system by [password, back, confirm, v.2.done, v.3.done]
+2024-09-16 22:49:59.622 [INFO] OASISRobustifier - Abstract the system by [password, back, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:49:59.798 [INFO] OASISRobustifier - Abstract the system by [password, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:00.006 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, back, confirm]
+2024-09-16 22:50:00.237 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, back, v.1.done]
+2024-09-16 22:50:00.476 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, back, v.2.done]
+2024-09-16 22:50:00.711 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, back, v.3.done]
+2024-09-16 22:50:00.949 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, confirm, v.1.done]
+2024-09-16 22:50:01.136 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, confirm, v.2.done]
+2024-09-16 22:50:01.330 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, confirm, v.3.done]
+2024-09-16 22:50:01.514 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, v.1.done, v.2.done]
+2024-09-16 22:50:01.701 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, v.1.done, v.3.done]
+2024-09-16 22:50:01.894 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, v.2.done, v.3.done]
+2024-09-16 22:50:02.084 [INFO] OASISRobustifier - Abstract the system by [select, reset, back, confirm, v.1.done]
+2024-09-16 22:50:02.448 [INFO] OASISRobustifier - Abstract the system by [select, reset, back, confirm, v.2.done]
+2024-09-16 22:50:02.891 [INFO] OASISRobustifier - Abstract the system by [select, reset, back, confirm, v.3.done]
+2024-09-16 22:50:03.279 [INFO] OASISRobustifier - Abstract the system by [select, reset, back, v.1.done, v.2.done]
+2024-09-16 22:50:03.529 [INFO] OASISRobustifier - Abstract the system by [select, reset, back, v.1.done, v.3.done]
+2024-09-16 22:50:03.788 [INFO] OASISRobustifier - Abstract the system by [select, reset, back, v.2.done, v.3.done]
+2024-09-16 22:50:04.031 [INFO] OASISRobustifier - Abstract the system by [select, reset, confirm, v.1.done, v.2.done]
+2024-09-16 22:50:04.442 [INFO] OASISRobustifier - Abstract the system by [select, reset, confirm, v.1.done, v.3.done]
+2024-09-16 22:50:04.848 [INFO] OASISRobustifier - Abstract the system by [select, reset, confirm, v.2.done, v.3.done]
+2024-09-16 22:50:05.259 [INFO] OASISRobustifier - Abstract the system by [select, reset, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:05.627 [INFO] OASISRobustifier - Abstract the system by [select, vote, back, confirm, v.1.done]
+2024-09-16 22:50:06.089 [INFO] OASISRobustifier - Abstract the system by [select, vote, back, confirm, v.2.done]
+2024-09-16 22:50:06.471 [INFO] OASISRobustifier - Abstract the system by [select, vote, back, confirm, v.3.done]
+2024-09-16 22:50:06.817 [INFO] OASISRobustifier - Abstract the system by [select, vote, back, v.1.done, v.2.done]
+2024-09-16 22:50:07.161 [INFO] OASISRobustifier - Abstract the system by [select, vote, back, v.1.done, v.3.done]
+2024-09-16 22:50:07.541 [INFO] OASISRobustifier - Abstract the system by [select, vote, back, v.2.done, v.3.done]
+2024-09-16 22:50:07.893 [INFO] OASISRobustifier - Abstract the system by [select, vote, confirm, v.1.done, v.2.done]
+2024-09-16 22:50:08.143 [INFO] OASISRobustifier - Abstract the system by [select, vote, confirm, v.1.done, v.3.done]
+2024-09-16 22:50:08.397 [INFO] OASISRobustifier - Abstract the system by [select, vote, confirm, v.2.done, v.3.done]
+2024-09-16 22:50:08.648 [INFO] OASISRobustifier - Abstract the system by [select, vote, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:08.880 [INFO] OASISRobustifier - Abstract the system by [select, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:50:09.063 [INFO] OASISRobustifier - Abstract the system by [select, back, confirm, v.1.done, v.3.done]
+2024-09-16 22:50:09.255 [INFO] OASISRobustifier - Abstract the system by [select, back, confirm, v.2.done, v.3.done]
+2024-09-16 22:50:09.441 [INFO] OASISRobustifier - Abstract the system by [select, back, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:09.620 [INFO] OASISRobustifier - Abstract the system by [select, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:09.853 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back, confirm, v.1.done]
+2024-09-16 22:50:10.375 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back, confirm, v.2.done]
+2024-09-16 22:50:10.843 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back, confirm, v.3.done]
+2024-09-16 22:50:11.301 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back, v.1.done, v.2.done]
+2024-09-16 22:50:11.580 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back, v.1.done, v.3.done]
+2024-09-16 22:50:11.863 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back, v.2.done, v.3.done]
+2024-09-16 22:50:12.142 [INFO] OASISRobustifier - Abstract the system by [reset, vote, confirm, v.1.done, v.2.done]
+2024-09-16 22:50:12.611 [INFO] OASISRobustifier - Abstract the system by [reset, vote, confirm, v.1.done, v.3.done]
+2024-09-16 22:50:13.119 [INFO] OASISRobustifier - Abstract the system by [reset, vote, confirm, v.2.done, v.3.done]
+2024-09-16 22:50:13.617 [INFO] OASISRobustifier - Abstract the system by [reset, vote, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:13.956 [INFO] OASISRobustifier - Abstract the system by [reset, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:50:14.497 [INFO] OASISRobustifier - Abstract the system by [reset, back, confirm, v.1.done, v.3.done]
+2024-09-16 22:50:15.032 [INFO] OASISRobustifier - Abstract the system by [reset, back, confirm, v.2.done, v.3.done]
+2024-09-16 22:50:15.566 [INFO] OASISRobustifier - Abstract the system by [reset, back, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:15.879 [INFO] OASISRobustifier - Abstract the system by [reset, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:16.155 [INFO] OASISRobustifier - Abstract the system by [vote, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:50:16.651 [INFO] OASISRobustifier - Abstract the system by [vote, back, confirm, v.1.done, v.3.done]
+2024-09-16 22:50:17.143 [INFO] OASISRobustifier - Abstract the system by [vote, back, confirm, v.2.done, v.3.done]
+2024-09-16 22:50:17.615 [INFO] OASISRobustifier - Abstract the system by [vote, back, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:17.887 [INFO] OASISRobustifier - Abstract the system by [vote, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:18.305 [INFO] OASISRobustifier - Abstract the system by [back, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:18.542 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, back, confirm]
+2024-09-16 22:50:18.678 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, back, v.1.done]
+2024-09-16 22:50:19.006 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, back, v.2.done]
+2024-09-16 22:50:19.323 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, back, v.3.done]
+2024-09-16 22:50:19.655 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, confirm, v.1.done]
+2024-09-16 22:50:19.847 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, confirm, v.2.done]
+2024-09-16 22:50:20.027 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, confirm, v.3.done]
+2024-09-16 22:50:20.208 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, v.1.done, v.2.done]
+2024-09-16 22:50:20.581 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, v.1.done, v.3.done]
+2024-09-16 22:50:20.948 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, v.2.done, v.3.done]
+2024-09-16 22:50:21.325 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back, confirm, v.1.done]
+2024-09-16 22:50:21.629 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back, confirm, v.2.done]
+2024-09-16 22:50:21.936 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back, confirm, v.3.done]
+2024-09-16 22:50:22.249 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back, v.1.done, v.2.done]
+2024-09-16 22:50:22.728 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back, v.1.done, v.3.done]
+2024-09-16 22:50:23.239 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back, v.2.done, v.3.done]
+2024-09-16 22:50:23.728 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, confirm, v.1.done, v.2.done]
+2024-09-16 22:50:23.989 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, confirm, v.1.done, v.3.done]
+2024-09-16 22:50:24.250 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, confirm, v.2.done, v.3.done]
+2024-09-16 22:50:24.524 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:24.979 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, back, confirm, v.1.done]
+2024-09-16 22:50:25.184 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, back, confirm, v.2.done]
+2024-09-16 22:50:25.388 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, back, confirm, v.3.done]
+2024-09-16 22:50:25.593 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, back, v.1.done, v.2.done]
+2024-09-16 22:50:26.003 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, back, v.1.done, v.3.done]
+2024-09-16 22:50:26.396 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, back, v.2.done, v.3.done]
+2024-09-16 22:50:26.782 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, confirm, v.1.done, v.2.done]
+2024-09-16 22:50:26.995 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, confirm, v.1.done, v.3.done]
+2024-09-16 22:50:27.201 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, confirm, v.2.done, v.3.done]
+2024-09-16 22:50:27.405 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:27.927 [INFO] OASISRobustifier - Abstract the system by [password, select, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:50:28.250 [INFO] OASISRobustifier - Abstract the system by [password, select, back, confirm, v.1.done, v.3.done]
+2024-09-16 22:50:28.573 [INFO] OASISRobustifier - Abstract the system by [password, select, back, confirm, v.2.done, v.3.done]
+2024-09-16 22:50:28.887 [INFO] OASISRobustifier - Abstract the system by [password, select, back, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:29.395 [INFO] OASISRobustifier - Abstract the system by [password, select, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:29.686 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, back, confirm, v.1.done]
+2024-09-16 22:50:29.888 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, back, confirm, v.2.done]
+2024-09-16 22:50:30.079 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, back, confirm, v.3.done]
+2024-09-16 22:50:30.267 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, back, v.1.done, v.2.done]
+2024-09-16 22:50:30.492 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, back, v.1.done, v.3.done]
+2024-09-16 22:50:30.717 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, back, v.2.done, v.3.done]
+2024-09-16 22:50:31.013 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, confirm, v.1.done, v.2.done]
+2024-09-16 22:50:31.229 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, confirm, v.1.done, v.3.done]
+2024-09-16 22:50:31.435 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, confirm, v.2.done, v.3.done]
+2024-09-16 22:50:31.608 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:31.773 [INFO] OASISRobustifier - Abstract the system by [password, reset, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:50:32.018 [INFO] OASISRobustifier - Abstract the system by [password, reset, back, confirm, v.1.done, v.3.done]
+2024-09-16 22:50:32.243 [INFO] OASISRobustifier - Abstract the system by [password, reset, back, confirm, v.2.done, v.3.done]
+2024-09-16 22:50:32.477 [INFO] OASISRobustifier - Abstract the system by [password, reset, back, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:32.729 [INFO] OASISRobustifier - Abstract the system by [password, reset, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:33.069 [INFO] OASISRobustifier - Abstract the system by [password, vote, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:50:33.414 [INFO] OASISRobustifier - Abstract the system by [password, vote, back, confirm, v.1.done, v.3.done]
+2024-09-16 22:50:33.765 [INFO] OASISRobustifier - Abstract the system by [password, vote, back, confirm, v.2.done, v.3.done]
+2024-09-16 22:50:34.117 [INFO] OASISRobustifier - Abstract the system by [password, vote, back, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:34.527 [INFO] OASISRobustifier - Abstract the system by [password, vote, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:34.762 [INFO] OASISRobustifier - Abstract the system by [password, back, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:34.936 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, back, confirm, v.1.done]
+2024-09-16 22:50:35.147 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, back, confirm, v.2.done]
+2024-09-16 22:50:35.362 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, back, confirm, v.3.done]
+2024-09-16 22:50:35.575 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, back, v.1.done, v.2.done]
+2024-09-16 22:50:35.799 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, back, v.1.done, v.3.done]
+2024-09-16 22:50:36.025 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, back, v.2.done, v.3.done]
+2024-09-16 22:50:36.255 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, confirm, v.1.done, v.2.done]
+2024-09-16 22:50:36.437 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, confirm, v.1.done, v.3.done]
+2024-09-16 22:50:36.615 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, confirm, v.2.done, v.3.done]
+2024-09-16 22:50:36.794 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:36.973 [INFO] OASISRobustifier - Abstract the system by [select, reset, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:50:37.330 [INFO] OASISRobustifier - Abstract the system by [select, reset, back, confirm, v.1.done, v.3.done]
+2024-09-16 22:50:37.680 [INFO] OASISRobustifier - Abstract the system by [select, reset, back, confirm, v.2.done, v.3.done]
+2024-09-16 22:50:38.044 [INFO] OASISRobustifier - Abstract the system by [select, reset, back, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:38.371 [INFO] OASISRobustifier - Abstract the system by [select, reset, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:38.789 [INFO] OASISRobustifier - Abstract the system by [select, vote, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:50:39.177 [INFO] OASISRobustifier - Abstract the system by [select, vote, back, confirm, v.1.done, v.3.done]
+2024-09-16 22:50:39.562 [INFO] OASISRobustifier - Abstract the system by [select, vote, back, confirm, v.2.done, v.3.done]
+2024-09-16 22:50:39.952 [INFO] OASISRobustifier - Abstract the system by [select, vote, back, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:40.309 [INFO] OASISRobustifier - Abstract the system by [select, vote, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:40.568 [INFO] OASISRobustifier - Abstract the system by [select, back, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:40.756 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:50:41.230 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back, confirm, v.1.done, v.3.done]
+2024-09-16 22:50:41.710 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back, confirm, v.2.done, v.3.done]
+2024-09-16 22:50:42.219 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:42.633 [INFO] OASISRobustifier - Abstract the system by [reset, vote, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:43.039 [INFO] OASISRobustifier - Abstract the system by [reset, back, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:43.451 [INFO] OASISRobustifier - Abstract the system by [vote, back, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:43.820 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, back, confirm, v.1.done]
+2024-09-16 22:50:43.955 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, back, confirm, v.2.done]
+2024-09-16 22:50:44.099 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, back, confirm, v.3.done]
+2024-09-16 22:50:44.239 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, back, v.1.done, v.2.done]
+2024-09-16 22:50:44.521 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, back, v.1.done, v.3.done]
+2024-09-16 22:50:44.805 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, back, v.2.done, v.3.done]
+2024-09-16 22:50:45.082 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, confirm, v.1.done, v.2.done]
+2024-09-16 22:50:45.269 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, confirm, v.1.done, v.3.done]
+2024-09-16 22:50:45.458 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, confirm, v.2.done, v.3.done]
+2024-09-16 22:50:45.650 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:46.019 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:50:46.329 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back, confirm, v.1.done, v.3.done]
+2024-09-16 22:50:46.646 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back, confirm, v.2.done, v.3.done]
+2024-09-16 22:50:46.959 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:47.349 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:47.622 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:50:47.833 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, back, confirm, v.1.done, v.3.done]
+2024-09-16 22:50:48.039 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, back, confirm, v.2.done, v.3.done]
+2024-09-16 22:50:48.248 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, back, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:48.668 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:48.885 [INFO] OASISRobustifier - Abstract the system by [password, select, back, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:49.210 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:50:49.399 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, back, confirm, v.1.done, v.3.done]
+2024-09-16 22:50:49.596 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, back, confirm, v.2.done, v.3.done]
+2024-09-16 22:50:49.797 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, back, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:50.008 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:50.157 [INFO] OASISRobustifier - Abstract the system by [password, reset, back, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:50.394 [INFO] OASISRobustifier - Abstract the system by [password, vote, back, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:50.776 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:50:50.992 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, back, confirm, v.1.done, v.3.done]
+2024-09-16 22:50:51.215 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, back, confirm, v.2.done, v.3.done]
+2024-09-16 22:50:51.428 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, back, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:51.646 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:51.848 [INFO] OASISRobustifier - Abstract the system by [select, reset, back, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:52.207 [INFO] OASISRobustifier - Abstract the system by [select, vote, back, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:52.572 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:52.994 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, back, confirm, v.1.done, v.2.done]
+2024-09-16 22:50:53.149 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, back, confirm, v.1.done, v.3.done]
+2024-09-16 22:50:53.292 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, back, confirm, v.2.done, v.3.done]
+2024-09-16 22:50:53.440 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, back, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:53.635 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:53.834 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:54.160 [INFO] OASISRobustifier - Abstract the system by [password, select, vote, back, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:54.374 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote, back, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:54.556 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote, back, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:54.764 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote, back, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:54.921 [INFO] OASISRobustifier - Termination time: 00:02:32:603
+2024-09-16 22:50:54.922 [INFO] Robustify - Total number of controller synthesis invoked: 512
+2024-09-16 22:50:54.922 [WARN] Robustify - Failed to find a solution.
+2024-09-16 22:50:54.922 [INFO] Robustify - Robustification completes, total time: 00:02:32:846
+
+run with simple search...
+2024-09-16 22:50:56.203 [INFO] SimpleRobustifier - Number of controllable events: 9
+2024-09-16 22:50:56.204 [INFO] SimpleRobustifier - Controllable: [password, select, reset, vote, back, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:56.204 [INFO] SimpleRobustifier - Number of observable events: 9
+2024-09-16 22:50:56.204 [INFO] SimpleRobustifier - Observable: [password, select, reset, vote, back, confirm, v.1.done, v.2.done, v.3.done]
+2024-09-16 22:50:56.931 [INFO] SimpleRobustifier - No solution found!
+2024-09-16 22:50:56.932 [INFO] SimpleRobustifier - Termination time: 00:00:00:727
+2024-09-16 22:50:56.932 [INFO] Robustify - Total number of controller synthesis invoked: 1
+2024-09-16 22:50:56.932 [WARN] Robustify - Failed to find a solution.
+2024-09-16 22:50:56.934 [INFO] Robustify - Robustification completes, total time: 00:00:00:973
+
+
+run voting-4...
+
+run with pareto search...
+2024-09-16 22:50:58.401 [INFO] SupervisoryRobustifier - Number of states of the system: 6
+2024-09-16 22:50:58.403 [INFO] SupervisoryRobustifier - Number of states of the environment: 26
+2024-09-16 22:50:58.403 [INFO] SupervisoryRobustifier - Number of states of the plant (S || E): 61
+2024-09-16 22:50:58.404 [INFO] SupervisoryRobustifier - Number of transitions of the plant: 152
+2024-09-16 22:50:58.405 [INFO] SolutionIterator - ==============================>
+2024-09-16 22:50:58.405 [INFO] SolutionIterator - Initializing search by using Pareto search...
+2024-09-16 22:50:58.405 [INFO] SolutionIterator - Number of preferred behaviors: 3
+2024-09-16 22:50:58.406 [INFO] SolutionIterator - Number of controllable events with cost: 26
+2024-09-16 22:50:58.406 [INFO] SolutionIterator - Number of observable events with cost: 16
+2024-09-16 22:51:00.136 [INFO] SolutionIterator - Maximum fulfilled preferred behavior:
+2024-09-16 22:51:00.136 [INFO] SolutionIterator - 	select,vote,confirm
+2024-09-16 22:51:00.136 [INFO] SolutionIterator - 	select,back,select,vote,confirm
+2024-09-16 22:51:00.136 [INFO] SolutionIterator - 	select,vote,back,back,select,vote,confirm
+2024-09-16 22:51:01.612 [INFO] SolutionIterator - Initialization completes, time: 00:00:03:207
+2024-09-16 22:51:01.612 [INFO] SolutionIterator - Start search from events:
+2024-09-16 22:51:01.612 [INFO] SolutionIterator - Controllable: [back, confirm, password, reset, select, v.1.done, v.2.done, v.3.done, v.4.done, vote]
+2024-09-16 22:51:01.612 [INFO] SolutionIterator - Observable: [back, confirm, eo.1.enter, eo.1.exit, eo.2.enter, eo.2.exit, eo.3.enter, eo.3.exit, eo.4.enter, eo.4.exit, password, reset, select, v.1.done, v.1.enter, v.1.exit, v.2.done, v.2.enter, v.2.exit, v.3.done, v.3.enter, v.3.exit, v.4.done, v.4.enter, v.4.exit, vote]
+2024-09-16 22:51:01.613 [INFO] SolutionIterator - ==============================>
+2024-09-16 22:51:01.613 [INFO] SolutionIterator - Start iteration 1...
+2024-09-16 22:51:01.613 [INFO] SolutionIterator - Try to weaken the preferred behavior by one of the 0 behavior sets:
+
+run with pareto-non-opt search...
+2024-09-16 23:00:58.927 [INFO] SupervisoryRobustifier - Number of states of the system: 6
+2024-09-16 23:00:58.929 [INFO] SupervisoryRobustifier - Number of states of the environment: 26
+2024-09-16 23:00:58.929 [INFO] SupervisoryRobustifier - Number of states of the plant (S || E): 61
+2024-09-16 23:00:58.929 [INFO] SupervisoryRobustifier - Number of transitions of the plant: 152
+2024-09-16 23:00:58.931 [INFO] SolutionIterator - ==============================>
+2024-09-16 23:00:58.931 [INFO] SolutionIterator - Initializing search by using Pareto search...
+2024-09-16 23:00:58.931 [INFO] SolutionIterator - Number of preferred behaviors: 3
+2024-09-16 23:00:58.931 [INFO] SolutionIterator - Number of controllable events with cost: 26
+2024-09-16 23:00:58.931 [INFO] SolutionIterator - Number of observable events with cost: 16
+2024-09-16 23:01:00.645 [INFO] SolutionIterator - Maximum fulfilled preferred behavior:
+2024-09-16 23:01:00.645 [INFO] SolutionIterator - 	select,vote,confirm
+2024-09-16 23:01:00.645 [INFO] SolutionIterator - 	select,back,select,vote,confirm
+2024-09-16 23:01:00.645 [INFO] SolutionIterator - 	select,vote,back,back,select,vote,confirm
+2024-09-16 23:01:00.646 [INFO] SolutionIterator - Initialization completes, time: 00:00:01:714
+2024-09-16 23:01:00.646 [INFO] SolutionIterator - Start search from events:
+2024-09-16 23:01:00.646 [INFO] SolutionIterator - Controllable: [back, confirm, eo.1.enter, eo.1.exit, eo.2.enter, eo.2.exit, eo.3.enter, eo.3.exit, eo.4.enter, eo.4.exit, password, reset, select, v.1.done, v.1.enter, v.1.exit, v.2.done, v.2.enter, v.2.exit, v.3.done, v.3.enter, v.3.exit, v.4.done, v.4.enter, v.4.exit, vote]
+2024-09-16 23:01:00.646 [INFO] SolutionIterator - Observable: [back, confirm, eo.1.enter, eo.1.exit, eo.2.enter, eo.2.exit, eo.3.enter, eo.3.exit, eo.4.enter, eo.4.exit, password, reset, select, v.1.done, v.1.enter, v.1.exit, v.2.done, v.2.enter, v.2.exit, v.3.done, v.3.enter, v.3.exit, v.4.done, v.4.enter, v.4.exit, vote]
+2024-09-16 23:01:00.646 [INFO] SolutionIterator - ==============================>
+2024-09-16 23:01:00.646 [INFO] SolutionIterator - Start iteration 1...
+2024-09-16 23:01:00.646 [INFO] SolutionIterator - Try to weaken the preferred behavior by one of the 0 behavior sets:
+
+run with fast search...
+2024-09-16 23:10:59.473 [INFO] SupervisoryRobustifier - Number of states of the system: 6
+2024-09-16 23:10:59.474 [INFO] SupervisoryRobustifier - Number of states of the environment: 26
+2024-09-16 23:10:59.474 [INFO] SupervisoryRobustifier - Number of states of the plant (S || E): 61
+2024-09-16 23:10:59.475 [INFO] SupervisoryRobustifier - Number of transitions of the plant: 152
+2024-09-16 23:10:59.476 [INFO] SolutionIterator - ==============================>
+2024-09-16 23:10:59.476 [INFO] SolutionIterator - Initializing search by using Fast search...
+2024-09-16 23:10:59.476 [INFO] SolutionIterator - Number of preferred behaviors: 3
+2024-09-16 23:10:59.477 [INFO] SolutionIterator - Number of controllable events with cost: 26
+2024-09-16 23:10:59.477 [INFO] SolutionIterator - Number of observable events with cost: 16
+2024-09-16 23:11:01.191 [INFO] SolutionIterator - Maximum fulfilled preferred behavior:
+2024-09-16 23:11:01.191 [INFO] SolutionIterator - 	select,vote,confirm
+2024-09-16 23:11:01.191 [INFO] SolutionIterator - 	select,back,select,vote,confirm
+2024-09-16 23:11:01.192 [INFO] SolutionIterator - 	select,vote,back,back,select,vote,confirm
+2024-09-16 23:11:02.580 [INFO] SolutionIterator - Initialization completes, time: 00:00:03:103
+2024-09-16 23:11:02.580 [INFO] SolutionIterator - Start search from events:
+2024-09-16 23:11:02.580 [INFO] SolutionIterator - Controllable: [back, confirm, password, reset, select, v.1.done, v.2.done, v.3.done, v.4.done, vote]
+2024-09-16 23:11:02.580 [INFO] SolutionIterator - Observable: [back, confirm, eo.1.enter, eo.1.exit, eo.2.enter, eo.2.exit, eo.3.enter, eo.3.exit, eo.4.enter, eo.4.exit, password, reset, select, v.1.done, v.1.enter, v.1.exit, v.2.done, v.2.enter, v.2.exit, v.3.done, v.3.enter, v.3.exit, v.4.done, v.4.enter, v.4.exit, vote]
+2024-09-16 23:11:02.580 [INFO] SolutionIterator - ==============================>
+2024-09-16 23:11:02.580 [INFO] SolutionIterator - Start iteration 1...
+2024-09-16 23:11:02.580 [INFO] SolutionIterator - Try to weaken the preferred behavior by one of the 0 behavior sets:
+2024-09-16 23:12:34.393 [INFO] SolutionIterator - This iteration completes, time: 00:01:31:813
+2024-09-16 23:12:34.393 [INFO] SolutionIterator - Number of controller synthesis process invoked: 26
+2024-09-16 23:12:34.393 [INFO] SolutionIterator - New solution found:
+2024-09-16 23:12:34.433 [INFO] SolutionIterator - 	Size of the controller: 9793 states and 56789 transitions
+2024-09-16 23:12:34.433 [INFO] SolutionIterator - 	Number of controllable events: 1
+2024-09-16 23:12:34.433 [INFO] SolutionIterator - 	Controllable: [confirm]
+2024-09-16 23:12:34.433 [INFO] SolutionIterator - 	Number of observable events: 14
+2024-09-16 23:12:34.433 [INFO] SolutionIterator - 	Observable: [back, confirm, password, reset, select, v.1.done, v.1.exit, v.2.done, v.2.exit, v.3.done, v.3.exit, v.4.done, v.4.exit, vote]
+2024-09-16 23:12:34.433 [INFO] SolutionIterator - 	Number of preferred behavior: 3
+2024-09-16 23:12:34.433 [INFO] SolutionIterator - 	Preferred Behavior:
+2024-09-16 23:12:34.433 [INFO] SolutionIterator - 		select,vote,confirm
+2024-09-16 23:12:34.433 [INFO] SolutionIterator - 		select,back,select,vote,confirm
+2024-09-16 23:12:34.433 [INFO] SolutionIterator - 		select,vote,back,back,select,vote,confirm
+2024-09-16 23:12:34.433 [INFO] SolutionIterator - Utility Preferred Behavior: 407
+2024-09-16 23:12:34.433 [INFO] SolutionIterator - Utility Cost: -45
+2024-09-16 23:12:34.434 [INFO] Robustify - Total number of controller synthesis invoked: 27
+2024-09-16 23:12:34.434 [INFO] Robustify - Total number of solutions: 1
+2024-09-16 23:12:34.530 [INFO] Robustify - Robustification completes, total time: 00:01:35:488
+
+run with oasis search...
+2024-09-16 23:12:36.166 [INFO] OASISRobustifier - Number of controllable events: 10
+2024-09-16 23:12:36.168 [INFO] OASISRobustifier - Controllable: [password, select, reset, vote, back, confirm, v.1.done, v.2.done, v.3.done, v.4.done]
+2024-09-16 23:12:36.168 [INFO] OASISRobustifier - Number of observable events: 10
+2024-09-16 23:12:36.168 [INFO] OASISRobustifier - Observable: [password, select, reset, vote, back, confirm, v.1.done, v.2.done, v.3.done, v.4.done]
+2024-09-16 23:12:36.170 [INFO] OASISRobustifier - Abstract the system by []
+2024-09-16 23:12:38.728 [INFO] OASISRobustifier - Abstract the system by [password]
+2024-09-16 23:12:41.336 [INFO] OASISRobustifier - Abstract the system by [select]
+2024-09-16 23:12:43.256 [INFO] OASISRobustifier - Abstract the system by [reset]
+2024-09-16 23:12:47.172 [INFO] OASISRobustifier - Abstract the system by [vote]
+2024-09-16 23:12:51.779 [INFO] OASISRobustifier - Abstract the system by [back]
+2024-09-16 23:12:54.368 [INFO] OASISRobustifier - Abstract the system by [confirm]
+2024-09-16 23:12:56.717 [INFO] OASISRobustifier - Abstract the system by [v.1.done]
+2024-09-16 23:12:58.606 [INFO] OASISRobustifier - Abstract the system by [v.2.done]
+2024-09-16 23:13:00.455 [INFO] OASISRobustifier - Abstract the system by [v.3.done]
+2024-09-16 23:13:02.267 [INFO] OASISRobustifier - Abstract the system by [v.4.done]
+2024-09-16 23:13:04.066 [INFO] OASISRobustifier - Abstract the system by [password, select]
+2024-09-16 23:13:09.175 [INFO] OASISRobustifier - Abstract the system by [password, reset]
+2024-09-16 23:13:13.617 [INFO] OASISRobustifier - Abstract the system by [password, vote]
+2024-09-16 23:13:17.787 [INFO] OASISRobustifier - Abstract the system by [password, back]
+2024-09-16 23:13:19.870 [INFO] OASISRobustifier - Abstract the system by [password, confirm]
+2024-09-16 23:13:22.494 [INFO] OASISRobustifier - Abstract the system by [password, v.1.done]
+2024-09-16 23:13:25.024 [INFO] OASISRobustifier - Abstract the system by [password, v.2.done]
+2024-09-16 23:13:27.482 [INFO] OASISRobustifier - Abstract the system by [password, v.3.done]
+2024-09-16 23:13:29.951 [INFO] OASISRobustifier - Abstract the system by [password, v.4.done]
+2024-09-16 23:13:32.451 [INFO] OASISRobustifier - Abstract the system by [select, reset]
+2024-09-16 23:13:37.126 [INFO] OASISRobustifier - Abstract the system by [select, vote]
+2024-09-16 23:13:40.228 [INFO] OASISRobustifier - Abstract the system by [select, back]
+2024-09-16 23:13:42.009 [INFO] OASISRobustifier - Abstract the system by [select, confirm]
+2024-09-16 23:13:44.613 [INFO] OASISRobustifier - Abstract the system by [select, v.1.done]
+2024-09-16 23:13:47.118 [INFO] OASISRobustifier - Abstract the system by [select, v.2.done]
+2024-09-16 23:13:49.604 [INFO] OASISRobustifier - Abstract the system by [select, v.3.done]
+2024-09-16 23:13:52.042 [INFO] OASISRobustifier - Abstract the system by [select, v.4.done]
+2024-09-16 23:13:54.492 [INFO] OASISRobustifier - Abstract the system by [reset, vote]
+2024-09-16 23:13:58.554 [INFO] OASISRobustifier - Abstract the system by [reset, back]
+2024-09-16 23:14:01.585 [INFO] OASISRobustifier - Abstract the system by [reset, confirm]
+2024-09-16 23:14:06.313 [INFO] OASISRobustifier - Abstract the system by [reset, v.1.done]
+2024-09-16 23:14:09.294 [INFO] OASISRobustifier - Abstract the system by [reset, v.2.done]
+2024-09-16 23:14:12.311 [INFO] OASISRobustifier - Abstract the system by [reset, v.3.done]
+2024-09-16 23:14:15.367 [INFO] OASISRobustifier - Abstract the system by [reset, v.4.done]
+2024-09-16 23:14:18.302 [INFO] OASISRobustifier - Abstract the system by [vote, back]
+2024-09-16 23:14:21.923 [INFO] OASISRobustifier - Abstract the system by [vote, confirm]
+2024-09-16 23:14:26.559 [INFO] OASISRobustifier - Abstract the system by [vote, v.1.done]
+2024-09-16 23:14:30.545 [INFO] OASISRobustifier - Abstract the system by [vote, v.2.done]
+2024-09-16 23:14:34.782 [INFO] OASISRobustifier - Abstract the system by [vote, v.3.done]
+2024-09-16 23:14:38.347 [INFO] OASISRobustifier - Abstract the system by [vote, v.4.done]
+2024-09-16 23:14:41.370 [INFO] OASISRobustifier - Abstract the system by [back, confirm]
+2024-09-16 23:14:44.723 [INFO] OASISRobustifier - Abstract the system by [back, v.1.done]
+2024-09-16 23:14:46.303 [INFO] OASISRobustifier - Abstract the system by [back, v.2.done]
+2024-09-16 23:14:47.910 [INFO] OASISRobustifier - Abstract the system by [back, v.3.done]
+2024-09-16 23:14:49.491 [INFO] OASISRobustifier - Abstract the system by [back, v.4.done]
+2024-09-16 23:14:51.043 [INFO] OASISRobustifier - Abstract the system by [confirm, v.1.done]
+2024-09-16 23:14:53.459 [INFO] OASISRobustifier - Abstract the system by [confirm, v.2.done]
+2024-09-16 23:14:56.266 [INFO] OASISRobustifier - Abstract the system by [confirm, v.3.done]
+2024-09-16 23:14:59.457 [INFO] OASISRobustifier - Abstract the system by [confirm, v.4.done]
+2024-09-16 23:15:02.593 [INFO] OASISRobustifier - Abstract the system by [v.1.done, v.2.done]
+2024-09-16 23:15:04.317 [INFO] OASISRobustifier - Abstract the system by [v.1.done, v.3.done]
+2024-09-16 23:15:06.086 [INFO] OASISRobustifier - Abstract the system by [v.1.done, v.4.done]
+2024-09-16 23:15:07.845 [INFO] OASISRobustifier - Abstract the system by [v.2.done, v.3.done]
+2024-09-16 23:15:09.591 [INFO] OASISRobustifier - Abstract the system by [v.2.done, v.4.done]
+2024-09-16 23:15:11.337 [INFO] OASISRobustifier - Abstract the system by [v.3.done, v.4.done]
+2024-09-16 23:15:13.074 [INFO] OASISRobustifier - Abstract the system by [password, select, reset]
+2024-09-16 23:15:17.217 [INFO] OASISRobustifier - Abstract the system by [password, select, vote]
+2024-09-16 23:15:21.822 [INFO] OASISRobustifier - Abstract the system by [password, select, back]
+2024-09-16 23:15:26.597 [INFO] OASISRobustifier - Abstract the system by [password, select, confirm]
+2024-09-16 23:15:31.195 [INFO] OASISRobustifier - Abstract the system by [password, select, v.1.done]
+2024-09-16 23:15:36.707 [INFO] OASISRobustifier - Abstract the system by [password, select, v.2.done]
+2024-09-16 23:15:42.173 [INFO] OASISRobustifier - Abstract the system by [password, select, v.3.done]
+2024-09-16 23:15:47.599 [INFO] OASISRobustifier - Abstract the system by [password, select, v.4.done]
+2024-09-16 23:15:53.406 [INFO] OASISRobustifier - Abstract the system by [password, reset, vote]
+2024-09-16 23:15:55.542 [INFO] OASISRobustifier - Abstract the system by [password, reset, back]
+2024-09-16 23:15:58.743 [INFO] OASISRobustifier - Abstract the system by [password, reset, confirm]
+2024-09-16 23:16:03.024 [INFO] OASISRobustifier - Abstract the system by [password, reset, v.1.done]
+2024-09-16 23:16:07.490 [INFO] OASISRobustifier - Abstract the system by [password, reset, v.2.done]
+2024-09-16 23:16:12.190 [INFO] OASISRobustifier - Abstract the system by [password, reset, v.3.done]
+2024-09-16 23:16:16.700 [INFO] OASISRobustifier - Abstract the system by [password, reset, v.4.done]
+2024-09-16 23:16:21.274 [INFO] OASISRobustifier - Abstract the system by [password, vote, back]
+2024-09-16 23:16:26.246 [INFO] OASISRobustifier - Abstract the system by [password, vote, confirm]
+2024-09-16 23:16:30.111 [INFO] OASISRobustifier - Abstract the system by [password, vote, v.1.done]
+2024-09-16 23:16:34.433 [INFO] OASISRobustifier - Abstract the system by [password, vote, v.2.done]
+2024-09-16 23:16:38.839 [INFO] OASISRobustifier - Abstract the system by [password, vote, v.3.done]
+2024-09-16 23:16:43.200 [INFO] OASISRobustifier - Abstract the system by [password, vote, v.4.done]
+2024-09-16 23:16:47.379 [INFO] OASISRobustifier - Abstract the system by [password, back, confirm]
+2024-09-16 23:16:49.513 [INFO] OASISRobustifier - Abstract the system by [password, back, v.1.done]
+2024-09-16 23:16:51.682 [INFO] OASISRobustifier - Abstract the system by [password, back, v.2.done]
+2024-09-16 23:16:53.856 [INFO] OASISRobustifier - Abstract the system by [password, back, v.3.done]
+2024-09-16 23:16:56.010 [INFO] OASISRobustifier - Abstract the system by [password, back, v.4.done]
+2024-09-16 23:16:58.196 [INFO] OASISRobustifier - Abstract the system by [password, confirm, v.1.done]
+2024-09-16 23:17:00.812 [INFO] OASISRobustifier - Abstract the system by [password, confirm, v.2.done]
+2024-09-16 23:17:03.422 [INFO] OASISRobustifier - Abstract the system by [password, confirm, v.3.done]
+2024-09-16 23:17:06.049 [INFO] OASISRobustifier - Abstract the system by [password, confirm, v.4.done]
+2024-09-16 23:17:08.688 [INFO] OASISRobustifier - Abstract the system by [password, v.1.done, v.2.done]
+2024-09-16 23:17:11.216 [INFO] OASISRobustifier - Abstract the system by [password, v.1.done, v.3.done]
+2024-09-16 23:17:13.821 [INFO] OASISRobustifier - Abstract the system by [password, v.1.done, v.4.done]
+2024-09-16 23:17:16.326 [INFO] OASISRobustifier - Abstract the system by [password, v.2.done, v.3.done]
+2024-09-16 23:17:18.871 [INFO] OASISRobustifier - Abstract the system by [password, v.2.done, v.4.done]
+2024-09-16 23:17:21.418 [INFO] OASISRobustifier - Abstract the system by [password, v.3.done, v.4.done]
+2024-09-16 23:17:23.928 [INFO] OASISRobustifier - Abstract the system by [select, reset, vote]
+2024-09-16 23:17:26.115 [INFO] OASISRobustifier - Abstract the system by [select, reset, back]
+2024-09-16 23:17:29.139 [INFO] OASISRobustifier - Abstract the system by [select, reset, confirm]
+2024-09-16 23:17:34.069 [INFO] OASISRobustifier - Abstract the system by [select, reset, v.1.done]
+2024-09-16 23:17:38.557 [INFO] OASISRobustifier - Abstract the system by [select, reset, v.2.done]
+2024-09-16 23:17:43.048 [INFO] OASISRobustifier - Abstract the system by [select, reset, v.3.done]
+2024-09-16 23:17:47.455 [INFO] OASISRobustifier - Abstract the system by [select, reset, v.4.done]
+2024-09-16 23:17:52.164 [INFO] OASISRobustifier - Abstract the system by [select, vote, back]
+2024-09-16 23:17:56.739 [INFO] OASISRobustifier - Abstract the system by [select, vote, confirm]
+2024-09-16 23:17:59.069 [INFO] OASISRobustifier - Abstract the system by [select, vote, v.1.done]
+2024-09-16 23:18:01.964 [INFO] OASISRobustifier - Abstract the system by [select, vote, v.2.done]
+2024-09-16 23:18:04.748 [INFO] OASISRobustifier - Abstract the system by [select, vote, v.3.done]
+2024-09-16 23:18:07.160 [INFO] OASISRobustifier - Abstract the system by [select, vote, v.4.done]
+2024-09-16 23:18:09.343 [INFO] OASISRobustifier - Abstract the system by [select, back, confirm]
+2024-09-16 23:18:10.897 [INFO] OASISRobustifier - Abstract the system by [select, back, v.1.done]
+2024-09-16 23:18:12.379 [INFO] OASISRobustifier - Abstract the system by [select, back, v.2.done]
+2024-09-16 23:18:13.860 [INFO] OASISRobustifier - Abstract the system by [select, back, v.3.done]
+2024-09-16 23:18:15.309 [INFO] OASISRobustifier - Abstract the system by [select, back, v.4.done]
+2024-09-16 23:18:16.978 [INFO] OASISRobustifier - Abstract the system by [select, confirm, v.1.done]
+2024-09-16 23:18:19.715 [INFO] OASISRobustifier - Abstract the system by [select, confirm, v.2.done]
+2024-09-16 23:18:22.410 [INFO] OASISRobustifier - Abstract the system by [select, confirm, v.3.done]
+2024-09-16 23:18:25.023 [INFO] OASISRobustifier - Abstract the system by [select, confirm, v.4.done]
+2024-09-16 23:18:27.618 [INFO] OASISRobustifier - Abstract the system by [select, v.1.done, v.2.done]
+2024-09-16 23:18:30.178 [INFO] OASISRobustifier - Abstract the system by [select, v.1.done, v.3.done]
+2024-09-16 23:18:32.673 [INFO] OASISRobustifier - Abstract the system by [select, v.1.done, v.4.done]
+2024-09-16 23:18:35.101 [INFO] OASISRobustifier - Abstract the system by [select, v.2.done, v.3.done]
+2024-09-16 23:18:37.531 [INFO] OASISRobustifier - Abstract the system by [select, v.2.done, v.4.done]
+2024-09-16 23:18:40.117 [INFO] OASISRobustifier - Abstract the system by [select, v.3.done, v.4.done]
+2024-09-16 23:18:42.583 [INFO] OASISRobustifier - Abstract the system by [reset, vote, back]
+2024-09-16 23:18:46.198 [INFO] OASISRobustifier - Abstract the system by [reset, vote, confirm]
+2024-09-16 23:18:51.959 [INFO] OASISRobustifier - Abstract the system by [reset, vote, v.1.done]
+2024-09-16 23:18:55.957 [INFO] OASISRobustifier - Abstract the system by [reset, vote, v.2.done]
+2024-09-16 23:19:00.097 [INFO] OASISRobustifier - Abstract the system by [reset, vote, v.3.done]
+2024-09-16 23:19:04.162 [INFO] OASISRobustifier - Abstract the system by [reset, vote, v.4.done]
+2024-09-16 23:19:08.242 [INFO] OASISRobustifier - Abstract the system by [reset, back, confirm]
+2024-09-16 23:19:14.156 [INFO] OASISRobustifier - Abstract the system by [reset, back, v.1.done]
+2024-09-16 23:19:17.167 [INFO] OASISRobustifier - Abstract the system by [reset, back, v.2.done]
+2024-09-16 23:19:20.171 [INFO] OASISRobustifier - Abstract the system by [reset, back, v.3.done]
+2024-09-16 23:19:23.165 [INFO] OASISRobustifier - Abstract the system by [reset, back, v.4.done]
+2024-09-16 23:19:26.169 [INFO] OASISRobustifier - Abstract the system by [reset, confirm, v.1.done]
+2024-09-16 23:19:30.794 [INFO] OASISRobustifier - Abstract the system by [reset, confirm, v.2.done]
+2024-09-16 23:19:35.605 [INFO] OASISRobustifier - Abstract the system by [reset, confirm, v.3.done]
+2024-09-16 23:19:40.274 [INFO] OASISRobustifier - Abstract the system by [reset, confirm, v.4.done]
+2024-09-16 23:19:44.924 [INFO] OASISRobustifier - Abstract the system by [reset, v.1.done, v.2.done]
+2024-09-16 23:19:47.952 [INFO] OASISRobustifier - Abstract the system by [reset, v.1.done, v.3.done]
+2024-09-16 23:19:50.964 [INFO] OASISRobustifier - Abstract the system by [reset, v.1.done, v.4.done]
+2024-09-16 23:19:54.016 [INFO] OASISRobustifier - Abstract the system by [reset, v.2.done, v.3.done]
+2024-09-16 23:19:57.050 [INFO] OASISRobustifier - Abstract the system by [reset, v.2.done, v.4.done]
+2024-09-16 23:20:00.158 [INFO] OASISRobustifier - Abstract the system by [reset, v.3.done, v.4.done]
+2024-09-16 23:20:03.179 [INFO] OASISRobustifier - Abstract the system by [vote, back, confirm]
+2024-09-16 23:20:08.409 [INFO] OASISRobustifier - Abstract the system by [vote, back, v.1.done]
+2024-09-16 23:20:11.896 [INFO] OASISRobustifier - Abstract the system by [vote, back, v.2.done]
+2024-09-16 23:20:15.410 [INFO] OASISRobustifier - Abstract the system by [vote, back, v.3.done]
+2024-09-16 23:20:18.885 [INFO] OASISRobustifier - Abstract the system by [vote, back, v.4.done]
+2024-09-16 23:20:22.377 [INFO] OASISRobustifier - Abstract the system by [vote, confirm, v.1.done]
+2024-09-16 23:20:27.825 [INFO] OASISRobustifier - Abstract the system by [vote, confirm, v.2.done]
+2024-09-16 23:20:33.517 [INFO] OASISRobustifier - Abstract the system by [vote, confirm, v.3.done]
+2024-09-16 23:20:39.236 [INFO] OASISRobustifier - Abstract the system by [vote, confirm, v.4.done]
+2024-09-16 23:20:44.923 [INFO] OASISRobustifier - Abstract the system by [vote, v.1.done, v.2.done]
+2024-09-16 23:20:48.820 [INFO] OASISRobustifier - Abstract the system by [vote, v.1.done, v.3.done]
+2024-09-16 23:20:52.722 [INFO] OASISRobustifier - Abstract the system by [vote, v.1.done, v.4.done]
+2024-09-16 23:20:56.596 [INFO] OASISRobustifier - Abstract the system by [vote, v.2.done, v.3.done]
+2024-09-16 23:21:00.542 [INFO] OASISRobustifier - Abstract the system by [vote, v.2.done, v.4.done]
+2024-09-16 23:21:04.525 [INFO] OASISRobustifier - Abstract the system by [vote, v.3.done, v.4.done]
+2024-09-16 23:21:08.436 [INFO] OASISRobustifier - Abstract the system by [back, confirm, v.1.done]
+2024-09-16 23:21:12.761 [INFO] OASISRobustifier - Abstract the system by [back, confirm, v.2.done]
+2024-09-16 23:21:17.109 [INFO] OASISRobustifier - Abstract the system by [back, confirm, v.3.done]
+2024-09-16 23:21:21.433 [INFO] OASISRobustifier - Abstract the system by [back, confirm, v.4.done]
+2024-09-16 23:21:25.840 [INFO] OASISRobustifier - Abstract the system by [back, v.1.done, v.2.done]
+2024-09-16 23:21:27.997 [INFO] OASISRobustifier - Abstract the system by [back, v.1.done, v.3.done]
+2024-09-16 23:21:30.273 [INFO] OASISRobustifier - Abstract the system by [back, v.1.done, v.4.done]
+2024-09-16 23:21:32.464 [INFO] OASISRobustifier - Abstract the system by [back, v.2.done, v.3.done]
+2024-09-16 23:21:34.620 [INFO] OASISRobustifier - Abstract the system by [back, v.2.done, v.4.done]
+2024-09-16 23:21:36.853 [INFO] OASISRobustifier - Abstract the system by [back, v.3.done, v.4.done]
+2024-09-16 23:21:39.039 [INFO] OASISRobustifier - Abstract the system by [confirm, v.1.done, v.2.done]
+2024-09-16 23:21:42.748 [INFO] OASISRobustifier - Abstract the system by [confirm, v.1.done, v.3.done]
+2024-09-16 23:21:46.619 [INFO] OASISRobustifier - Abstract the system by [confirm, v.1.done, v.4.done]
+2024-09-16 23:21:50.359 [INFO] OASISRobustifier - Abstract the system by [confirm, v.2.done, v.3.done]
+2024-09-16 23:21:54.135 [INFO] OASISRobustifier - Abstract the system by [confirm, v.2.done, v.4.done]
+2024-09-16 23:21:57.805 [INFO] OASISRobustifier - Abstract the system by [confirm, v.3.done, v.4.done]
+2024-09-16 23:22:01.502 [INFO] OASISRobustifier - Abstract the system by [v.1.done, v.2.done, v.3.done]
+2024-09-16 23:22:03.264 [INFO] OASISRobustifier - Abstract the system by [v.1.done, v.2.done, v.4.done]
+2024-09-16 23:22:05.001 [INFO] OASISRobustifier - Abstract the system by [v.1.done, v.3.done, v.4.done]
+2024-09-16 23:22:06.769 [INFO] OASISRobustifier - Abstract the system by [v.2.done, v.3.done, v.4.done]
+2024-09-16 23:22:08.517 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, vote]
+2024-09-16 23:22:11.192 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, back]
+2024-09-16 23:22:15.926 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, confirm]
+2024-09-16 23:22:19.358 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, v.1.done]
+2024-09-16 23:22:24.694 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, v.2.done]
+2024-09-16 23:22:29.940 [INFO] OASISRobustifier - Abstract the system by [password, select, reset, v.3.done]
+
+run with simple search...
+2024-09-16 23:22:36.658 [INFO] SimpleRobustifier - Number of controllable events: 10
+2024-09-16 23:22:36.659 [INFO] SimpleRobustifier - Controllable: [password, select, reset, vote, back, confirm, v.1.done, v.2.done, v.3.done, v.4.done]
+2024-09-16 23:22:36.660 [INFO] SimpleRobustifier - Number of observable events: 10
+2024-09-16 23:22:36.660 [INFO] SimpleRobustifier - Observable: [password, select, reset, vote, back, confirm, v.1.done, v.2.done, v.3.done, v.4.done]
+2024-09-16 23:22:39.140 [INFO] SimpleRobustifier - No solution found!
+2024-09-16 23:22:39.140 [INFO] SimpleRobustifier - Termination time: 00:00:02:480
+2024-09-16 23:22:39.140 [INFO] Robustify - Total number of controller synthesis invoked: 1
+2024-09-16 23:22:39.141 [WARN] Robustify - Failed to find a solution.
+2024-09-16 23:22:39.141 [INFO] Robustify - Robustification completes, total time: 00:00:02:864

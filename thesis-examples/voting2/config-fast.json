@@ -17,11 +17,11 @@
       ]
     },
     "controllableMap": {
-      "1": ["back", "confirm", "password", "select", "vote", "v.1.done", "v.2.done", "v.3.done", "v.4.done"],
+      "1": ["back", "confirm", "password", "select", "vote", "reset", "v.1.done", "v.2.done", "v.3.done", "v.4.done"],
       "3": ["v.1.enter", "v.2.enter", "v.3.enter", "v.4.enter", "v.1.exit", "v.2.exit", "v.3.exit", "v.4.exit", "eo.1.enter", "eo.2.enter", "eo.3.enter", "eo.4.enter", "eo.1.exit", "eo.2.exit", "eo.3.exit", "eo.4.exit"]
     },
     "observableMap": {
-      "0": ["back", "confirm", "password", "select", "vote", "v.1.done", "v.2.done", "v.3.done", "v.4.done"],
+      "0": ["back", "confirm", "password", "select", "vote", "reset", "v.1.done", "v.2.done", "v.3.done", "v.4.done"],
       "2": ["v.1.enter", "v.2.enter", "v.3.enter", "v.4.enter", "v.1.exit", "v.2.exit", "v.3.exit", "v.4.exit", "eo.1.enter", "eo.2.enter", "eo.3.enter", "eo.4.enter", "eo.1.exit", "eo.2.exit", "eo.3.exit", "eo.4.exit"]
     },
     "algorithm": "Fast"
