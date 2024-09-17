@@ -45,13 +45,12 @@ open class ExampleGenerator<S, I>(
             visited[record.state] = mutableListOf()
             for (a in model.alphabet()) {
                 val successors = model.getSuccessors(record.state, a)
-                val traceVisited = record.visited.toSet()
                 isDeadlock = isDeadlock && successors.isEmpty()
                 for (s in successors) {
                     when (s) {
                         // lasso
-                        in traceVisited -> {
-                            offerExample(Word.fromList(record.trace + a), examples1, record)
+                        in record.visited + record.state -> {
+                            offerExample(record.trace, examples1, record)
                         }
                         // exist a trace from s to an accepting example
                         in visited -> {
