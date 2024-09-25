@@ -1,0 +1,5 @@
+problem,first-robustification,example-generation,learning,number-of-tries,second-robustification
+therac25,0.059,0.023,0.131,1,0.084
+voting,0.116,0.038,0.183+0.020+0.018=0.221,3,0.176
+oyster,0.154,0.129,0.385,1,0.277
+pump,0.408,0.179,0.404+0.505+0.084=0.993,3,0.691
