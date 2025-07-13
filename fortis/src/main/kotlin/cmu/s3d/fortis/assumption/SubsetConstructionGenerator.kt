@@ -110,6 +110,14 @@ class SubsetConstructionGenerator(
         return hide(comp, hidden)
     }
 
+    override fun generateEnvUnsafe(): DetLTS<Int, String> {
+        // 1. compose sys || safety_err
+        val comp = parallel(composeSysAndProp(), env) as MutableLTS
+        val hidden = comp.alphabet().toSet() - assumptionInputs.toSet()
+//    pruneError(comp)
+        return hide(comp, hidden)
+    }
+
     private fun composeSysAndProp(): MutableLTS<Int, String> {
         logger.info("Compose System and Property...")
         logger.info("System: #states = ${sys.size()}, #transitions: ${sys.numOfTransitions()}")

@@ -10,13 +10,17 @@ import cmu.s3d.fortis.supervisory.desops.parseFSM
 import cmu.s3d.fortis.ts.DetLTS
 import cmu.s3d.fortis.ts.LTS
 import cmu.s3d.fortis.ts.alphabet
+import cmu.s3d.fortis.ts.lts.CompactLTS
+import cmu.s3d.fortis.ts.lts.asLTS
 import cmu.s3d.fortis.ts.lts.ltsa.LTSACall
 import cmu.s3d.fortis.ts.lts.ltsa.LTSACall.asDetLTS
 import cmu.s3d.fortis.ts.lts.ltsa.LTSACall.asLTS
 import cmu.s3d.fortis.ts.lts.ltsa.LTSACall.compose
 import cmu.s3d.fortis.ts.lts.ltsa.writeFSP
 import cmu.s3d.fortis.ts.parallel
+import net.automatalib.automaton.fsa.CompactNFA
 import net.automatalib.serialization.aut.AUTWriter
+import net.automatalib.word.Word
 import org.slf4j.LoggerFactory
 import java.io.ByteArrayOutputStream
 
@@ -131,6 +135,72 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
                 )
             }
         }
+    }
+
+    fun computeSTPARob(
+        sysSpecs: List<Spec>,
+        envSpecs: List<Spec>,
+        propSpecs: List<Spec>,
+        devSpecs: List<Spec>,
+        options: RobustnessOptions
+    ): List<EquivClassRep> {
+        val start = System.currentTimeMillis()
+        val sys = parseSpecs(sysSpecs)
+        val env = parseSpecs(envSpecs)
+        val prop = parseSpecs(propSpecs, true) as DetLTS<Int, String>
+        val dev = if (devSpecs.isEmpty()) null else parseSpecs(devSpecs)
+
+        // not providing causes an error
+        val notProvidingCausesError = mutableSetOf<Pair<String, Word<String>>>()
+        val causalAlphabet = env.alphabet().filter { !it.equals("wait") }
+        val safeStates = env.states - env.errorState
+        for (state in safeStates) {
+            val deviatedEnv = env as CompactLTS<String>
+            if (state in deviatedEnv.getTransitions(state,"wait")) {
+                continue
+            }
+            val outgoingActs = causalAlphabet.filter { !deviatedEnv.getTransitions(state,it).isEmpty() }
+            deviatedEnv.addTransition(state,"wait",state)
+            val cal = BaseCalculator(
+                sys,
+                deviatedEnv,
+                prop,
+                options
+            )
+            val equivClassMap = cal.computeEnvUnsafeBeh()
+            logger.info("Found ${equivClassMap.size} equivalence classes in ${System.currentTimeMillis() - start}ms")
+            equivClassMap.map { (_, reps) ->
+                reps.forEach {
+                    for (act in outgoingActs) {
+                        notProvidingCausesError.add(Pair(act,it.word))
+                    }
+                }
+            }
+            deviatedEnv.removeTransition(state,"wait",state)
+        }
+
+        notProvidingCausesError.forEach {
+            // <safeTrace> is the maximum trace accepted by <env> and takes the safe action <it.first>
+            // we only care about this safe trace when it is also accepted by <env>
+            val safeTrace = maxTraceAccpeted(env, it.second).append(it.first)
+            if (env.accepts(safeTrace)) {
+                println("Not providing \"${it.first}\" can cause an error!")
+                println("  error: ${it.second}")
+                println("  safe when provided: $safeTrace")
+            }
+        }
+
+        return listOf()
+    }
+
+    fun maxTraceAccpeted(lts : LTS<Int,String>, trace: Word<String>) : Word<String> {
+        for (i in trace.size() downTo 0) {
+            val maxWord = trace.prefix(i)
+            if (lts.accepts(maxWord)) {
+                return maxWord
+            }
+        }
+        return Word.epsilon()
     }
 
     override fun computeRobustness(

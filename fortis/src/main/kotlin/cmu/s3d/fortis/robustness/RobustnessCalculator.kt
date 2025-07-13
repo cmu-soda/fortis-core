@@ -19,6 +19,8 @@ interface RobustnessCalculator {
      */
     fun computeUnsafeBeh(): Map<EquivClass, Collection<RepTrace>>
 
+    fun computeEnvUnsafeBeh(): Map<EquivClass, Collection<RepTrace>>
+
     /**
      * The entrance function to compute the robustness. It first generates the weakest assumption, and then build the
      * representation model and compute the representative traces.

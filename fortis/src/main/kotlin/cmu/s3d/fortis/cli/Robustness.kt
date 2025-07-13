@@ -28,6 +28,7 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
 
     // function modes
     private val unsafe by option("--unsafe", help = "Generate unsafe behaviors.").flag()
+    private val stpa by option("--stpa", help = "Generate STPA unsafe control actions.").flag()
     private val compareSys by option("--compare-sys", help = "Compare the robustness of two system models.").flag()
     private val compareProp by option("--compare-prop", help = "Compare the robustness of one system under two properties.").flag()
     private val generateWA by option("--wa", help = "Output the weakest assumption model.").flag()
@@ -85,6 +86,15 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
             logger.info("Weakest assumption model:\n\n$out")
         } else if (unsafe) {
             val re = robustnessComputationService.computeIntolerableBeh(
+                problems[0].sys,
+                problems[0].env,
+                problems[0].prop,
+                problems[0].dev,
+                options
+            )
+            logResult(re)
+        } else if (stpa) {
+            val re = robustnessComputationService.computeSTPARob(
                 problems[0].sys,
                 problems[0].env,
                 problems[0].prop,

@@ -1,0 +1,21 @@
+PUMP = DRAIN,
+DRAIN  = (pump_on  -> FILL
+         |wait -> DRAIN),
+FILL   = (pump_off -> DRAIN
+         |wait -> FILL).
+
+TANK        = EMPTY_DRAIN,
+EMPTY_DRAIN = (wait -> EMPTY_DRAIN
+              |pump_on  -> EMPTY_FILL),
+EMPTY_FILL  = (wait -> MID_FILL
+              |pump_off -> EMPTY_DRAIN),
+MID_DRAIN   = (wait -> EMPTY_DRAIN
+              |pump_on -> MID_FILL),
+MID_FILL    = (wait  -> FULL_FILL
+              |pump_off -> MID_DRAIN),
+FULL_DRAIN  = (wait -> MID_DRAIN
+              |pump_on -> FULL_FILL),
+FULL_FILL   = (wait -> OVERFLOW
+              |pump_off -> FULL_DRAIN).
+
+||SYS = (PUMP || TANK).

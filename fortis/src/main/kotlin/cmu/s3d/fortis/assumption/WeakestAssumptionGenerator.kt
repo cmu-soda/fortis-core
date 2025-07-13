@@ -12,4 +12,6 @@ interface WeakestAssumptionGenerator {
     fun generate(options: RobustnessOptions): DetLTS<Int, String>
 
     fun generateUnsafe(): DetLTS<Int, String>
+
+    fun generateEnvUnsafe(): DetLTS<Int, String>
 }

@@ -45,6 +45,15 @@ class BaseCalculator(
         return traces
     }
 
+    override fun computeEnvUnsafeBeh(): Map<EquivClass, Collection<RepTrace>> {
+        logger.info("Generating env unsafe behavior representation traces by equivalence classes...")
+        val m = waGenerator.generateEnvUnsafe()
+        val traces = shortestDeltaTraces(m)
+        if (traces.isEmpty())
+            logger.info("No representation traces found. The system is safe under any environment.")
+        return traces
+    }
+
     override fun computeRobustness(): Map<EquivClass, Collection<RepTrace>> {
         logger.info("Generating robust behavior representation traces by equivalence classes...")
         val projectedEnv = hide(env, env.alphabet() - weakestAssumption.alphabet().toSet())
