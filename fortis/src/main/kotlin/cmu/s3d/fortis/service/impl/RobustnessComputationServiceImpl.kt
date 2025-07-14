@@ -229,7 +229,7 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
             val safeTrace = maxTraceAccpeted(env, it.second)
             println("Providing \"${it.first}\" can cause an error!")
             println("  error: ${it.second}")
-            println("  safe when provided: $safeTrace")
+            println("  safe when not provided: $safeTrace")
         }
 
         return listOf()
