@@ -7,17 +7,15 @@ import cmu.s3d.fortis.service.RobustnessComputationService
 import cmu.s3d.fortis.supervisory.asDetLTS
 import cmu.s3d.fortis.supervisory.asLTS
 import cmu.s3d.fortis.supervisory.desops.parseFSM
-import cmu.s3d.fortis.ts.DetLTS
-import cmu.s3d.fortis.ts.LTS
-import cmu.s3d.fortis.ts.alphabet
+import cmu.s3d.fortis.ts.*
 import cmu.s3d.fortis.ts.lts.CompactLTS
 import cmu.s3d.fortis.ts.lts.asLTS
+import cmu.s3d.fortis.ts.lts.hide
 import cmu.s3d.fortis.ts.lts.ltsa.LTSACall
 import cmu.s3d.fortis.ts.lts.ltsa.LTSACall.asDetLTS
 import cmu.s3d.fortis.ts.lts.ltsa.LTSACall.asLTS
 import cmu.s3d.fortis.ts.lts.ltsa.LTSACall.compose
 import cmu.s3d.fortis.ts.lts.ltsa.writeFSP
-import cmu.s3d.fortis.ts.parallel
 import net.automatalib.automaton.fsa.CompactNFA
 import net.automatalib.serialization.aut.AUTWriter
 import net.automatalib.word.Word
@@ -168,7 +166,6 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
                 options
             )
             val equivClassMap = cal.computeEnvUnsafeBeh()
-            logger.info("Found ${equivClassMap.size} equivalence classes in ${System.currentTimeMillis() - start}ms")
             equivClassMap.map { (_, reps) ->
                 reps.forEach {
                     for (act in outgoingActs) {
@@ -188,6 +185,51 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
                 println("  error: ${it.second}")
                 println("  safe when provided: $safeTrace")
             }
+        }
+
+
+        // providing causes an error
+        val providingCausesError = mutableSetOf<Pair<String, Word<String>>>()
+        val deviatedEnv = env as CompactLTS<String>
+        // TODO clean this up somehow?
+        // the code is outside the loop for now so we only create one extra state
+        var newState = deviatedEnv.addState(true)
+        assert(newState !in safeStates)
+
+        for (state in safeStates) {
+            var isSink = env.alphabet() //causalAlphabet
+                .map { env.getTransitions(state,it).isEmpty() }
+                .all { it }
+            // right now, just handle the edge case (sink states)
+            if (isSink) {
+                for (act in causalAlphabet) {
+                    deviatedEnv.addTransition(state, act, newState)
+                    deviatedEnv.addTransition(newState, "wait", newState)
+                    val cal = BaseCalculator(
+                        sys,
+                        deviatedEnv,
+                        prop,
+                        options
+                    )
+                    val equivClassMap = cal.computeEnvUnsafeBeh()
+                    equivClassMap.map { (_, reps) ->
+                        reps.forEach {
+                            providingCausesError.add(Pair(act,it.word))
+                        }
+                    }
+                    deviatedEnv.removeTransition(state, act, newState)
+                    deviatedEnv.removeTransition(newState, "wait", newState)
+                }
+            }
+        }
+
+        providingCausesError.forEach {
+            // <safeTrace> is the maximum trace accepted by <env> and takes the safe action <it.first>
+            // we only care about this safe trace when it is also accepted by <env>
+            val safeTrace = maxTraceAccpeted(env, it.second)
+            println("Providing \"${it.first}\" can cause an error!")
+            println("  error: ${it.second}")
+            println("  safe when provided: $safeTrace")
         }
 
         return listOf()
