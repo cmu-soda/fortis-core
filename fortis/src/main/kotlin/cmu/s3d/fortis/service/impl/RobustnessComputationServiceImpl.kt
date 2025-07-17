@@ -135,6 +135,19 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
         }
     }
 
+    class TracePair(private val type : String,
+                    private val uca : String,
+                    private val goodTrace : List<String>,
+                    private val badTrace : List<String>) {
+        override fun toString() : String {
+            val jsonType = "\"$type\""
+            val jsonUCA = "\"$uca\""
+            val jsonGoodTrace = goodTrace.map { "\"$it\"" }
+            val jsonBadTrace = badTrace.map { "\"$it\"" }
+            return "{\"type\":$jsonType,\"UCA\":$jsonUCA,\"goodTrace\":$jsonGoodTrace,\"badTrace\":$jsonBadTrace}"
+        }
+    }
+
     fun computeSTPARob(
         sysSpecs: List<Spec>,
         envSpecs: List<Spec>,
@@ -142,6 +155,8 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
         devSpecs: List<Spec>,
         options: RobustnessOptions
     ): List<EquivClassRep> {
+        val tracePairs = mutableListOf<TracePair>()
+
         val start = System.currentTimeMillis()
         val sys = parseSpecs(sysSpecs)
         val env = parseSpecs(envSpecs)
@@ -181,9 +196,10 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
             // we only care about this safe trace when it is also accepted by <env>
             val safeTrace = maxTraceAccpeted(env, it.second).append(it.first)
             if (env.accepts(safeTrace)) {
-                println("Not providing \"${it.first}\" can cause an error!")
-                println("  error: ${it.second}")
-                println("  safe when provided: $safeTrace")
+                tracePairs.add(TracePair("Not Provided", it.first, safeTrace.asList(), it.second.asList()))
+                //println("Not providing \"${it.first}\" can cause an error!")
+                //println("  error: ${it.second}")
+                //println("  safe when provided: $safeTrace")
             }
         }
 
@@ -227,10 +243,14 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
             // <safeTrace> is the maximum trace accepted by <env> and takes the safe action <it.first>
             // we only care about this safe trace when it is also accepted by <env>
             val safeTrace = maxTraceAccpeted(env, it.second)
-            println("Providing \"${it.first}\" can cause an error!")
-            println("  error: ${it.second}")
-            println("  safe when not provided: $safeTrace")
+            tracePairs.add(TracePair("Provided", it.first, safeTrace.asList(), it.second.asList()))
+            //println("Providing \"${it.first}\" can cause an error!")
+            //println("  error: ${it.second}")
+            //println("  safe when not provided: $safeTrace")
         }
+
+        val jsonContents = tracePairs.joinToString { it.toString() }
+        println("[$jsonContents]")
 
         return listOf()
     }
