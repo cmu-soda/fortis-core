@@ -62,8 +62,11 @@ private class FSPWriterVisitor<S, I>(
                 break
             }
         }
-        val action = LTSACall.escapeEvent(input.toString())
+        val action = LTSACall.escapeEvent(input.toString()).lowercase()
         return if (nfa is LTS<*, *> && !nfa.isAccepting(succ)) {
+            builder.append("$action -> ERROR | ")
+            TSTraversalAction.IGNORE
+        } else if (isDeadlock && !nfa.isAccepting(succ)) {
             builder.append("$action -> ERROR | ")
             TSTraversalAction.IGNORE
         } else if (isDeadlock) {

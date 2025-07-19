@@ -5,14 +5,24 @@ import cmu.s3d.fortis.common.RobustnessOptions
 import cmu.s3d.fortis.common.Spec
 import cmu.s3d.fortis.common.SpecType
 import cmu.s3d.fortis.service.impl.RobustnessComputationServiceImpl
+import cmu.s3d.fortis.service.impl.parseSpecs
+import cmu.s3d.fortis.ts.DetLTS
+import cmu.s3d.fortis.ts.alphabet
+import cmu.s3d.fortis.ts.lts.CompactDetLTS
+import cmu.s3d.fortis.ts.lts.CompactLTS
+import cmu.s3d.fortis.ts.lts.hide
+import cmu.s3d.fortis.ts.lts.ltsa.writeFSP
 import cmu.s3d.fortis.utils.pretty
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.split
+import lts.Determinizer
 import org.slf4j.LoggerFactory
+import tlc2.TLC
 import java.io.File
 import java.time.Duration
 import kotlin.system.exitProcess
@@ -25,6 +35,12 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
     private val prop by option("--prop", "-p", help = "The model of the safety property.")
     private val dev by option("--dev", "-d", help = "The model of the deviation model for explanation.")
     private val jsons by option("--jsons", help = "One or more model config files, separated by ','.").split(",")
+
+    private val waitAct by option("--wait", help = "The name of STPA 'wait' action.").default("wait")
+    private val tlaSys by option("--tla-sys", help = "The model of the system encoded in TLA+.")
+    private val cfgSys by option("--cfg-sys", help = "The config for the system encoded in TLA+.")
+    private val tlaEnv by option("--tla-env", help = "The model of the environment encoded in TLA+.")
+    private val cfgEnv by option("--cfg-env", help = "The config for the environment encoded in TLA+.")
 
     // function modes
     private val unsafe by option("--unsafe", help = "Generate unsafe behaviors.").flag()
@@ -60,6 +76,8 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
                     listOfNotNull(dev?.let { readSpecFile(it) })
                 )
             )
+        } else if (stpa && tlaSys != null && cfgSys != null && tlaEnv != null && cfgEnv != null) {
+            listOf()
         } else {
             println(getFormattedHelp())
             exitProcess(0)
@@ -94,14 +112,33 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
             )
             logResult(re)
         } else if (stpa) {
-            val re = robustnessComputationService.computeSTPARob(
-                problems[0].sys,
-                problems[0].env,
-                problems[0].prop,
-                problems[0].dev,
-                options
-            )
-            logResult(re)
+            if (tlaSys != null && cfgSys != null && tlaEnv != null && cfgEnv != null) {
+                val sysLts = CompactLTS<String>(TLC().createLTS(tlaSys, cfgSys, true))
+                val envLts = CompactLTS<String>(TLC().createLTS(tlaEnv, cfgEnv, true))
+                val propLts = hide(CompactLTS<String>(TLC().createLTS(tlaSys, cfgSys, false)), emptySet())
+                //writeFSP(System.out, sysLts, sysLts.alphabet())
+                val re = robustnessComputationService.computeSTPARob(
+                    sysLts,
+                    envLts,
+                    propLts,
+                    waitAct,
+                    options
+                )
+                logResult(re)
+            }
+            else {
+                val sysLts = parseSpecs(problems[0].sys)
+                val envLts = parseSpecs(problems[0].env)
+                val propLts = parseSpecs(problems[0].prop, true) as DetLTS<Int, String>
+                val re = robustnessComputationService.computeSTPARob(
+                    sysLts,
+                    envLts,
+                    propLts,
+                    waitAct,
+                    options
+                )
+                logResult(re)
+            }
         } else {
             val re = robustnessComputationService.computeRobustness(
                 problems[0].sys,
@@ -114,6 +151,7 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
         }
 
         logger.info("Total time: ${Duration.ofMillis(System.currentTimeMillis() - start).pretty()}")
+        System.exit(0)
     }
 
     private fun compareSys(a: Problem, b: Problem, options: RobustnessOptions) {

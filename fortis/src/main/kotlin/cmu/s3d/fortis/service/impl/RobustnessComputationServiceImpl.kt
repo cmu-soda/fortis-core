@@ -149,31 +149,25 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
     }
 
     fun computeSTPARob(
-        sysSpecs: List<Spec>,
-        envSpecs: List<Spec>,
-        propSpecs: List<Spec>,
-        devSpecs: List<Spec>,
+        sys: LTS<Int,String>,
+        env: LTS<Int,String>,
+        prop: DetLTS<Int,String>,
+        waitAct : String,
         options: RobustnessOptions
     ): List<EquivClassRep> {
         val tracePairs = mutableListOf<TracePair>()
 
-        val start = System.currentTimeMillis()
-        val sys = parseSpecs(sysSpecs)
-        val env = parseSpecs(envSpecs)
-        val prop = parseSpecs(propSpecs, true) as DetLTS<Int, String>
-        val dev = if (devSpecs.isEmpty()) null else parseSpecs(devSpecs)
-
         // not providing causes an error
         val notProvidingCausesError = mutableSetOf<Pair<String, Word<String>>>()
-        val causalAlphabet = env.alphabet().filter { !it.equals("wait") }
+        val causalAlphabet = env.alphabet().filter { !it.equals(waitAct) }
         val safeStates = env.states - env.errorState
         for (state in safeStates) {
             val deviatedEnv = env as CompactLTS<String>
-            if (state in deviatedEnv.getTransitions(state,"wait")) {
+            if (state in deviatedEnv.getTransitions(state,waitAct)) {
                 continue
             }
             val outgoingActs = causalAlphabet.filter { !deviatedEnv.getTransitions(state,it).isEmpty() }
-            deviatedEnv.addTransition(state,"wait",state)
+            deviatedEnv.addTransition(state,waitAct,state)
             val cal = BaseCalculator(
                 sys,
                 deviatedEnv,
@@ -188,7 +182,7 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
                     }
                 }
             }
-            deviatedEnv.removeTransition(state,"wait",state)
+            deviatedEnv.removeTransition(state,waitAct,state)
         }
 
         notProvidingCausesError.forEach {
@@ -220,7 +214,7 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
             if (isSink) {
                 for (act in causalAlphabet) {
                     deviatedEnv.addTransition(state, act, newState)
-                    deviatedEnv.addTransition(newState, "wait", newState)
+                    deviatedEnv.addTransition(newState, waitAct, newState)
                     val cal = BaseCalculator(
                         sys,
                         deviatedEnv,
@@ -234,7 +228,7 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
                         }
                     }
                     deviatedEnv.removeTransition(state, act, newState)
-                    deviatedEnv.removeTransition(newState, "wait", newState)
+                    deviatedEnv.removeTransition(newState, waitAct, newState)
                 }
             }
         }
@@ -326,30 +320,30 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
             it.toString()
         }
     }
+}
 
-    private fun parseSpec(spec: Spec, deterministic: Boolean = false): LTS<Int, String> {
-        return when (spec.type) {
-            SpecType.FSP -> {
-                LTSACall.compile(spec.content).compose().let {
-                    if (deterministic) it.asDetLTS() else it.asLTS()
-                }
+fun parseSpec(spec: Spec, deterministic: Boolean = false): LTS<Int, String> {
+    return when (spec.type) {
+        SpecType.FSP -> {
+            LTSACall.compile(spec.content).compose().let {
+                if (deterministic) it.asDetLTS() else it.asLTS()
             }
-            SpecType.FSM -> {
-                parseFSM(spec.content).let { if (deterministic) it.asDetLTS() else it.asLTS() }
-            }
-            SpecType.FLTL -> {
-                val fltlRegex = "assert\\s+(\\w+)\\s*=".toRegex()
-                val name = fltlRegex.find(spec.content)?.groupValues?.get(1)
-                    ?: error("FLTL spec must have an assert name")
-                LTSACall.compileSafetyLTL(spec.content, name).asDetLTS()
-            }
-            else -> error("Unsupported spec type")
         }
+        SpecType.FSM -> {
+            parseFSM(spec.content).let { if (deterministic) it.asDetLTS() else it.asLTS() }
+        }
+        SpecType.FLTL -> {
+            val fltlRegex = "assert\\s+(\\w+)\\s*=".toRegex()
+            val name = fltlRegex.find(spec.content)?.groupValues?.get(1)
+                ?: error("FLTL spec must have an assert name")
+            LTSACall.compileSafetyLTL(spec.content, name).asDetLTS()
+        }
+        else -> error("Unsupported spec type")
     }
+}
 
-    private fun parseSpecs(specs: List<Spec>, deterministic: Boolean = false): LTS<Int, String> {
-        if (specs.isEmpty()) error("Specs cannot be empty")
-        if (specs.size == 1) return parseSpec(specs.first(), deterministic)
-        return parallel(*specs.map { parseSpec(it, deterministic) }.toTypedArray())
-    }
+fun parseSpecs(specs: List<Spec>, deterministic: Boolean = false): LTS<Int, String> {
+    if (specs.isEmpty()) error("Specs cannot be empty")
+    if (specs.size == 1) return parseSpec(specs.first(), deterministic)
+    return parallel(*specs.map { parseSpec(it, deterministic) }.toTypedArray())
 }
