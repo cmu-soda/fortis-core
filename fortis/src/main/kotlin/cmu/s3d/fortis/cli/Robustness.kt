@@ -36,7 +36,7 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
     private val dev by option("--dev", "-d", help = "The model of the deviation model for explanation.")
     private val jsons by option("--jsons", help = "One or more model config files, separated by ','.").split(",")
 
-    private val waitAct by option("--wait", help = "The name of STPA 'wait' action.").default("wait")
+    private val bound by option("--bound", help = "The maximum length for an unsafe trace in STPA mode.")
     private val tlaSys by option("--tla-sys", help = "The model of the system encoded in TLA+.")
     private val cfgSys by option("--cfg-sys", help = "The config for the system encoded in TLA+.")
     private val tlaEnv by option("--tla-env", help = "The model of the environment encoded in TLA+.")
@@ -116,13 +116,14 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
                 val sysLts = CompactLTS<String>(TLC().createLTS(tlaSys, cfgSys, true))
                 val envLts = CompactLTS<String>(TLC().createLTS(tlaEnv, cfgEnv, true))
                 val propLts = hide(CompactLTS<String>(TLC().createLTS(tlaSys, cfgSys, false)), emptySet())
+                val iBound = bound?.toInt() ?: throw RuntimeException("Invalid bound, expect Int, got: $bound")
                 //writeFSP(System.out, sysLts, sysLts.alphabet())
                 val re = robustnessComputationService.computeSTPARob(
                     sysLts,
                     envLts,
                     propLts,
-                    waitAct,
-                    options
+                    options,
+                    iBound
                 )
                 logResult(re)
             }
@@ -130,12 +131,13 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
                 val sysLts = parseSpecs(problems[0].sys)
                 val envLts = parseSpecs(problems[0].env)
                 val propLts = parseSpecs(problems[0].prop, true) as DetLTS<Int, String>
+                val iBound = bound?.toInt() ?: throw RuntimeException("Invalid bound, expect Int, got: $bound")
                 val re = robustnessComputationService.computeSTPARob(
                     sysLts,
                     envLts,
                     propLts,
-                    waitAct,
-                    options
+                    options,
+                    iBound
                 )
                 logResult(re)
             }

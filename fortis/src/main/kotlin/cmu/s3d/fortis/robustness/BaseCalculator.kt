@@ -45,6 +45,17 @@ class BaseCalculator(
         return traces
     }
 
+    fun computeBoundedUnsafeBeh(
+        bound: Int
+    ): Set<Word<String>> {
+        logger.info("Generating unsafe behavior representation traces by equivalence classes...")
+        val m = waGenerator.generateUnsafe()
+        val traces = boundedDeltaTraces(bound, m)
+        if (traces.isEmpty())
+            logger.info("No representation traces found. The system is safe under any environment.")
+        return traces
+    }
+
     override fun computeEnvUnsafeBeh(): Map<EquivClass, Collection<RepTrace>> {
         logger.info("Generating env unsafe behavior representation traces by equivalence classes...")
         val m = waGenerator.generateEnvUnsafe()
@@ -91,6 +102,25 @@ class BaseCalculator(
                 if (lts != null) acyclicRepTraces(lts, it) else listOf(RepTrace(it, false))
             }
         }
+    }
+
+    private fun boundedDeltaTraces(
+        bound: Int,
+        delta: DetLTS<Int, String>,
+        lts: LTS<Int, String>? = null
+    ): Set<Word<String>> {
+        val predecessors = Predecessors(delta)
+        val transToError = delta.alphabet().flatMap { predecessors.getPredecessors(delta.errorState, it) }
+        val statesToError = transToError.map { it.source }.toSet()
+        if (statesToError.isEmpty())
+            return emptySet()
+        val traces = mutableMapOf<Int, MutableSet<Word<String>>>()
+        TSTraversal.breadthFirst(delta, delta.alphabet(), BoundedPathsFromInitVisitor(bound, statesToError, traces))
+        val traceSet = mutableSetOf<Word<String>>()
+        transToError.forEach { (_, source, a) ->
+            traces[source]?.forEach { t -> traceSet.add(Word.fromWords(t, Word.fromLetter(a))) }
+        }
+        return traceSet
     }
 
     private fun acyclicRepTraces(lts: LTS<Int, String>, prefix: Word<String>): Collection<RepTrace> {

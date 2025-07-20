@@ -135,16 +135,12 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
         }
     }
 
-    class TracePair(private val type : String,
-                    private val uca : String,
-                    private val goodTrace : List<String>,
+    class TracePair(private val goodTrace : List<String>,
                     private val badTrace : List<String>) {
         override fun toString() : String {
-            val jsonType = "\"$type\""
-            val jsonUCA = "\"$uca\""
             val jsonGoodTrace = goodTrace.map { "\"$it\"" }
             val jsonBadTrace = badTrace.map { "\"$it\"" }
-            return "{\"type\":$jsonType,\"UCA\":$jsonUCA,\"goodTrace\":$jsonGoodTrace,\"badTrace\":$jsonBadTrace}"
+            return "{\"goodTrace\":$jsonGoodTrace,\"badTrace\":$jsonBadTrace}"
         }
     }
 
@@ -152,95 +148,21 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
         sys: LTS<Int,String>,
         env: LTS<Int,String>,
         prop: DetLTS<Int,String>,
-        waitAct : String,
-        options: RobustnessOptions
+        options: RobustnessOptions,
+        bound: Int
     ): List<EquivClassRep> {
+        val cal = BaseCalculator(
+            sys,
+            env,
+            prop,
+            options
+        )
+        val errTraces = cal.computeBoundedUnsafeBeh(bound)
         val tracePairs = mutableListOf<TracePair>()
-
-        // not providing causes an error
-        val notProvidingCausesError = mutableSetOf<Pair<String, Word<String>>>()
-        val causalAlphabet = env.alphabet().filter { !it.equals(waitAct) }
-        val safeStates = env.states - env.errorState
-        for (state in safeStates) {
-            val deviatedEnv = env as CompactLTS<String>
-            if (state in deviatedEnv.getTransitions(state,waitAct)) {
-                continue
-            }
-            val outgoingActs = causalAlphabet.filter { !deviatedEnv.getTransitions(state,it).isEmpty() }
-            deviatedEnv.addTransition(state,waitAct,state)
-            val cal = BaseCalculator(
-                sys,
-                deviatedEnv,
-                prop,
-                options
-            )
-            val equivClassMap = cal.computeEnvUnsafeBeh()
-            equivClassMap.map { (_, reps) ->
-                reps.forEach {
-                    for (act in outgoingActs) {
-                        notProvidingCausesError.add(Pair(act,it.word))
-                    }
-                }
-            }
-            deviatedEnv.removeTransition(state,waitAct,state)
-        }
-
-        notProvidingCausesError.forEach {
-            // <safeTrace> is the maximum trace accepted by <env> and takes the safe action <it.first>
-            // we only care about this safe trace when it is also accepted by <env>
-            val safeTrace = maxTraceAccpeted(env, it.second).append(it.first)
-            if (env.accepts(safeTrace)) {
-                tracePairs.add(TracePair("Not Provided", it.first, safeTrace.asList(), it.second.asList()))
-                //println("Not providing \"${it.first}\" can cause an error!")
-                //println("  error: ${it.second}")
-                //println("  safe when provided: $safeTrace")
-            }
-        }
-
-
-        // providing causes an error
-        val providingCausesError = mutableSetOf<Pair<String, Word<String>>>()
-        val deviatedEnv = env as CompactLTS<String>
-        // TODO clean this up somehow?
-        // the code is outside the loop for now so we only create one extra state
-        var newState = deviatedEnv.addState(true)
-        assert(newState !in safeStates)
-
-        for (state in safeStates) {
-            var isSink = env.alphabet() //causalAlphabet
-                .map { env.getTransitions(state,it).isEmpty() }
-                .all { it }
-            // right now, just handle the edge case (sink states)
-            if (isSink) {
-                for (act in causalAlphabet) {
-                    deviatedEnv.addTransition(state, act, newState)
-                    deviatedEnv.addTransition(newState, waitAct, newState)
-                    val cal = BaseCalculator(
-                        sys,
-                        deviatedEnv,
-                        prop,
-                        options
-                    )
-                    val equivClassMap = cal.computeEnvUnsafeBeh()
-                    equivClassMap.map { (_, reps) ->
-                        reps.forEach {
-                            providingCausesError.add(Pair(act,it.word))
-                        }
-                    }
-                    deviatedEnv.removeTransition(state, act, newState)
-                    deviatedEnv.removeTransition(newState, waitAct, newState)
-                }
-            }
-        }
-
-        providingCausesError.forEach {
-            // <safeTrace> is the maximum trace accepted by <env> and takes the safe action <it.first>
-            // we only care about this safe trace when it is also accepted by <env>
-            val safeTrace = maxTraceAccpeted(env, it.second)
-            tracePairs.add(TracePair("Provided", it.first, safeTrace.asList(), it.second.asList()))
-            //println("Providing \"${it.first}\" can cause an error!")
-            //println("  error: ${it.second}")
-            //println("  safe when not provided: $safeTrace")
+        for (errTrace in errTraces) {
+            val safeTracePrefix = maxTraceAccpeted(env, errTrace)
+            val safeTrace = envExtendTrace(env, safeTracePrefix)
+            tracePairs.add(TracePair(safeTrace.asList(), errTrace.asList()))
         }
 
         val jsonContents = tracePairs.joinToString { it.toString() }
@@ -249,7 +171,21 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
         return listOf()
     }
 
-    fun maxTraceAccpeted(lts : LTS<Int,String>, trace: Word<String>) : Word<String> {
+    /**
+     * Attempts to extend the trace <trace> with one extra action in <env>'s alphabet that <env> accepts. Assumes
+     * that <env> accepts <trace>.
+     */
+    private fun envExtendTrace(env : LTS<Int,String>, trace : Word<String>) : Word<String> {
+        for (a in env.alphabet()) {
+            var extendedTrace = Word.fromWords(trace, Word.fromLetter(a))
+            if (env.accepts(extendedTrace)) {
+                return extendedTrace
+            }
+        }
+        return trace
+    }
+
+    private fun maxTraceAccpeted(lts : LTS<Int,String>, trace: Word<String>) : Word<String> {
         for (i in trace.size() downTo 0) {
             val maxWord = trace.prefix(i)
             if (lts.accepts(maxWord)) {
