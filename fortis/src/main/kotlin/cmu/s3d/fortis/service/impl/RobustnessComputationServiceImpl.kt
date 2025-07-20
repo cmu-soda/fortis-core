@@ -138,9 +138,9 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
     class TracePair(private val goodTrace : List<String>,
                     private val badTrace : List<String>) {
         override fun toString() : String {
-            val jsonGoodTrace = goodTrace.map { "\"$it\"" }
-            val jsonBadTrace = badTrace.map { "\"$it\"" }
-            return "{\"goodTrace\":$jsonGoodTrace,\"badTrace\":$jsonBadTrace}"
+            val jsonGoodTrace = goodTrace.joinToString(",") { "\"$it\"" }
+            val jsonBadTrace = badTrace.joinToString(",") { "\"$it\"" }
+            return "{\"goodTrace\":[$jsonGoodTrace],\"badTrace\":[$jsonBadTrace]}"
         }
     }
 
