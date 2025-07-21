@@ -157,7 +157,8 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
             prop,
             options
         )
-        val errTraces = cal.computeBoundedUnsafeBeh(bound)
+        //val errTraces = cal.computeBoundedUnsafeBeh(bound)
+        val errTraces = cal.computeAllStatesUnsafeBeh()
         val tracePairs = mutableListOf<TracePair>()
         for (errTrace in errTraces) {
             val safeTracePrefix = maxTraceAccpeted(env, errTrace)

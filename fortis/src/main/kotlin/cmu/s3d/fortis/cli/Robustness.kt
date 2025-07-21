@@ -36,7 +36,7 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
     private val dev by option("--dev", "-d", help = "The model of the deviation model for explanation.")
     private val jsons by option("--jsons", help = "One or more model config files, separated by ','.").split(",")
 
-    private val bound by option("--bound", help = "The maximum length for an unsafe trace in STPA mode.")
+    private val bound by option("--bound", help = "The maximum length for an unsafe trace in STPA mode.").default("0")
     private val tlaSys by option("--tla-sys", help = "The model of the system encoded in TLA+.")
     private val cfgSys by option("--cfg-sys", help = "The config for the system encoded in TLA+.")
     private val tlaEnv by option("--tla-env", help = "The model of the environment encoded in TLA+.")

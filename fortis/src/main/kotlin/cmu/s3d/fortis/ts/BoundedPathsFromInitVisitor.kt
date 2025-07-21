@@ -36,7 +36,6 @@ class BoundedPathsFromInitVisitor(
         succ: Int,
         outData: Holder<Word<String>>
     ): TSTraversalAction {
-        //val transitionInLTS = succ in lts.getTransitions(source, input)
         val selfLoop = succ == source
         if (!selfLoop) {
             outData.value = Word.fromWords(srcData, Word.fromLetter(input))

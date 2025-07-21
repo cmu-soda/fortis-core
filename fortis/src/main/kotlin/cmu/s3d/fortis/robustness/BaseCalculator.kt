@@ -8,7 +8,11 @@ import cmu.s3d.fortis.common.RobustnessOptions
 import cmu.s3d.fortis.ts.*
 import cmu.s3d.fortis.ts.lts.hide
 import cmu.s3d.fortis.ts.lts.makeErrorState
+import net.automatalib.alphabet.Alphabets
+import net.automatalib.automaton.fsa.CompactNFA
+import net.automatalib.automaton.fsa.NFA
 import net.automatalib.common.util.Holder
+import net.automatalib.util.automaton.builder.AutomatonBuilders
 import net.automatalib.util.ts.traversal.TSTraversal
 import net.automatalib.util.ts.traversal.TSTraversalAction
 import net.automatalib.util.ts.traversal.TSTraversalVisitor
@@ -51,6 +55,15 @@ class BaseCalculator(
         logger.info("Generating unsafe behavior representation traces by equivalence classes...")
         val m = waGenerator.generateUnsafe()
         val traces = boundedDeltaTraces(bound, m)
+        if (traces.isEmpty())
+            logger.info("No representation traces found. The system is safe under any environment.")
+        return traces
+    }
+
+    fun computeAllStatesUnsafeBeh(): Set<Word<String>> {
+        logger.info("Generating unsafe behavior representation traces by equivalence classes...")
+        val m = waGenerator.generateUnsafe()
+        val traces = deltaTracesAllStates(m)
         if (traces.isEmpty())
             logger.info("No representation traces found. The system is safe under any environment.")
         return traces
@@ -104,10 +117,10 @@ class BaseCalculator(
         }
     }
 
+
     private fun boundedDeltaTraces(
         bound: Int,
-        delta: DetLTS<Int, String>,
-        lts: LTS<Int, String>? = null
+        delta: DetLTS<Int, String>
     ): Set<Word<String>> {
         val predecessors = Predecessors(delta)
         val transToError = delta.alphabet().flatMap { predecessors.getPredecessors(delta.errorState, it) }
@@ -121,6 +134,60 @@ class BaseCalculator(
             traces[source]?.forEach { t -> traceSet.add(Word.fromWords(t, Word.fromLetter(a))) }
         }
         return traceSet
+    }
+
+    private fun reverseNFA(orig: NFA<Int, String>, initStates: Set<Int>) : NFA<Int,String> {
+        val reversed = AutomatonBuilders.newNFA(orig.alphabet()).create()
+        val allStates = orig.states.sorted()
+        val correct = (0..allStates.last()).toList()
+        assert(allStates == correct)
+        for (state in allStates) {
+            if (state in initStates) {
+                reversed.addInitialState()
+            } else {
+                reversed.addState()
+            }
+        }
+        for (src in allStates) {
+            for (a in orig.alphabet()) {
+                for (dst in orig.getTransitions(src, a)) {
+                    reversed.addTransition(dst, a, src)
+                }
+            }
+        }
+        return reversed
+    }
+
+    private fun predFix(init: Set<Int>, lts: LTS<Int,String>, pred: Predecessors<Int,String>) : Set<Int> {
+        val set = init.toMutableSet()
+        while (true) {
+            val predecessors = set.flatMap { state ->
+                lts.alphabet().flatMap { a -> pred.getPredecessors(state, a) }
+            }.map { it.source }.toSet()
+            if (set.containsAll(predecessors)) {
+                // reached a fix point
+                return set
+            }
+            set.addAll(predecessors)
+        }
+    }
+
+    private fun deltaTracesAllStates(
+        delta: DetLTS<Int, String>
+    ): Set<Word<String>> {
+        val predecessors = Predecessors(delta)
+        val transToError = delta.alphabet().flatMap { predecessors.getPredecessors(delta.errorState, it) }
+        val statesToError = transToError.map { it.source }.toSet()
+        if (statesToError.isEmpty())
+            return emptySet()
+        val errorReach = predFix(statesToError, delta, predecessors)
+        val traceClasses = mutableMapOf<Int, MutableSet<Word<String>>>()
+        TSTraversal.breadthFirst(delta, delta.alphabet(), AllStatesPathsFromInitVisitor(statesToError, errorReach, traceClasses))
+        val traces = mutableSetOf<Word<String>>()
+        transToError.forEach { (_, source, a) ->
+            traceClasses[source]?.forEach { t -> traces.add(Word.fromWords(t, Word.fromLetter(a))) }
+        }
+        return traces
     }
 
     private fun acyclicRepTraces(lts: LTS<Int, String>, prefix: Word<String>): Collection<RepTrace> {
