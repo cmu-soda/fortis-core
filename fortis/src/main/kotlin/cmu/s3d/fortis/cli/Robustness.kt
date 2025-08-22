@@ -12,6 +12,7 @@ import cmu.s3d.fortis.ts.lts.CompactDetLTS
 import cmu.s3d.fortis.ts.lts.CompactLTS
 import cmu.s3d.fortis.ts.lts.hide
 import cmu.s3d.fortis.ts.lts.ltsa.writeFSP
+import cmu.s3d.fortis.ts.parallel
 import cmu.s3d.fortis.utils.pretty
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -37,10 +38,10 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
     private val jsons by option("--jsons", help = "One or more model config files, separated by ','.").split(",")
 
     private val bound by option("--bound", help = "The maximum length for an unsafe trace in STPA mode.").default("0")
-    private val tlaSys by option("--tla-sys", help = "The model of the system encoded in TLA+.")
-    private val cfgSys by option("--cfg-sys", help = "The config for the system encoded in TLA+.")
-    private val tlaEnv by option("--tla-env", help = "The model of the environment encoded in TLA+.")
-    private val cfgEnv by option("--cfg-env", help = "The config for the environment encoded in TLA+.")
+    private val tlaSys by option("--tla-sys", help = "The model of the system encoded in TLA+ (comma separated for multiple files).")
+    private val cfgSys by option("--cfg-sys", help = "The config for the system encoded in TLA+ (comma separated for multiple files).")
+    private val tlaEnv by option("--tla-env", help = "The model of the environment encoded in TLA+ (comma separated for multiple files).")
+    private val cfgEnv by option("--cfg-env", help = "The config for the environment encoded in TLA+ (comma separated for multiple files).")
 
     // function modes
     private val unsafe by option("--unsafe", help = "Generate unsafe behaviors.").flag()
@@ -113,9 +114,33 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
             logResult(re)
         } else if (stpa) {
             if (tlaSys != null && cfgSys != null && tlaEnv != null && cfgEnv != null) {
-                val sysLts = CompactLTS<String>(TLC().createLTS(tlaSys, cfgSys, true))
-                val envLts = CompactLTS<String>(TLC().createLTS(tlaEnv, cfgEnv, true))
-                val propLts = hide(CompactLTS<String>(TLC().createLTS(tlaSys, cfgSys, false)), emptySet())
+                val sysFiles = Pair(tlaSys!!.split(","), cfgSys!!.split(","))
+                val envFiles = Pair(tlaEnv!!.split(","), cfgEnv!!.split(","))
+                if (sysFiles.first.size != sysFiles.second.size) {
+                    logger.error("Expected the same number of TLA+ files and configs for the system!")
+                    exitProcess(1)
+                }
+                if (envFiles.first.size != envFiles.second.size) {
+                    logger.error("Expected the same number of TLA+ files and configs for the environment!")
+                    exitProcess(1)
+                }
+
+                // compose all sys components into a single sys LTS
+                val sysComponents = sysFiles.first.zip(sysFiles.second)
+                    .map { (tla,cfg) -> CompactLTS<String>(TLC().createLTS(tla, cfg, true)) }
+                val sysLts = if (sysComponents.size == 1) sysComponents[0] else parallel(*sysComponents.toTypedArray())
+
+                // compose all env components into a single env LTS
+                val envComponents = envFiles.first.zip(envFiles.second)
+                    .map { (tla,cfg) -> CompactLTS<String>(TLC().createLTS(tla, cfg, true)) }
+                val envLts = if (envComponents.size == 1) envComponents[0] else parallel(*envComponents.toTypedArray())
+
+                // compose all sys error components into a single prop LTS
+                val propComponents = sysFiles.first.zip(sysFiles.second)
+                    .map { (tla,cfg) -> CompactLTS<String>(TLC().createLTS(tla, cfg, false)) }
+                val propNfa = if (propComponents.size == 1) propComponents[0] else parallel(*propComponents.toTypedArray())
+                val propLts = hide(propNfa, emptySet())
+
                 val iBound = bound?.toInt() ?: throw RuntimeException("Invalid bound, expect Int, got: $bound")
                 //writeFSP(System.out, sysLts, sysLts.alphabet())
                 val re = robustnessComputationService.computeSTPARob(
