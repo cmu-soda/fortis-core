@@ -136,20 +136,31 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
     }
 
     class TracePair(private val goodTrace : List<String>,
-                    private val badTrace : List<String>) {
+                    private val badTrace : List<String>,
+                    sysComponents: List<LTS<Int,String>>,
+                    sysComponentNames: List<String>) {
+        private var violatingComponents: List<String>
+        init {
+            val violatingAct = badTrace.last()
+            violatingComponents = sysComponents.zip(sysComponentNames)
+                .filter { (cmp,name) -> cmp.alphabet().contains(violatingAct) }
+                .map { (cmp,name) -> name }
+        }
         override fun toString() : String {
             val jsonGoodTrace = goodTrace.joinToString(",") { "\"$it\"" }
             val jsonBadTrace = badTrace.joinToString(",") { "\"$it\"" }
-            return "{\"goodTrace\":[$jsonGoodTrace],\"badTrace\":[$jsonBadTrace]}"
+            val jsonViolatingComponents = violatingComponents.joinToString(",") { "\"$it\"" }
+            return "{\"goodTrace\":[$jsonGoodTrace],\"badTrace\":[$jsonBadTrace],\"violatingComponents\":[$jsonViolatingComponents]}"
         }
     }
 
     fun computeSTPARob(
         sys: LTS<Int,String>,
+        sysComponents: List<LTS<Int,String>>,
+        sysComponentNames: List<String>,
         env: LTS<Int,String>,
         prop: DetLTS<Int,String>,
         options: RobustnessOptions,
-        bound: Int
     ): List<EquivClassRep> {
         val cal = BaseCalculator(
             sys,
@@ -157,13 +168,12 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
             prop,
             options
         )
-        //val errTraces = cal.computeBoundedUnsafeBeh(bound)
         val errTraces = cal.computeAllStatesUnsafeBeh()
         val tracePairs = mutableListOf<TracePair>()
         for (errTrace in errTraces) {
             val safeTracePrefix = maxTraceAccpeted(env, errTrace)
             val safeTrace = envExtendTrace(env, safeTracePrefix)
-            tracePairs.add(TracePair(safeTrace.asList(), errTrace.asList()))
+            tracePairs.add(TracePair(safeTrace.asList(), errTrace.asList(), sysComponents, sysComponentNames))
         }
 
         val jsonContents = tracePairs.joinToString { it.toString() }
