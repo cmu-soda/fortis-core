@@ -127,12 +127,16 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
                 // compose all sys components into a single sys LTS
                 val sysComponents = sysFiles.first.zip(sysFiles.second)
                     .map { (tla,cfg) -> CompactLTS<String>(TLC().createLTS(tla, cfg, true)) }
-                val sysLts = if (sysComponents.size == 1) sysComponents[0] else parallel(*sysComponents.toTypedArray())
+                val rawSysLts = if (sysComponents.size == 1) sysComponents[0] else parallel(*sysComponents.toTypedArray())
 
                 // compose all env components into a single env LTS
                 val envComponents = envFiles.first.zip(envFiles.second)
                     .map { (tla,cfg) -> CompactLTS<String>(TLC().createLTS(tla, cfg, true)) }
-                val envLts = if (envComponents.size == 1) envComponents[0] else parallel(*envComponents.toTypedArray())
+                val rawEnvLts = if (envComponents.size == 1) envComponents[0] else parallel(*envComponents.toTypedArray())
+
+                val globalAlph = rawSysLts.alphabet().toSet().intersect(rawEnvLts.alphabet().toSet())
+                val sysLts = hide(rawSysLts, rawSysLts.alphabet().toSet() - globalAlph)
+                val envLts = hide(rawEnvLts, rawEnvLts.alphabet().toSet() - globalAlph)
 
                 // compose all sys error components into a single prop LTS
                 val propComponents = sysFiles.first.zip(sysFiles.second)
@@ -145,22 +149,31 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
                     sysLts,
                     sysComponents,
                     sysFiles.first.map { it.replace(Regex("\\..*$"),"") },
+                    sysFiles.first.zip(sysFiles.second),
                     envLts,
                     propLts,
+                    "",
+                    globalAlph,
                     options
                 )
                 logResult(re)
             }
             else {
-                val sysLts = parseSpecs(problems[0].sys)
-                val envLts = parseSpecs(problems[0].env)
+                val rawSysLts = parseSpecs(problems[0].sys)
+                val rawEnvLts = parseSpecs(problems[0].env)
+                val globalAlph = rawSysLts.alphabet().toSet().intersect(rawEnvLts.alphabet().toSet())
+                val sysLts = hide(rawSysLts, rawSysLts.alphabet().toSet() - globalAlph)
+                val envLts = hide(rawEnvLts, rawEnvLts.alphabet().toSet() - globalAlph)
                 val propLts = parseSpecs(problems[0].prop, true) as DetLTS<Int, String>
                 val re = robustnessComputationService.computeSTPARob(
                     sysLts,
                     listOf(sysLts),
                     sys?.let { listOf(it.replace(Regex("\\..*$"),"")) } as List<String>,
+                    emptyList(),
                     envLts,
                     propLts,
+                    prop.toString().replace(Regex("\\..*$"),""),
+                    globalAlph,
                     options
                 )
                 logResult(re)

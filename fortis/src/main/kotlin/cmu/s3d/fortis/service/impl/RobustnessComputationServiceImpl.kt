@@ -20,6 +20,7 @@ import net.automatalib.automaton.fsa.CompactNFA
 import net.automatalib.serialization.aut.AUTWriter
 import net.automatalib.word.Word
 import org.slf4j.LoggerFactory
+import tlc2.TraceReproducer
 import java.io.ByteArrayOutputStream
 
 class RobustnessComputationServiceImpl : RobustnessComputationService {
@@ -138,19 +139,35 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
     class TracePair(private val goodTrace : List<String>,
                     private val badTrace : List<String>,
                     sysComponents: List<LTS<Int,String>>,
-                    sysComponentNames: List<String>) {
+                    sysComponentNames: List<String>,
+                    sysTlaFiles: List<Pair<String,String>>,
+                    propName: String,
+                    globalAlph: Set<String>) {
         private var violatingComponents: List<String>
+        private var violatedInvs: Set<String>
         init {
             val violatingAct = badTrace.last()
             violatingComponents = sysComponents.zip(sysComponentNames)
                 .filter { (cmp,name) -> cmp.alphabet().contains(violatingAct) }
                 .map { (cmp,name) -> name }
+            violatedInvs = if (sysTlaFiles.isEmpty()) {
+                // no TLA+ files so use the name of the prop file
+                setOf(propName)
+            }
+            else {
+                // find the invariants that are violated in each TLA+ component
+                sysTlaFiles
+                    .flatMap { (tla,cfg) -> TraceReproducer.reproduceTrace(badTrace, tla, cfg, globalAlph) }
+                    .toSet()
+            }
         }
         override fun toString() : String {
             val jsonGoodTrace = goodTrace.joinToString(",") { "\"$it\"" }
             val jsonBadTrace = badTrace.joinToString(",") { "\"$it\"" }
             val jsonViolatingComponents = violatingComponents.joinToString(",") { "\"$it\"" }
-            return "{\"goodTrace\":[$jsonGoodTrace],\"badTrace\":[$jsonBadTrace],\"violatingComponents\":[$jsonViolatingComponents]}"
+            val jsonViolatedInvs = violatedInvs.joinToString(",") { "\"$it\"" }
+            return "{\"goodTrace\":[$jsonGoodTrace],\"badTrace\":[$jsonBadTrace]," +
+                    "\"violatingComponents\":[$jsonViolatingComponents],\"violatedInvs\":[$jsonViolatedInvs]}"
         }
     }
 
@@ -158,8 +175,11 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
         sys: LTS<Int,String>,
         sysComponents: List<LTS<Int,String>>,
         sysComponentNames: List<String>,
+        sysTlaFiles: List<Pair<String,String>>,
         env: LTS<Int,String>,
         prop: DetLTS<Int,String>,
+        propName: String,
+        globalAlph: Set<String>,
         options: RobustnessOptions,
     ): List<EquivClassRep> {
         val cal = BaseCalculator(
@@ -173,7 +193,7 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
         for (errTrace in errTraces) {
             val safeTracePrefix = maxTraceAccpeted(env, errTrace)
             val safeTrace = envExtendTrace(env, safeTracePrefix)
-            tracePairs.add(TracePair(safeTrace.asList(), errTrace.asList(), sysComponents, sysComponentNames))
+            tracePairs.add(TracePair(safeTrace.asList(), errTrace.asList(), sysComponents, sysComponentNames, sysTlaFiles, propName, globalAlph))
         }
 
         val jsonContents = tracePairs.joinToString { it.toString() }
