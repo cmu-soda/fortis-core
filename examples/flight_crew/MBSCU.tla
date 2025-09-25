@@ -26,9 +26,9 @@
 
 EXTENDS Integers, Sequences
 
-VARIABLES power, fault, mode, abarmed, decelrate, finished
+VARIABLES power, fault, mode, abarmed, decelrate, step
 
-vars == <<power, fault, mode, abarmed, decelrate, finished>>
+vars == <<power, fault, mode, abarmed, decelrate, step>>
 
 Init ==
     /\ power = FALSE
@@ -36,40 +36,50 @@ Init ==
     /\ mode = "Unset"
     /\ abarmed = FALSE
     /\ decelrate = 0
-    /\ finished = FALSE
+    /\ step = 0
 
 TurnBSCUOn ==
+    /\ step < 7
     /\ power = FALSE
+    /\ step' = step + 1
     /\ power' = TRUE
-    /\ UNCHANGED <<fault, mode, abarmed, decelrate, finished>>
+    /\ UNCHANGED <<fault, mode, abarmed, decelrate>>
 
 SelfCheck ==
+    /\ step < 7
     /\ power = TRUE
     /\ fault = "Unset"
     /\ fault' \in {"Fault", "NoFault"}
-    /\ UNCHANGED <<power, mode, abarmed, decelrate, finished>>
+    /\ step' = step + 1
+    /\ UNCHANGED <<power, mode, abarmed, decelrate>>
 
 SetMode == 
+    /\ step < 7
     /\ fault = "NoFault"
     /\ mode = "Unset"
+    /\ step' = step + 1
     /\ mode' \in {"Auto", "Normal", "Manual", "Reject"}
-    /\ UNCHANGED <<power, fault, abarmed, decelrate, finished>>
+    /\ UNCHANGED <<power, fault, abarmed, decelrate>>
 
 ArmAutobrake ==
+    /\ step < 7
     /\ mode = "Auto"
     /\ abarmed = FALSE
+    /\ step' = step + 1
     /\ abarmed' = TRUE
-    /\ UNCHANGED <<power, fault, mode, decelrate, finished>>
+    /\ UNCHANGED <<power, fault, mode, decelrate>>
 
 SetDecelRate ==
+    /\ step < 7
     /\ abarmed = TRUE
     /\ decelrate = 0
-    /\ decelrate' \in 1 .. 10
-    /\ UNCHANGED <<power, fault, mode, abarmed, finished>>
+    /\ step' = step + 1
+    /\ decelrate' = 9
+    /\ UNCHANGED <<power, fault, mode, abarmed>>
 
 Wait ==
-    /\ finished = FALSE
-    /\ finished' = TRUE
+    /\ step < 7
+    /\ step' = step + 1
     /\ UNCHANGED <<power, fault, mode, abarmed, decelrate>>
 
 Next == 
@@ -82,5 +92,6 @@ Next ==
 
 Spec == Init /\ [][Next]_vars
 
-AdequateDecel == finished = TRUE => decelrate > 0
+AdequateDecel == step >= 5 => decelrate > 8
+
 =============================================================================

@@ -22,6 +22,7 @@ import net.automatalib.word.Word
 import org.slf4j.LoggerFactory
 import tlc2.TraceReproducer
 import java.io.ByteArrayOutputStream
+import kotlin.system.exitProcess
 
 class RobustnessComputationServiceImpl : RobustnessComputationService {
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -182,6 +183,11 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
         globalAlph: Set<String>,
         options: RobustnessOptions,
     ): List<EquivClassRep> {
+        // sanity check
+        if (sysComponents.size != sysComponentNames.size) {
+            logger.error("mismatch in length between sysComponents and sysComponentNames")
+            exitProcess(1)
+        }
         val cal = BaseCalculator(
             sys,
             env,

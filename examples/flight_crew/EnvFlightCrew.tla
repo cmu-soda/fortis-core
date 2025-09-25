@@ -54,7 +54,7 @@ SetDecelRate ==
     /\ step' = 5
 
 Wait ==
-    /\ step \in {5}
+    /\ step = 5
     /\ step' = step + 1
 
 Next == 

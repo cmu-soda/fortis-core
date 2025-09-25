@@ -26,9 +26,9 @@
 
 EXTENDS Integers
 
-VARIABLES BSCUPower, BSCUFault, ENVStep, BrakingMode, AutobrakeArmed, DecelRate, TaskComplete
+VARIABLES BSCUPower, BSCUFault, ENVStep, BrakingMode, AutobrakeArmed, DecelRate, MachineStep
 
-vars == <<BSCUPower, BSCUFault, ENVStep, BrakingMode, AutobrakeArmed, DecelRate, TaskComplete>>
+vars == <<BSCUPower, BSCUFault, ENVStep, BrakingMode, AutobrakeArmed, DecelRate, MachineStep>>
 
 BSCU == INSTANCE MBSCU WITH
     power <- BSCUPower,
@@ -36,7 +36,7 @@ BSCU == INSTANCE MBSCU WITH
     mode <- BrakingMode,
     abarmed <- AutobrakeArmed,
     decelrate <- DecelRate,
-    finished <- TaskComplete
+    step <- MachineStep
 
 Env == INSTANCE EnvFlightCrew WITH
     step <- ENVStep

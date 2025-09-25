@@ -148,7 +148,9 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
                 val re = robustnessComputationService.computeSTPARob(
                     sysLts,
                     sysComponents,
-                    sysFiles.first.map { it.replace(Regex("\\..*$"),"") },
+                    sysFiles.first.map { it // the following two regexs gather the module names:
+                        .replace(Regex("^.*/"),"") // remove paths
+                        .replace(Regex("\\.[^/]*$"),"") }, // remove extensions
                     sysFiles.first.zip(sysFiles.second),
                     envLts,
                     propLts,
