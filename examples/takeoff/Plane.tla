@@ -5,7 +5,7 @@ VARIABLES speed, acceleration
 vars == <<speed, acceleration>>
 
 MAX_ACCELERATION == 1
-MIN_ACCELERATION == 0
+MIN_ACCELERATION == -1
 MAX_SPEED == 3
 MIN_SPEED == 0
 
