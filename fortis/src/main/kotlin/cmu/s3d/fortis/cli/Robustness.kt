@@ -45,6 +45,7 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
     // function modes
     private val unsafe by option("--unsafe", help = "Generate unsafe behaviors.").flag()
     private val stpa by option("--stpa", help = "Generate STPA unsafe control actions.").flag()
+    private val exploreEnv by option("--explore-env", help = "Explores all env states too in STPA mode.").flag()
     private val compareSys by option("--compare-sys", help = "Compare the robustness of two system models.").flag()
     private val compareProp by option("--compare-prop", help = "Compare the robustness of one system under two properties.").flag()
     private val generateWA by option("--wa", help = "Output the weakest assumption model.").flag()
@@ -156,6 +157,7 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
                     propLts,
                     "",
                     globalAlph,
+                    exploreEnv,
                     options
                 )
                 logResult(re)
@@ -176,6 +178,7 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
                     propLts,
                     prop.toString().replace(Regex("\\..*$"),""),
                     globalAlph,
+                    exploreEnv,
                     options
                 )
                 logResult(re)

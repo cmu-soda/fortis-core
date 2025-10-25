@@ -11,7 +11,7 @@ Init ==
 
 Gas ==
 /\ phase \in {"idle", "startTakeoff", "takeoff"}
-/\ (phase = "idle") => (phase' = "taxiing")
+/\ (phase = "idle") => (phase' = "beginTaxi")
 /\ (phase = "startTakeoff") => (phase' = "takeoff")
 /\ (phase = "takeoff") => (phase' = phase)
 
@@ -20,12 +20,13 @@ Brake ==
 /\ phase' = "waitingAtRunway"
 
 Wait ==
-/\ phase \in {"waitingAtRunway", "takeoff"}
+/\ phase \in {"beginTaxi", "waitingAtRunway", "takeoff"}
+/\ (phase = "beginTaxi") => (phase' = "taxiing")
 /\ (phase = "waitingAtRunway") => (phase' = "startTakeoff")
 /\ (phase = "takeoff") => (phase' = phase)
 
 TypeOK ==
-/\ phase \in {"idle", "taxiing", "waitingAtRunway", "startTakeoff", "takeoff"}
+/\ phase \in {"idle", "beginTaxi", "taxiing", "waitingAtRunway", "startTakeoff", "takeoff"}
 
 Next ==
     \/ Gas

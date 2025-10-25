@@ -9,6 +9,7 @@ import cmu.s3d.fortis.supervisory.asLTS
 import cmu.s3d.fortis.supervisory.desops.parseFSM
 import cmu.s3d.fortis.ts.*
 import cmu.s3d.fortis.ts.lts.CompactLTS
+import cmu.s3d.fortis.ts.lts.addAllTransitions
 import cmu.s3d.fortis.ts.lts.asLTS
 import cmu.s3d.fortis.ts.lts.hide
 import cmu.s3d.fortis.ts.lts.ltsa.LTSACall
@@ -170,6 +171,9 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
             return "{\"goodTrace\":[$jsonGoodTrace],\"badTrace\":[$jsonBadTrace]," +
                     "\"violatingComponents\":[$jsonViolatingComponents],\"violatedInvs\":[$jsonViolatedInvs]}"
         }
+
+        override fun equals(other: Any?): Boolean =
+            (other is TracePair) && this.toString() == other.toString()
     }
 
     fun computeSTPARob(
@@ -181,6 +185,7 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
         prop: DetLTS<Int,String>,
         propName: String,
         globalAlph: Set<String>,
+        exploreEnv: Boolean,
         options: RobustnessOptions,
     ): List<EquivClassRep> {
         // sanity check
@@ -188,8 +193,9 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
             logger.error("mismatch in length between sysComponents and sysComponentNames")
             exitProcess(1)
         }
+        val totalSys = if (exploreEnv) parallel(sys, addAllTransitions(env)) else sys
         val cal = BaseCalculator(
-            sys,
+            totalSys,
             env,
             prop,
             options
@@ -199,7 +205,10 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
         for (errTrace in errTraces) {
             val safeTracePrefix = maxTraceAccpeted(env, errTrace)
             val safeTrace = envExtendTrace(env, safeTracePrefix)
-            tracePairs.add(TracePair(safeTrace.asList(), errTrace.asList(), sysComponents, sysComponentNames, sysTlaFiles, propName, globalAlph))
+            val tp = TracePair(safeTrace.asList(), errTrace.asList(), sysComponents, sysComponentNames, sysTlaFiles, propName, globalAlph)
+            if (tp !in tracePairs) {
+                tracePairs.add(tp)
+            }
         }
 
         val jsonContents = tracePairs.joinToString { it.toString() }

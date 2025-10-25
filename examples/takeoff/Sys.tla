@@ -1,12 +1,11 @@
 ---- MODULE Sys ----
 EXTENDS Integers
 
-VARIABLES phase, takeoffStep, speed, acceleration
-vars == <<phase, takeoffStep, speed, acceleration>>
+VARIABLES phase, speed, acceleration
+vars == <<phase, speed, acceleration>>
 
 Crew == INSTANCE Crew WITH
-    phase <- phase,
-    takeoffStep <- takeoffStep
+    phase <- phase
 
 Plane == INSTANCE Plane WITH
     speed <- speed,
