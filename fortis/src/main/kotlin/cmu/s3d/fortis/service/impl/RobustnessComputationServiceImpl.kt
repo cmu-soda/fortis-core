@@ -187,7 +187,7 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
         globalAlph: Set<String>,
         exploreEnv: Boolean,
         options: RobustnessOptions,
-    ): List<EquivClassRep> {
+    ): String {
         // sanity check
         if (sysComponents.size != sysComponentNames.size) {
             logger.error("mismatch in length between sysComponents and sysComponentNames")
@@ -212,9 +212,7 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
         }
 
         val jsonContents = tracePairs.joinToString { it.toString() }
-        println("[$jsonContents]")
-
-        return listOf()
+        return "[$jsonContents]"
     }
 
     /**

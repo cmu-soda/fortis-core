@@ -125,42 +125,10 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
                     exitProcess(1)
                 }
 
-                // compose all sys components into a single sys LTS
-                val sysComponents = sysFiles.first.zip(sysFiles.second)
-                    .map { (tla,cfg) -> CompactLTS<String>(TLC().createLTS(tla, cfg, true)) }
-                val rawSysLts = if (sysComponents.size == 1) sysComponents[0] else parallel(*sysComponents.toTypedArray())
-
-                // compose all env components into a single env LTS
-                val envComponents = envFiles.first.zip(envFiles.second)
-                    .map { (tla,cfg) -> CompactLTS<String>(TLC().createLTS(tla, cfg, true)) }
-                val rawEnvLts = if (envComponents.size == 1) envComponents[0] else parallel(*envComponents.toTypedArray())
-
-                val globalAlph = rawSysLts.alphabet().toSet().intersect(rawEnvLts.alphabet().toSet())
-                val sysLts = hide(rawSysLts, rawSysLts.alphabet().toSet() - globalAlph)
-                val envLts = hide(rawEnvLts, rawEnvLts.alphabet().toSet() - globalAlph)
-
-                // compose all sys error components into a single prop LTS
-                val propComponents = sysFiles.first.zip(sysFiles.second)
-                    .map { (tla,cfg) -> CompactLTS<String>(TLC().createLTS(tla, cfg, false)) }
-                val propNfa = if (propComponents.size == 1) propComponents[0] else parallel(*propComponents.toTypedArray())
-                val propLts = hide(propNfa, emptySet())
-
-                //writeFSP(System.out, sysLts, sysLts.alphabet())
-                val re = robustnessComputationService.computeSTPARob(
-                    sysLts,
-                    sysComponents,
-                    sysFiles.first.map { it // the following two regexs gather the module names:
-                        .replace(Regex("^.*/"),"") // remove paths
-                        .replace(Regex("\\.[^/]*$"),"") }, // remove extensions
-                    sysFiles.first.zip(sysFiles.second),
-                    envLts,
-                    propLts,
-                    "",
-                    globalAlph,
-                    exploreEnv,
-                    options
-                )
-                logResult(re)
+                val sysFilePairs = sysFiles.first.zip(sysFiles.second)
+                val envFilePairs = envFiles.first.zip(envFiles.second)
+                val robustJson = computeSTPARobustness(sysFilePairs, envFilePairs)
+                println(robustJson)
             }
             else {
                 val rawSysLts = parseSpecs(problems[0].sys)
@@ -169,7 +137,7 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
                 val sysLts = hide(rawSysLts, rawSysLts.alphabet().toSet() - globalAlph)
                 val envLts = hide(rawEnvLts, rawEnvLts.alphabet().toSet() - globalAlph)
                 val propLts = parseSpecs(problems[0].prop, true) as DetLTS<Int, String>
-                val re = robustnessComputationService.computeSTPARob(
+                val robustJson = robustnessComputationService.computeSTPARob(
                     sysLts,
                     listOf(sysLts),
                     sys?.let { listOf(it.replace(Regex("\\..*$"),"")) } as List<String>,
@@ -181,7 +149,8 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
                     exploreEnv,
                     options
                 )
-                logResult(re)
+                println(robustJson)
+                //logResult(re)
             }
         } else {
             val re = robustnessComputationService.computeRobustness(
@@ -196,6 +165,46 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
 
         logger.info("Total time: ${Duration.ofMillis(System.currentTimeMillis() - start).pretty()}")
         System.exit(0)
+    }
+
+    fun computeSTPARobustness(sysFiles : List<Pair<String,String>>, envFiles : List<Pair<String,String>>) : String {
+        val options = RobustnessOptions(expand, minimized, disables)
+
+        // compose all sys components into a single sys LTS
+        val sysComponents = sysFiles
+            .map { (tla,cfg) -> CompactLTS<String>(TLC().createLTS(tla, cfg, true)) }
+        val rawSysLts = if (sysComponents.size == 1) sysComponents[0] else parallel(*sysComponents.toTypedArray())
+
+        // compose all env components into a single env LTS
+        val envComponents = envFiles
+            .map { (tla,cfg) -> CompactLTS<String>(TLC().createLTS(tla, cfg, true)) }
+        val rawEnvLts = if (envComponents.size == 1) envComponents[0] else parallel(*envComponents.toTypedArray())
+
+        val globalAlph = rawSysLts.alphabet().toSet().intersect(rawEnvLts.alphabet().toSet())
+        val sysLts = hide(rawSysLts, rawSysLts.alphabet().toSet() - globalAlph)
+        val envLts = hide(rawEnvLts, rawEnvLts.alphabet().toSet() - globalAlph)
+
+        // compose all sys error components into a single prop LTS
+        val propComponents = sysFiles
+            .map { (tla,cfg) -> CompactLTS<String>(TLC().createLTS(tla, cfg, false)) }
+        val propNfa = if (propComponents.size == 1) propComponents[0] else parallel(*propComponents.toTypedArray())
+        val propLts = hide(propNfa, emptySet())
+
+        //writeFSP(System.out, sysLts, sysLts.alphabet())
+        return robustnessComputationService.computeSTPARob(
+            sysLts,
+            sysComponents,
+            sysFiles.map { it.first // the following two regexs gather the module names:
+                .replace(Regex("^.*/"),"") // remove paths
+                .replace(Regex("\\.[^/]*$"),"") }, // remove extensions
+            sysFiles,
+            envLts,
+            propLts,
+            "",
+            globalAlph,
+            exploreEnv,
+            options
+        )
     }
 
     private fun compareSys(a: Problem, b: Problem, options: RobustnessOptions) {
