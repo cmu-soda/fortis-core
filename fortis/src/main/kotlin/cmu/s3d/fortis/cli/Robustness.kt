@@ -167,46 +167,6 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
         System.exit(0)
     }
 
-    fun computeSTPARobustness(sysFiles : List<Pair<String,String>>, envFiles : List<Pair<String,String>>) : String {
-        val options = RobustnessOptions(expand, minimized, disables)
-
-        // compose all sys components into a single sys LTS
-        val sysComponents = sysFiles
-            .map { (tla,cfg) -> CompactLTS<String>(TLC().createLTS(tla, cfg, true)) }
-        val rawSysLts = if (sysComponents.size == 1) sysComponents[0] else parallel(*sysComponents.toTypedArray())
-
-        // compose all env components into a single env LTS
-        val envComponents = envFiles
-            .map { (tla,cfg) -> CompactLTS<String>(TLC().createLTS(tla, cfg, true)) }
-        val rawEnvLts = if (envComponents.size == 1) envComponents[0] else parallel(*envComponents.toTypedArray())
-
-        val globalAlph = rawSysLts.alphabet().toSet().intersect(rawEnvLts.alphabet().toSet())
-        val sysLts = hide(rawSysLts, rawSysLts.alphabet().toSet() - globalAlph)
-        val envLts = hide(rawEnvLts, rawEnvLts.alphabet().toSet() - globalAlph)
-
-        // compose all sys error components into a single prop LTS
-        val propComponents = sysFiles
-            .map { (tla,cfg) -> CompactLTS<String>(TLC().createLTS(tla, cfg, false)) }
-        val propNfa = if (propComponents.size == 1) propComponents[0] else parallel(*propComponents.toTypedArray())
-        val propLts = hide(propNfa, emptySet())
-
-        //writeFSP(System.out, sysLts, sysLts.alphabet())
-        return robustnessComputationService.computeSTPARob(
-            sysLts,
-            sysComponents,
-            sysFiles.map { it.first // the following two regexs gather the module names:
-                .replace(Regex("^.*/"),"") // remove paths
-                .replace(Regex("\\.[^/]*$"),"") }, // remove extensions
-            sysFiles,
-            envLts,
-            propLts,
-            "",
-            globalAlph,
-            exploreEnv,
-            options
-        )
-    }
-
     private fun compareSys(a: Problem, b: Problem, options: RobustnessOptions) {
         logger.info("Comparing the robustness of a to b...")
         val re1 = robustnessComputationService.compareRobustnessOfTwoSystems(
@@ -304,3 +264,46 @@ private data class RobustnessConfigJSON(
     @JsonProperty
     val dev: List<String>?,
 )
+
+fun computeSTPARobustness(sysFiles : List<Pair<String,String>>,
+                          envFiles : List<Pair<String,String>>,
+                          exploreEnv : Boolean = false) : String {
+    val options = RobustnessOptions(false, false, false)
+
+    // compose all sys components into a single sys LTS
+    val sysComponents = sysFiles
+        .map { (tla,cfg) -> CompactLTS<String>(TLC().createLTS(tla, cfg, true)) }
+    val rawSysLts = if (sysComponents.size == 1) sysComponents[0] else parallel(*sysComponents.toTypedArray())
+
+    // compose all env components into a single env LTS
+    val envComponents = envFiles
+        .map { (tla,cfg) -> CompactLTS<String>(TLC().createLTS(tla, cfg, true)) }
+    val rawEnvLts = if (envComponents.size == 1) envComponents[0] else parallel(*envComponents.toTypedArray())
+
+    val globalAlph = rawSysLts.alphabet().toSet().intersect(rawEnvLts.alphabet().toSet())
+    val sysLts = hide(rawSysLts, rawSysLts.alphabet().toSet() - globalAlph)
+    val envLts = hide(rawEnvLts, rawEnvLts.alphabet().toSet() - globalAlph)
+
+    // compose all sys error components into a single prop LTS
+    val propComponents = sysFiles
+        .map { (tla,cfg) -> CompactLTS<String>(TLC().createLTS(tla, cfg, false)) }
+    val propNfa = if (propComponents.size == 1) propComponents[0] else parallel(*propComponents.toTypedArray())
+    val propLts = hide(propNfa, emptySet())
+
+    //writeFSP(System.out, sysLts, sysLts.alphabet())
+    val robustnessComputationService = RobustnessComputationServiceImpl()
+    return robustnessComputationService.computeSTPARob(
+        sysLts,
+        sysComponents,
+        sysFiles.map { it.first // the following two regexs gather the module names:
+            .replace(Regex("^.*/"),"") // remove paths
+            .replace(Regex("\\.[^/]*$"),"") }, // remove extensions
+        sysFiles,
+        envLts,
+        propLts,
+        "",
+        globalAlph,
+        exploreEnv,
+        options
+    )
+}
