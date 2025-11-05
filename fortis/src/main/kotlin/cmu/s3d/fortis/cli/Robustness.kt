@@ -41,6 +41,7 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
     private val cfgSys by option("--cfg-sys", help = "The config for the system encoded in TLA+ (comma separated for multiple files).")
     private val tlaEnv by option("--tla-env", help = "The model of the environment encoded in TLA+ (comma separated for multiple files).")
     private val cfgEnv by option("--cfg-env", help = "The config for the environment encoded in TLA+ (comma separated for multiple files).")
+    private val metadir by option("--metadir", help = "Directory where TLC will save its cache, defaults to the pwd.").default("")
 
     // function modes
     private val unsafe by option("--unsafe", help = "Generate unsafe behaviors.").flag()
@@ -127,7 +128,7 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
 
                 val sysFilePairs = sysFiles.first.zip(sysFiles.second)
                 val envFilePairs = envFiles.first.zip(envFiles.second)
-                val robustJson = computeSTPARobustness(sysFilePairs, envFilePairs)
+                val robustJson = computeSTPARobustness(sysFilePairs, envFilePairs, metadir)
                 println(robustJson)
             }
             else {
@@ -267,17 +268,18 @@ private data class RobustnessConfigJSON(
 
 fun computeSTPARobustness(sysFiles : List<Pair<String,String>>,
                           envFiles : List<Pair<String,String>>,
+                          metadir : String = "",
                           exploreEnv : Boolean = false) : String {
     val options = RobustnessOptions(false, false, false)
 
     // compose all sys components into a single sys LTS
     val sysComponents = sysFiles
-        .map { (tla,cfg) -> CompactLTS<String>(TLC().createLTS(tla, cfg, true)) }
+        .map { (tla,cfg) -> CompactLTS<String>(TLC().createLTS(tla, cfg, true, metadir)) }
     val rawSysLts = if (sysComponents.size == 1) sysComponents[0] else parallel(*sysComponents.toTypedArray())
 
     // compose all env components into a single env LTS
     val envComponents = envFiles
-        .map { (tla,cfg) -> CompactLTS<String>(TLC().createLTS(tla, cfg, true)) }
+        .map { (tla,cfg) -> CompactLTS<String>(TLC().createLTS(tla, cfg, true, metadir)) }
     val rawEnvLts = if (envComponents.size == 1) envComponents[0] else parallel(*envComponents.toTypedArray())
 
     val globalAlph = rawSysLts.alphabet().toSet().intersect(rawEnvLts.alphabet().toSet())
@@ -286,7 +288,7 @@ fun computeSTPARobustness(sysFiles : List<Pair<String,String>>,
 
     // compose all sys error components into a single prop LTS
     val propComponents = sysFiles
-        .map { (tla,cfg) -> CompactLTS<String>(TLC().createLTS(tla, cfg, false)) }
+        .map { (tla,cfg) -> CompactLTS<String>(TLC().createLTS(tla, cfg, false, metadir)) }
     val propNfa = if (propComponents.size == 1) propComponents[0] else parallel(*propComponents.toTypedArray())
     val propLts = hide(propNfa, emptySet())
 
