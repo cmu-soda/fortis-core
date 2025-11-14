@@ -26,9 +26,9 @@
 
 EXTENDS Integers
 
-VARIABLES state_crew, time_crew, abnormality_flag_crew, state_bscu, abnormality_happened_bscu, touchdown_happened_bscu
+VARIABLES state_crew, state_bscu, abnormality_happened_bscu, touchdown_happened_bscu
 
-vars == <<state_crew, time_crew, abnormality_flag_crew, state_bscu, abnormality_happened_bscu, touchdown_happened_bscu>>
+vars == <<state_crew, state_bscu, abnormality_happened_bscu, touchdown_happened_bscu>>
 
 BSCU == INSTANCE MBSCU WITH
     state <- state_bscu,
@@ -36,9 +36,7 @@ BSCU == INSTANCE MBSCU WITH
     touchdown_happened <- touchdown_happened_bscu
 
 Env == INSTANCE EnvFlightCrew WITH
-    state <- state_crew,
-    time <- time_crew,
-    abnormality_flag <- abnormality_flag_crew
+    state <- state_crew
 
 Init ==
     /\ BSCU!Init
@@ -72,10 +70,6 @@ Touchdown ==
     /\ BSCU!Touchdown
     /\ Env!Touchdown
 
-Wait ==
-    /\ BSCU!Wait
-    /\ Env!Wait
-
 Next ==
     \/ TurnBSCUOn
     \/ TurnBSCUOff
@@ -84,7 +78,6 @@ Next ==
     \/ SetManualMode
     \/ AbnormalDetected
     \/ Touchdown
-    \/ Wait
 
 
 Spec == Init /\ [][Next]_vars

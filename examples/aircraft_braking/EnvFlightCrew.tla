@@ -26,78 +26,43 @@
 
 EXTENDS Integers
 
-VARIABLES state, time, abnormality_flag
+VARIABLES state
 
-vars == <<state, time, abnormality_flag>>
-
-TOUCHDOWN_TIME == 12
-ABNORMALITY_DETECTION_TIME == 5
-MAX_TIME == 15
+vars == <<state>>
 
 Init ==
     /\ state = "bscu_off"
-    /\ time = 0
-    /\ abnormality_flag \in {TRUE, FALSE} \* init abnormality flag nondeterministically
 
 TurnBSCUOn ==
     /\ state = "bscu_off"
     /\ state' = "bscu_on"
-    /\ time /= TOUCHDOWN_TIME
-    /\ time' = time + 1
-    /\ UNCHANGED <<abnormality_flag>>
 
 TurnBSCUOff ==
-    /\ state = "bscu_on_abnormal" \* the crew will only turn off BSCU in abnormal state
+    /\ state = "bscu_on_abnormal"
     /\ state' = "bscu_off_abnormal"
-    /\ time /= TOUCHDOWN_TIME
-    /\ time' = time + 1
-    /\ UNCHANGED <<abnormality_flag>>
 
 ArmAutobrake ==
     /\ state = "bscu_on"
     /\ state' = "bscu_armed"
-    /\ time /= TOUCHDOWN_TIME
-    /\ time' = time + 1
-    /\ UNCHANGED <<abnormality_flag>>
 
 DeArmAutobrake ==
-    /\ state = "bscu_armed_abnormal" \* the crew will only de-arm in abnormal state
+    /\ state = "bscu_armed_abnormal"
     /\ state' = "bscu_on_abnormal"
-    /\ time /= TOUCHDOWN_TIME
-    /\ time' = time + 1
-    /\ UNCHANGED <<abnormality_flag>>
 
 SetManualMode ==
-    /\ state = "bscu_off_abnormal" \* the crew will only set manual mode in abnormal state
+    /\ state = "bscu_off_abnormal"
     /\ state' = "manual_mode"
-    /\ time /= TOUCHDOWN_TIME
-    /\ time' = time + 1
-    /\ UNCHANGED <<abnormality_flag>>
 
 AbnormalDetected ==
-    /\ state \in {"bscu_armed", "bscu_on"} \* only when BSCU is on, abnormality can be detected
-    /\ abnormality_flag = TRUE
-    /\ time >= ABNORMALITY_DETECTION_TIME
-    /\ time /= TOUCHDOWN_TIME
-    /\ (state = "bscu_armed") => (state' = "bscu_armed_abnormal")
-    /\ (state = "bscu_on") => (state' = "bscu_on_abnormal")
-    /\ UNCHANGED <<abnormality_flag, time>> \* no time elapse for abnormality detection
+    /\ state = "bscu_armed"
+    /\ state' = "bscu_armed_abnormal"
 
 Touchdown ==
-    /\ time = TOUCHDOWN_TIME \* this is the only transition that can happen at touchdown time
-    /\ time' = time + 1
-    /\ UNCHANGED <<state, abnormality_flag>>
-
-Wait ==
     /\ state \in {"bscu_armed", "manual_mode"}
-    /\ (state = "bscu_armed") => ((abnormality_flag = FALSE) \/ (time < ABNORMALITY_DETECTION_TIME)) \* make sure that AbnormalDetected can happen by preventing taking Wait when abnormality can be detected
-    /\ time /= TOUCHDOWN_TIME
-    /\ time' = time + 1
-    /\ time <= MAX_TIME
-    /\ UNCHANGED <<state, abnormality_flag>>
+    /\ state' = "touchdown_happened"
 
 TypeOK ==
-/\ state \in {"bscu_off", "bscu_on", "bscu_armed", "bscu_armed_abnormal", "bscu_on_abnormal", "bscu_off_abnormal", "manual_mode"}
+/\ state \in {"bscu_off", "bscu_on", "bscu_armed", "bscu_armed_abnormal", "bscu_on_abnormal", "bscu_off_abnormal", "manual_mode", "touchdown_happened"}
 
 Next == 
     \/ TurnBSCUOn
@@ -107,7 +72,6 @@ Next ==
     \/ DeArmAutobrake
     \/ AbnormalDetected
     \/ Touchdown
-    \/ Wait
 
 Spec == Init /\ [][Next]_vars
 

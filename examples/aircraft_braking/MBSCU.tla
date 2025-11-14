@@ -68,8 +68,6 @@ Touchdown ==
     /\ touchdown_happened' = TRUE \* mark that touchdown has happened, will be used to check invariant
     /\ UNCHANGED <<abnormality_happened>>
 
-Wait ==
-    /\ UNCHANGED <<state, abnormality_happened, touchdown_happened>>
 
 Next == 
     \/ TurnBSCUOn
@@ -79,7 +77,6 @@ Next ==
     \/ SetManualMode
     \/ AbnormalDetected
     \/ Touchdown
-    \/ Wait
 
 TypeOK ==
 /\ state \in {"bscu_off", "bscu_on", "bscu_armed", "manual_mode", "brake"}
