@@ -62,9 +62,9 @@ AbnormalDetected ==
     /\ UNCHANGED <<state, touchdown_happened>>
 
 Touchdown ==
-    /\ state' = CASE (state = "manual_mode") -> "brake" \* can brake if in manual mode
-                [] (state = "bscu_armed" /\ abnormality_happened=FALSE) -> "brake" \* can brake if in armed mode and no abnormality
-                [] OTHER -> state \* otherwise state remains the same state
+    /\ state' = IF (state = "manual_mode") THEN "brake" \* can brake if in manual mode
+                ELSE IF (state = "bscu_armed" /\ abnormality_happened=FALSE) THEN "brake" \* can brake if in armed mode and no abnormality
+                ELSE state \* otherwise state remains the same state
     /\ touchdown_happened' = TRUE \* mark that touchdown has happened, will be used to check invariant
     /\ UNCHANGED <<abnormality_happened>>
 
