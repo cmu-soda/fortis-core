@@ -46,6 +46,7 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
     // function modes
     private val unsafe by option("--unsafe", help = "Generate unsafe behaviors.").flag()
     private val stpa by option("--stpa", help = "Generate STPA unsafe control actions.").flag()
+    private val uniqueGoodTraces by option("--unique-good", help = "Filters trace pairs with non-unique good traces (chooses a trace pair with a minimum length bad trace).").flag()
     private val exploreEnv by option("--explore-env", help = "Explores all env states too in STPA mode.").flag()
     private val compareSys by option("--compare-sys", help = "Compare the robustness of two system models.").flag()
     private val compareProp by option("--compare-prop", help = "Compare the robustness of one system under two properties.").flag()
@@ -128,7 +129,7 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
 
                 val sysFilePairs = sysFiles.first.zip(sysFiles.second)
                 val envFilePairs = envFiles.first.zip(envFiles.second)
-                val robustJson = computeSTPARobustness(sysFilePairs, envFilePairs, metadir)
+                val robustJson = computeSTPARobustness(sysFilePairs, envFilePairs, metadir, uniqueGoodTraces, exploreEnv)
                 println(robustJson)
             }
             else {
@@ -147,6 +148,7 @@ class Robustness : CliktCommand(help = "Compute the robustness of a system desig
                     propLts,
                     prop.toString().replace(Regex("\\..*$"),""),
                     globalAlph,
+                    uniqueGoodTraces,
                     exploreEnv,
                     options
                 )
@@ -269,6 +271,7 @@ private data class RobustnessConfigJSON(
 fun computeSTPARobustness(sysFiles : List<Pair<String,String>>,
                           envFiles : List<Pair<String,String>>,
                           metadir : String = "",
+                          uniqueGoodTraces : Boolean = false,
                           exploreEnv : Boolean = false) : String {
     val options = RobustnessOptions(false, false, false)
 
@@ -305,6 +308,7 @@ fun computeSTPARobustness(sysFiles : List<Pair<String,String>>,
         propLts,
         "",
         globalAlph,
+        uniqueGoodTraces,
         exploreEnv,
         options
     )

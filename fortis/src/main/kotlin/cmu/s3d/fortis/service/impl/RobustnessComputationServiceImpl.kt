@@ -138,8 +138,8 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
         }
     }
 
-    class TracePair(private val goodTrace : List<String>,
-                    private val badTrace : List<String>,
+    class TracePair(val goodTrace : List<String>,
+                    val badTrace : List<String>,
                     sysComponents: List<LTS<Int,String>>,
                     sysComponentNames: List<String>,
                     sysTlaFiles: List<Pair<String,String>>,
@@ -190,6 +190,7 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
         prop: DetLTS<Int,String>,
         propName: String,
         globalAlph: Set<String>,
+        uniqueGoodTraces: Boolean,
         exploreEnv: Boolean,
         options: RobustnessOptions,
     ): String {
@@ -206,7 +207,7 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
             options
         )
         val errTraces = cal.computeAllStatesUnsafeBeh()
-        val tracePairs = mutableListOf<TracePair>()
+        var tracePairs = mutableListOf<TracePair>()
         for (errTrace in errTraces) {
             val safeTracePrefix = maxTraceAccpeted(env, errTrace)
             val safeTrace = envExtendTrace(env, safeTracePrefix)
@@ -214,6 +215,16 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
             if (tp !in tracePairs && tp.wellFormed()) {
                 tracePairs.add(tp)
             }
+        }
+
+        // uniqueGoodTraces mode
+        println("uniqueGoodTraces: $uniqueGoodTraces")
+        if (uniqueGoodTraces) {
+            // map: good trace -> trace pairs
+            val tracePairTable = tracePairs.groupBy { p -> p.goodTrace }
+            // chose the TracePair with a minimum length bad trace for each good trace
+            val filteredTable = tracePairTable.mapValues { (_,pairs) -> pairs.sortedWith(compareBy { it.badTrace.size }).first() }
+            tracePairs = filteredTable.values.toMutableList()
         }
 
         val jsonContents = tracePairs.joinToString { it.toString() }
