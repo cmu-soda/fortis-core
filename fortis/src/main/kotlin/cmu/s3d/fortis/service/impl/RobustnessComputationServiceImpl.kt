@@ -218,7 +218,6 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
         }
 
         // uniqueGoodTraces mode
-        println("uniqueGoodTraces: $uniqueGoodTraces")
         if (uniqueGoodTraces) {
             // map: good trace -> trace pairs
             val tracePairTable = tracePairs.groupBy { p -> p.goodTrace }
