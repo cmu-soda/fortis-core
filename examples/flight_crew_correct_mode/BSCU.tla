@@ -59,9 +59,6 @@ Next ==
 
 Spec == Init /\ [][Next]_vars
 
-AbnormalStateTakenCareOf == 
-	(Land_state = "Landed" /\ SelfCheck_state = "SystemAbnormal") => Main_state = "ManualMode"
-
 TouchdownInCorrectMode == 
 	Land_state = "Landed" => 
         \/ /\ SelfCheck_state = "SystemNormal"
