@@ -163,6 +163,11 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
                     .toSet()
             }
         }
+
+        fun wellFormed() : Boolean {
+            return goodTrace != badTrace
+        }
+
         override fun toString() : String {
             val jsonGoodTrace = goodTrace.joinToString(",") { "\"$it\"" }
             val jsonBadTrace = badTrace.joinToString(",") { "\"$it\"" }
@@ -206,7 +211,7 @@ class RobustnessComputationServiceImpl : RobustnessComputationService {
             val safeTracePrefix = maxTraceAccpeted(env, errTrace)
             val safeTrace = envExtendTrace(env, safeTracePrefix)
             val tp = TracePair(safeTrace.asList(), errTrace.asList(), sysComponents, sysComponentNames, sysTlaFiles, propName, globalAlph)
-            if (tp !in tracePairs) {
+            if (tp !in tracePairs && tp.wellFormed()) {
                 tracePairs.add(tp)
             }
         }
