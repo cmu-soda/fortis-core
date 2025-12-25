@@ -33,13 +33,15 @@ fun <S, I, SO> hide(
 
     // create initial bitset
     val initBs = BitSet()
+    var errIsAnInitState = false
     for (s in lts.initialStates) {
+        errIsAnInitState = errIsAnInitState || lts.isErrorState(s)
         initBs.set(stateIDs.getStateId(s))
         initBs.or(reachable[stateIDs.getStateId(s)]!!)
     }
 
     // create output initial state
-    if (initBs.get(errId)) {
+    if (initBs.get(errId) && errIsAnInitState) {
         out.initialState = outStateMap[errBs]
     } else {
         val initOut = out.addInitialState(true)
